@@ -1,0 +1,234 @@
+fileFormatVersion: 2
+guid: cf17fe7e593ed5847bd7d63d76a7827a
+ModelImporter:
+  serializedVersion: 22200
+  internalIDToNameTable: []
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: acce_004_Pbr
+    second: {fileID: 2100000, guid: be34940794ea24745ac6967952e63b37, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: acce_005_Pbr
+    second: {fileID: 2100000, guid: 7982d405eb234bf43ad9c841c438eed3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: acce_trans_002_Pbr
+    second: {fileID: 2100000, guid: d70f45e787af2ad47b63aef15c440bd1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: cage_002_Pbr
+    second: {fileID: 2100000, guid: ca9f6174636b1a641bf99f8a5c967563, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: eye_L_002_Pbr
+    second: {fileID: 2100000, guid: 5f148638a28b1a74da61ca8971547e91, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: eye_R_002_Pbr
+    second: {fileID: 2100000, guid: dd04ebf2b32cc4d41bccdcf71cfa3e0c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: eyebrow_hair_002_Pbr
+    second: {fileID: 2100000, guid: 12df28d13fec82048be5d37d923c778b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: eyelashes_002_Pbr
+    second: {fileID: 2100000, guid: 57aa4682b2c47654baadc3fbddc3cdaa, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: eyelens_002_Pbr
+    second: {fileID: 2100000, guid: 3c767a2373a73794a85e929b83df9291, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: eyeline_002_Pbr
+    second: {fileID: 2100000, guid: 9f5689dbf28b2e44e9c686fea52c7d1e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: eyeshadow_002_Pbr
+    second: {fileID: 2100000, guid: 1826d60a60567e34eb758234ec547d11, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: face_002_Pbr
+    second: {fileID: 2100000, guid: 67442ec6fe11d3b4cb82dbb3c3a228ed, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: hair_002_Pbr
+    second: {fileID: 2100000, guid: 33188d8fed0f3804eaa1b73da1b99192, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: it5510_0012_0_base_002_Pbr
+    second: {fileID: 2100000, guid: d36cc701c7fd3684b880b31cb80ed22f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lens_002_Pbr
+    second: {fileID: 2100000, guid: 609cd56fc9e9ebd439479bc4a2e78c5f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: m_ch04_000_0000_002_Pbr
+    second: {fileID: 2100000, guid: 009da45b1b9a5e44b91f5e1eaa8eb77f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: m_ch04_000_0000_2_002_Pbr
+    second: {fileID: 2100000, guid: 5b8b13fb2339246409e2d94380909181, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: m_ch04_000_0000_3_002_Pbr
+    second: {fileID: 2100000, guid: ac451dcd0f77aab4fb6027baae8872bd, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: m_ch04_000_0000_fur_002_Pbr
+    second: {fileID: 2100000, guid: 723ac493801034e40ac030e0d39d2194, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: m_ch04_000_0050_002_Pbr
+    second: {fileID: 2100000, guid: 7614d81304b639b498613d07b089df0c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: m_floral_002_Pbr
+    second: {fileID: 2100000, guid: 5c52a17e571b0f5499619e90d548d982, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: m_slinger_002_Pbr
+    second: {fileID: 2100000, guid: 20e024bf7bd362a4e95ef8c6bedd1c27, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: scalp_002_Pbr
+    second: {fileID: 2100000, guid: 002b9dc0b435b4b42b0f206a7c22592f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: skin_002_Pbr
+    second: {fileID: 2100000, guid: 9b1b0bde06004c44a8f9bb47cd6d2d18, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: teeth_tongue_002_Pbr
+    second: {fileID: 2100000, guid: f8c5704d07b49e9449e413696b92b751, type: 2}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 3
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importPhysicalCameras: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    nodeNameCollisionStrategy: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    strictVertexDataChecks: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 1
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 3
+  humanoidOversampling: 1
+  avatarSetup: 1
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  importBlendShapeDeformPercent: 1
+  remapMaterialsIfMaterialImportModeIsNone: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
