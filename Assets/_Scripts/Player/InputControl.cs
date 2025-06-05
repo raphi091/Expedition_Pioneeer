@@ -6,10 +6,14 @@ public class InputControl : MonoBehaviour
 {
     [HideInInspector] public ActionInput actionInput;
 
-
     void Awake()
     {
         actionInput = new ActionInput();
+    }
+
+    void OnDestroy()
+    {
+        actionInput.Dispose();
     }
 
     void OnEnable()
@@ -20,10 +24,5 @@ public class InputControl : MonoBehaviour
     void OnDisable()
     {
         actionInput.Disable();
-    }
-
-    void OnDestroy()
-    {
-        actionInput.Dispose();
     }
 }

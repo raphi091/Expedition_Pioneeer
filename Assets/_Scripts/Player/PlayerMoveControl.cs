@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(CharacterController))]
 [RequireComponent(typeof(Animator))]
-public class PlayerMoveController : MonoBehaviour
+public class PlayerMoveControl : MonoBehaviour
 {
     [Header("Setting")]
     private PlayerControl pc;
@@ -34,6 +34,14 @@ public class PlayerMoveController : MonoBehaviour
     private float dodgeDistance;
     private float dodgeDuration;
 
+    [Header("Head Look Settings")]
+    [Range(0, 1)] public float overallLookAtWeight = 1.0f;
+    [Range(0, 1)] public float bodyLookAtWeight = 0.15f;
+    [Range(0, 1)] public float headLookAtWeight = 0.8f;
+    [Range(0, 1)] public float eyesLookAtWeight = 1.0f;
+    [Range(0, 1)] public float clampLookAtWeight = 0.5f;
+    public float lookAtTargetDistance = 10f;
+
     [Header("Cursor")]
     public bool lockCursorOnStart = true;
 
@@ -44,13 +52,16 @@ public class PlayerMoveController : MonoBehaviour
             Debug.LogWarning("PlayerMovementController ] PlayerControl 없음");
 
         if (!TryGetComponent(out input))
-            Debug.LogWarning("PlayerControl ] InputControl 없음");
+            Debug.LogWarning("PlayerMovementController ] InputControl 없음");
+
+        if (input.actionInput == null)
+            Debug.Log("1");
 
         if (!TryGetComponent(out cc))
-            Debug.LogWarning("PlayerControl ] CharacterController 없음");
+            Debug.LogWarning("PlayerMovementController ] CharacterController 없음");
 
         if (!TryGetComponent(out animator))
-            Debug.LogWarning("PlayerControl ] Animator 없음");
+            Debug.LogWarning("PlayerMovementController ] Animator 없음");
 
         maincamera = Camera.main.transform;
 
@@ -86,7 +97,7 @@ public class PlayerMoveController : MonoBehaviour
         dodgeDuration = profile.dodgeduration;
     }
 
-    void OnEnable()
+    private void OnEnable()
     {
         if (input != null && input.actionInput != null)
         {
@@ -99,7 +110,7 @@ public class PlayerMoveController : MonoBehaviour
         }
     }
 
-    void OnDisable()
+    private void OnDisable()
     {
         if (input != null && input.actionInput != null)
         {
@@ -120,7 +131,7 @@ public class PlayerMoveController : MonoBehaviour
 
     private void OnRun(InputAction.CallbackContext context)
     {
-        isRunning = true;
+        isRunning = !isRunning;
     }
 
     private void OnRunStop(InputAction.CallbackContext context)
@@ -321,5 +332,20 @@ public class PlayerMoveController : MonoBehaviour
         velocity.x = 0;
         velocity.z = 0;
         isDodging = false;
+    }
+
+    void OnAnimatorIK(int layerIndex)
+    {
+        if (animator == null || maincamera == null)
+        {
+            return;
+        }
+
+        if (layerIndex == 0)
+        {
+            animator.SetLookAtWeight(overallLookAtWeight, bodyLookAtWeight, headLookAtWeight, eyesLookAtWeight, clampLookAtWeight);
+            Vector3 lookAtTargetPosition = maincamera.position + maincamera.forward * lookAtTargetDistance;
+            animator.SetLookAtPosition(lookAtTargetPosition);
+        }
     }
 }
