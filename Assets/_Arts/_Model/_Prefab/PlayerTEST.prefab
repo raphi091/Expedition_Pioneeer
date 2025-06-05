@@ -147,7 +147,7 @@ CharacterController:
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0.9, z: 0}
+  m_Center: {x: 0, y: 0.97, z: 0}
 --- !u!114 &610310983126019766
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -197,6 +197,17 @@ MonoBehaviour:
   eyesLookAtWeight: 1
   clampLookAtWeight: 0.5
   lookAtTargetDistance: 10
+  lockOnRange: 15
+  lockOnAngle: 120
+  enemyLayerMask:
+    serializedVersion: 2
+    m_Bits: 128
+  obstacleLayerMask:
+    serializedVersion: 2
+    m_Bits: 8
+  lockOnRotationSpeed: 15
+  FollowCam: {fileID: 0}
+  LockOnCam: {fileID: 0}
   lockCursorOnStart: 1
 --- !u!1001 &1963361878733393531
 PrefabInstance:

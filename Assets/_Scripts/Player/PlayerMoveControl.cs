@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Cinemachine;
 
 
 [RequireComponent(typeof(CharacterController))]
@@ -42,6 +44,19 @@ public class PlayerMoveControl : MonoBehaviour
     [Range(0, 1)] public float clampLookAtWeight = 0.5f;
     public float lookAtTargetDistance = 10f;
 
+    [Header("Lock-On System")]
+    public float lockOnRange = 15f;
+    public float lockOnAngle = 120f;
+    public LayerMask enemyLayerMask;
+    public LayerMask obstacleLayerMask;
+    private Transform currentLockedTarget;
+    private bool isLockedOn = false;
+    public float lockOnRotationSpeed = 15f;
+
+    [Header("Cinemachine Lock-On Camera")]
+    public CinemachineFreeLook FollowCam;
+    public CinemachineVirtualCamera LockOnCam;
+
     [Header("Cursor")]
     public bool lockCursorOnStart = true;
 
@@ -64,6 +79,13 @@ public class PlayerMoveControl : MonoBehaviour
             Debug.LogWarning("PlayerMovementController ] Animator 없음");
 
         maincamera = Camera.main.transform;
+
+        if (FollowCam == null || LockOnCam == null)
+        {
+            FollowCam.Priority = 10;
+            LockOnCam.Priority = 5;
+            LockOnCam.LookAt = null;
+        }
 
         if (pc.Profile != null)
         {
@@ -107,6 +129,7 @@ public class PlayerMoveControl : MonoBehaviour
             input.actionInput.Player.Run.canceled += OnRunStop;
             input.actionInput.Player.Crouch.performed += OnCrouch;
             input.actionInput.Player.Dodge.performed += OnDodge;
+            input.actionInput.Player.LockOn.performed += OnLockOn;
         }
     }
 
@@ -120,6 +143,7 @@ public class PlayerMoveControl : MonoBehaviour
             input.actionInput.Player.Run.canceled -= OnRunStop;
             input.actionInput.Player.Crouch.performed -= OnCrouch;
             input.actionInput.Player.Dodge.performed -= OnDodge;
+            input.actionInput.Player.LockOn.performed -= OnLockOn;
         }
     }
 
@@ -156,10 +180,18 @@ public class PlayerMoveControl : MonoBehaviour
         }
     }
 
+    private void OnLockOn(InputAction.CallbackContext context)
+    {
+        ToggleLockOn();
+    }
+
     void Update()
     {
         UpdateAnimator();
         CursorLockState();
+
+        if (isLockedOn) 
+            MaintainLockOn();
     }
 
     void FixedUpdate()
@@ -263,21 +295,21 @@ public class PlayerMoveControl : MonoBehaviour
             }
         }
 
-        Vector3 moveDirection = new Vector3(moveInputRaw.x, 0, moveInputRaw.y);
-        Vector3 worldMoveDirection = Vector3.zero;
+        Vector3 moveDir = new Vector3(moveInputRaw.x, 0, moveInputRaw.y);
+        Vector3 worldMoveDir = Vector3.zero;
 
-        if (moveDirection.sqrMagnitude > 0.01f)
+        if (moveDir.sqrMagnitude > 0.01f)
         {
-            worldMoveDirection = Quaternion.Euler(0, maincamera.eulerAngles.y, 0) * moveDirection;
-            worldMoveDirection.Normalize();
+            worldMoveDir = Quaternion.Euler(0, maincamera.eulerAngles.y, 0) * moveDir;
+            worldMoveDir.Normalize();
         }
 
-        velocity.x = worldMoveDirection.x * movespeed;
-        velocity.z = worldMoveDirection.z * movespeed;
+        velocity.x = worldMoveDir.x * movespeed;
+        velocity.z = worldMoveDir.z * movespeed;
 
-        if (worldMoveDirection.sqrMagnitude > 0.01f)
+        if (worldMoveDir.sqrMagnitude > 0.01f)
         {
-            Quaternion rotation = Quaternion.LookRotation(worldMoveDirection, Vector3.up);
+            Quaternion rotation = Quaternion.LookRotation(worldMoveDir, Vector3.up);
             transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.fixedDeltaTime * rotationSpeed);
         }
     }
@@ -296,12 +328,12 @@ public class PlayerMoveControl : MonoBehaviour
         if (crouch)
         {
             cc.height = 1f;
-            cc.center = new Vector3(0f, 0.5f, 0f);
+            cc.center = new Vector3(0f, 0.57f, 0f);
         }
         else
         {
             cc.height = 1.8f;
-            cc.center = new Vector3(0, 0.9f, 0);
+            cc.center = new Vector3(0, 0.97f, 0);
         }
     }
 
@@ -332,6 +364,94 @@ public class PlayerMoveControl : MonoBehaviour
         velocity.x = 0;
         velocity.z = 0;
         isDodging = false;
+    }
+
+    private void ToggleLockOn()
+    {
+        if (isLockedOn)
+        {
+            EndLockOn();
+        }
+        else
+        {
+            StartLockOn();
+        }
+    }
+
+    private void StartLockOn()
+    {
+        Transform potentialTarget = FindLockOnTarget();
+
+        if (potentialTarget != null)
+        {
+            currentLockedTarget = potentialTarget;
+            isLockedOn = true;
+
+            if (LockOnCam != null)
+            {
+                LockOnCam.LookAt = currentLockedTarget;
+                LockOnCam.Priority = 15;
+            }
+        }
+    }
+
+    private void EndLockOn()
+    {
+        isLockedOn = false;
+        currentLockedTarget = null;
+
+        if (LockOnCam != null)
+        {
+            LockOnCam.Priority = 5;
+            LockOnCam.LookAt = null;
+        }
+    }
+
+    private Transform FindLockOnTarget()
+    {
+        Collider[] potentialTargets = Physics.OverlapSphere(transform.position, lockOnRange, enemyLayerMask);
+        Transform closestTarget = null;
+        float minDistance = Mathf.Infinity;
+
+        Vector3 playerForward = maincamera.forward;
+        playerForward.y = 0;
+        playerForward.Normalize();
+
+        foreach (Collider col in potentialTargets)
+        {
+            Vector3 directionToTarget = col.transform.position - transform.position;
+            directionToTarget.y = 0;
+            float angle = Vector3.Angle(playerForward, directionToTarget.normalized);
+
+            if (angle < lockOnAngle / 2)
+            {
+                if (!Physics.Linecast(transform.position + Vector3.up * 0.5f, col.transform.position + Vector3.up * 0.5f, obstacleLayerMask))
+                {
+                    float distanceToTarget = directionToTarget.magnitude;
+                    if (distanceToTarget < minDistance)
+                    {
+                        minDistance = distanceToTarget;
+                        closestTarget = col.transform;
+                    }
+                }
+            }
+        }
+        return closestTarget;
+    }
+
+    private void MaintainLockOn()
+    {
+        if (!isLockedOn || currentLockedTarget == null || !currentLockedTarget.gameObject.activeInHierarchy)
+        {
+            if (isLockedOn) EndLockOn();
+            return;
+        }
+
+        if (Vector3.Distance(transform.position, currentLockedTarget.position) > lockOnRange + 2f)
+        {
+            EndLockOn();
+            return;
+        }
     }
 
     void OnAnimatorIK(int layerIndex)
