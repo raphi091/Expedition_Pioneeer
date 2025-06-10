@@ -9,29 +9,33 @@ using TMPro;
 public class LobbyUIManager : MonoBehaviour
 {
     [Header("Panel")]
-    [SerializeField] private GameObject StartPanel, LobbyPanel, SettingPanel;
+    [SerializeField] private GameObject StartPanel, LobbyPanel, SettingPanel, ExitPanel;
 
     [Header("Start")]
     [SerializeField] private TextMeshProUGUI startTitle, startSubTitle;
     [SerializeField] private Image startLogo;
+    [SerializeField] private Text Version;
     [SerializeField] private GameObject StartBtn;
-    [SerializeField] private Volume volume;
     [SerializeField] private Text StartBtnTex;
+
+    [Header("Lobby")]
+    [SerializeField] private GameObject lobbyTitlePanel;
+
+    [Header("Option")]
+    [SerializeField] private GameObject screenPanel;
+    [SerializeField] private GameObject soundPanel;
 
     [Header("BloomSet")]
     public float targetIntensity = 20f;
     public float bloomDuration = 1f;
     public float startDelay = 0.5f;
 
+    [SerializeField] private Volume volume;
     private Bloom bloom;
 
-    [Header("Lobby")]
-    [SerializeField] private GameObject lobbyTitlePanel;
-
-    [Space(10)]
+    [Header("Fade In/Out")]
     [SerializeField] private Image fade;
     private float startfade = 1f;
-    [SerializeField] Text Version;
 
 
     private void Awake()
