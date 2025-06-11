@@ -9,10 +9,10 @@ using TMPro;
 public class LobbyUIManager : MonoBehaviour
 {
     [Header("Panel")]
-    [SerializeField] private GameObject StartPanel, LobbyPanel, SettingPanel, ExitPanel;
+    [SerializeField] private GameObject StartPanel;
+    [SerializeField] private GameObject LobbyPanel, OptionPanel, ExitPanel;
 
     [Header("Start")]
-    [SerializeField] private TextMeshProUGUI startTitle, startSubTitle;
     [SerializeField] private Image startLogo;
     [SerializeField] private Text Version;
     [SerializeField] private GameObject StartBtn;
@@ -23,7 +23,7 @@ public class LobbyUIManager : MonoBehaviour
 
     [Header("Option")]
     [SerializeField] private GameObject screenPanel;
-    [SerializeField] private GameObject soundPanel;
+    [SerializeField] private GameObject soundPanel, KeyPanel, ResetPanel;
 
     [Header("BloomSet")]
     public float targetIntensity = 20f;
@@ -43,7 +43,8 @@ public class LobbyUIManager : MonoBehaviour
         StartPanel.SetActive(true);
         LobbyPanel.SetActive(false);
         StartBtn.SetActive(false);
-        // SettingPanel.SetActive(false);
+        OptionPanel.SetActive(false);
+        ExitPanel.SetActive(false);
 
         if (!volume.profile.TryGet(out bloom))
             Debug.LogWarning("LobbyUIManager ] Volume ] Bloom 없음");
@@ -78,6 +79,40 @@ public class LobbyUIManager : MonoBehaviour
         yield return new WaitForSeconds(duration / 5f);
 
         FadeOut(duration);
+    }
+
+    public void OnOptionButton()
+    {
+        StartCoroutine(Optionbtn(startfade));
+    }
+
+    private IEnumerator Optionbtn(float duration)
+    {
+        FadeIn(duration / 2f);
+
+        yield return new WaitForSeconds(duration / 2f);
+
+        LobbyPanel.SetActive(false);
+        OptionPanel.SetActive(true);
+
+        yield return new WaitForSeconds(duration / 5f / 2f);
+
+        FadeOut(duration / 2f);
+    }
+
+    public void OnExitButton()
+    {
+        ExitPanel.SetActive(true);
+    }
+
+    public void OnExitYesButton()
+    {
+        Application.Quit();
+    }
+
+    public void OnExitNoButton()
+    {
+        ExitPanel.SetActive(false);
     }
 
     private void FadeIn(float duration)
