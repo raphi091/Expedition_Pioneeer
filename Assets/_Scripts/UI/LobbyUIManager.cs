@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class LobbyUIManager : MonoBehaviour
@@ -54,6 +55,10 @@ public class LobbyUIManager : MonoBehaviour
 
     private IEnumerator Start()
     {
+        FadeOut(startfade);
+
+        yield return new WaitForSeconds(startfade / 2f);
+
         StartCoroutine(PulseRoutine());
 
         yield return new WaitForSeconds(startDelay + bloomDuration);
@@ -190,10 +195,17 @@ public class LobbyUIManager : MonoBehaviour
         StartBtnTex.color = new Color(currentColor.r, currentColor.g, currentColor.b, targetAlpha);
     }
 
-    //TEMP CODE
     public void OnGameStart()
     {
-        LoadingManager.LoadScene("InGame");
+        StartCoroutine(GameStart());
     }
-    //TEMP CODE
+
+    private IEnumerator GameStart()
+    {
+        FadeIn(startfade / 2f);
+
+        yield return new WaitForSeconds(startfade / 2f);
+
+        SceneManager.LoadScene("Select");
+    }
 }

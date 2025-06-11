@@ -6,25 +6,17 @@ using UnityEngine.SceneManagement;
 
 public class LoadingManager : MonoBehaviour
 {
-    public Slider progressBar;
+    [SerializeField] private Slider progressBar;
+    [SerializeField] private Text loadingText;
 
-    private static string nextScene;
-
-    public static void LoadScene(string sceneName)
+    public void StartLoading(string sceneName)
     {
-        nextScene = sceneName;
-        SceneManager.LoadScene("Loading");
+        StartCoroutine(LoadSceneAsync(sceneName));
     }
 
-    private void Start()
+    private IEnumerator LoadSceneAsync(string sceneName)
     {
-        StartCoroutine(LoadSceneAsync());
-    }
-
-    private IEnumerator LoadSceneAsync()
-    {
-        AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(nextScene);
-
+        AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(sceneName);
         asyncOperation.allowSceneActivation = false;
 
         while (!asyncOperation.isDone)
@@ -34,6 +26,10 @@ public class LoadingManager : MonoBehaviour
             if (progressBar != null)
             {
                 progressBar.value = progress;
+            }
+            if (loadingText != null)
+            {
+                loadingText.text = "로딩 중... " + (progress * 100f).ToString("F0") + "%";
             }
 
             if (asyncOperation.progress >= 0.9f)
