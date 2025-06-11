@@ -189,4 +189,11 @@ public class LobbyUIManager : MonoBehaviour
 
         StartBtnTex.color = new Color(currentColor.r, currentColor.g, currentColor.b, targetAlpha);
     }
+
+    //TEMP CODE
+    public void OnGameStart()
+    {
+        LoadingManager.LoadScene("InGame");
+    }
+    //TEMP CODE
 }
