@@ -45,6 +45,7 @@ public class SelectUIManger : MonoBehaviour
 
         yield return null;
 
+        GameManager.Instance.EnableGameplayControls();
         loadingManager.StartLoading("InGame");
     }
 

@@ -188,9 +188,8 @@ public class PlayerMoveControl : MonoBehaviour
     void Update()
     {
         UpdateAnimator();
-        CursorLockState();
 
-        if (isLockedOn) 
+        if (isLockedOn)
             MaintainLockOn();
     }
 
@@ -210,19 +209,18 @@ public class PlayerMoveControl : MonoBehaviour
         cc.Move(velocity * Time.fixedDeltaTime);
     }
 
-    private void CursorLockState()
+    public void CursorLockState()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+
+        if (Cursor.lockState == CursorLockMode.Locked)
         {
-            if (Cursor.lockState == CursorLockMode.Locked)
-            {
-                UnlockCursor();
-            }
-            else
-            {
-                LockCursor();
-            }
+            UnlockCursor();
         }
+        else
+        {
+            LockCursor();
+        }
+
     }
 
     private void LockCursor()
