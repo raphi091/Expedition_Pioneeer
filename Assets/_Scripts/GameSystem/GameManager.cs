@@ -61,7 +61,7 @@ public class GameManager : MonoBehaviour
         }
         else if (currentSceneName.Equals("Select"))
         {
-            SceneManager.LoadScene("Lobby");
+            FindObjectOfType<SelectUIManager>()?.OnEsc();
         }
     }
 

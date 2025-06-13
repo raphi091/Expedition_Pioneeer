@@ -3,7 +3,13 @@ using UnityEngine;
 using CustomInspector;
 
 
-public enum ActorType { NONE, PLAYER, ENEMY, NPC }
+public enum ActorType 
+{ 
+    NONE = 0, 
+    PLAYER, 
+    ENEMY, 
+    NPC 
+}
 
 [CreateAssetMenu(menuName = "Data/ActorProfile")]
 public class ActorProfile : ScriptableObject
@@ -28,16 +34,20 @@ public class ActorProfile : ScriptableObject
     [Space(15), HorizontalLine(color:FixedColor.CloudWhite, message = "ATTRIBUTES"), HideField] public bool _h2;
 
     [Tooltip("체력")] public int health = 100;
+
+    [Tooltip("공격력")] public int attackdamage;
+    [Tooltip("초당 공격 속도 ( sec )")] public float attackspeed;
+    [Tooltip("공격 범위")] public float attackrange;
+
     [Tooltip("초당 걷는 속도 ( sec )")] public float walkspeed = 2.0f;
     [Tooltip("초당 뛰는 속도 ( sec )")] public float runspeed = 5.0f;
     [Tooltip("초당 숙여서 걷는 속도 ( sec )")] public float crouchwalkspeed = 1.0f;
     [Tooltip("초당 회전 속도 ( sec )")] public float rotatespeed = 10.0f;
+
     [Tooltip("회피 거리")] public float dodgedistance = 3f;
     [Tooltip("회피 시간")] public float dodgeduration = 0.4f;
+
     [Tooltip("시야 범위")] public float sightrange;
-    [Tooltip("초당 공격 속도 ( sec )")] public float attackspeed;
-    [Tooltip("공격 범위")] public float attackrange;
-    [Tooltip("공격력")] public int attackdamage;
 
 
     // [Space(15), HorizontalLine(color:FixedColor.CloudWhite, message = "ABILITIES"), HideField] public bool _h3;

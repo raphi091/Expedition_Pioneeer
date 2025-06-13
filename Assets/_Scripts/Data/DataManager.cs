@@ -7,6 +7,11 @@ public class DataManager : MonoBehaviour
 {
     public static DataManager Instance = null;
 
+    [Header("PlayerData")]
+    public int currentSlotIndex = -1;
+    public GameData gameData;
+
+    [Header("Settiong")]
     public GameSetting setting;
     private string settingFilePath;
 
@@ -23,21 +28,22 @@ public class DataManager : MonoBehaviour
         }
 
         settingFilePath = Path.Combine(Application.persistentDataPath, "setting.json");
+        LoadSettings();
     }
-
-    public GameData gameData;
 
     private string GetPath(int slotIndex)
     {
         return Path.Combine(Application.persistentDataPath, $"gamedata_{slotIndex}.json");
     }
 
-    public void SaveGame(int slotIndex)
+    public void SaveGame()
     {
+        if (currentSlotIndex < 0)
+        {
+            return;
+        }
         string json = JsonUtility.ToJson(gameData, true);
-        File.WriteAllText(GetPath(slotIndex), json);
-
-        Debug.Log($"데이터 저장 완료: 슬롯 {slotIndex}");
+        File.WriteAllText(GetPath(currentSlotIndex), json);
     }
 
     public bool LoadGame(int slotIndex)
@@ -47,14 +53,26 @@ public class DataManager : MonoBehaviour
         {
             string json = File.ReadAllText(path);
             gameData = JsonUtility.FromJson<GameData>(json);
-
-            Debug.Log($"데이터 로드 완료: 슬롯 {slotIndex}");
+            currentSlotIndex = slotIndex;
             return true;
         }
         else
         {
-            Debug.Log($"슬롯 {slotIndex}에 세이브 파일이 없습니다.");
             return false;
+        }
+    }
+
+    public GameData GetDataForSlot(int slotIndex)
+    {
+        string path = GetPath(slotIndex);
+        if (File.Exists(path))
+        {
+            string json = File.ReadAllText(path);
+            return JsonUtility.FromJson<GameData>(json);
+        }
+        else
+        {
+            return null;
         }
     }
 
@@ -62,7 +80,6 @@ public class DataManager : MonoBehaviour
     {
         string json = JsonUtility.ToJson(setting, true);
         File.WriteAllText(settingFilePath, json);
-        Debug.Log("설정 저장 완료.");
     }
 
     public void LoadSettings()

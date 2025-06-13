@@ -221,7 +221,7 @@ public class LobbyUIManager : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(element);
     }
 
-    //-----연출 영역
+    //-----연출
     private void OpenPanel(GameObject panelToOpen, bool useAnimation)
     {
         GameObject panelToHide = (uiPanelStack.Count > 0) ? uiPanelStack.Peek() : LobbyPanel;
