@@ -952,6 +952,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75320fc6eb6bd2c4e85f07a0c964679a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  setting:
+    resolutionIndex: -1
+    fullscreenMode: 1
+    masterVolume: 1
+    musicVolume: 1
+    sfxVolume: 1
   gameData:
     playTime: 0
     characterInfo:
