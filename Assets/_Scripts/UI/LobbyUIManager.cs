@@ -12,7 +12,7 @@ public class LobbyUIManager : MonoBehaviour
 {
     [Header("Panel")]
     [SerializeField] private GameObject StartPanel;
-    [SerializeField] private GameObject LobbyPanel, OptionPanel, ExitPanel, BackPanel;
+    [SerializeField] private GameObject LobbyPanel, OptionPanel, ExitPanel;
 
     [Header("Start")]
     [SerializeField] private Image startLogo;
@@ -27,8 +27,12 @@ public class LobbyUIManager : MonoBehaviour
 
     [Header("Option")]
     [SerializeField] private GameObject screenPanel;
-    [SerializeField] private GameObject soundPanel, mousePanel, keyPanel, resetPanel;
+    [SerializeField] private GameObject soundPanel, mousePanel, manuelPanel, resetPanel;
     [SerializeField] private Button optionFirstBtn;
+
+    [Header("Manual")]
+    [SerializeField] private GameObject keyboardMPanel;
+    [SerializeField] private GameObject mouseMPanel, gamepadMPanel;
 
     [Header("BloomSet")]
     public float targetIntensity = 20f;
@@ -52,7 +56,6 @@ public class LobbyUIManager : MonoBehaviour
         StartBtn.SetActive(false);
         OptionPanel.SetActive(false);
         ExitPanel.SetActive(false);
-        BackPanel.SetActive(false);
 
         if (!volume.profile.TryGet(out bloom))
             Debug.LogWarning("LobbyUIManager ] Volume ] Bloom 없음");
@@ -128,7 +131,6 @@ public class LobbyUIManager : MonoBehaviour
 
         StartPanel.SetActive(false);
         LobbyPanel.SetActive(true);
-        BackPanel.SetActive(true);
 
         yield return new WaitForSeconds(duration / 5f);
 
@@ -151,7 +153,7 @@ public class LobbyUIManager : MonoBehaviour
         screenPanel.SetActive(true);
         soundPanel.SetActive(false);
         mousePanel.SetActive(false);
-        keyPanel.SetActive(false);
+        manuelPanel.SetActive(false);
         resetPanel.SetActive(false);
     }
 
@@ -162,7 +164,7 @@ public class LobbyUIManager : MonoBehaviour
         screenPanel.SetActive(false);
         soundPanel.SetActive(true);
         mousePanel.SetActive(false);
-        keyPanel.SetActive(false);
+        manuelPanel.SetActive(false);
         resetPanel.SetActive(false);
     }
 
@@ -173,19 +175,50 @@ public class LobbyUIManager : MonoBehaviour
         screenPanel.SetActive(false);
         soundPanel.SetActive(false);
         mousePanel.SetActive(true);
-        keyPanel.SetActive(false);
+        manuelPanel.SetActive(false);
         resetPanel.SetActive(false);
     }
 
-    public void OnOptionKeySet()
+    public void OnOptionManuelSet()
     {
-        if (keyPanel.activeSelf) return;
+        if (manuelPanel.activeSelf) return;
 
         screenPanel.SetActive(false);
         soundPanel.SetActive(false);
         mousePanel.SetActive(false);
-        keyPanel.SetActive(true);
+        manuelPanel.SetActive(true);
         resetPanel.SetActive(false);
+
+        keyboardMPanel.SetActive(true);
+        mouseMPanel.SetActive(false);
+        gamepadMPanel.SetActive(false);
+    }
+
+    public void OnManuelKeyboard()
+    {
+        if (keyboardMPanel.activeSelf) return;
+
+        keyboardMPanel.SetActive(true);
+        mouseMPanel.SetActive(false);
+        gamepadMPanel.SetActive(false);
+    }
+
+    public void OnManuelMouse()
+    {
+        if (mouseMPanel.activeSelf) return;
+
+        keyboardMPanel.SetActive(false);
+        mouseMPanel.SetActive(true);
+        gamepadMPanel.SetActive(false);
+    }
+
+    public void OnManuelGamePad()
+    {
+        if (gamepadMPanel.activeSelf) return;
+
+        keyboardMPanel.SetActive(false);
+        mouseMPanel.SetActive(false);
+        gamepadMPanel.SetActive(true);
     }
 
     public void OnOptionReset()
@@ -195,7 +228,7 @@ public class LobbyUIManager : MonoBehaviour
         screenPanel.SetActive(false);
         soundPanel.SetActive(false);
         mousePanel.SetActive(false);
-        keyPanel.SetActive(false);
+        manuelPanel.SetActive(false);
         resetPanel.SetActive(true);
     }
 
