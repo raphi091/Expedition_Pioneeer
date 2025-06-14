@@ -21,6 +21,9 @@ public class SaveSlotUI : MonoBehaviour
     public TextMeshProUGUI levelText;
     public TextMeshProUGUI playTimeText;
 
+    public bool HasData { get; private set; }
+    public string CharacterID { get; private set; }
+
     private Button selectButton;
     private SelectUIManager manager;
     private GameData gameData;
@@ -40,8 +43,13 @@ public class SaveSlotUI : MonoBehaviour
 
     private void UpdateUI(GameData data)
     {
+        this.gameData = data;
+
         if (data != null)
         {
+            HasData = true;
+            CharacterID = data.characterInfo.actorProfileID;
+
             existingDataPanel.SetActive(true);
             newGamePanel.SetActive(false);
 
@@ -55,6 +63,9 @@ public class SaveSlotUI : MonoBehaviour
         }
         else
         {
+            HasData = false;
+            CharacterID = null;
+
             existingDataPanel.SetActive(false);
             newGamePanel.SetActive(true);
         }

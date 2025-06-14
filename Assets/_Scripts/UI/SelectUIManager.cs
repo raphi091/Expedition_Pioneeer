@@ -19,14 +19,18 @@ public class SelectUIManager : MonoBehaviour
     [Header("Save Slot")]
     [SerializeField] private SaveSlotUI[] saveSlots;
 
+    [Header("Slot Options UI")]
+    [SerializeField] private TextMeshProUGUI nicknameText;
+
     [Header("Character Profile")]
     [SerializeField] private ActorProfile SlayerTypeA_Profile;
     [SerializeField] private ActorProfile SlayerTypeB_Profile;
 
-    [Header("Creat Character")]
+    [Header("Character Set")]
     [SerializeField] private GameObject characterCreationPanel;
     [SerializeField] private GameObject nameInputPanel;
     [SerializeField] private TMP_InputField nameInputField;
+    [SerializeField] private TMP_InputField newNameInputField;
 
     [Header("Loading")]
     [SerializeField] private GameObject LoadingPanel;
@@ -35,19 +39,26 @@ public class SelectUIManager : MonoBehaviour
     [SerializeField] private Image fade;
     private float startfade = 1f;
 
-    [Header("Panel")]
+    [Header("Panel / Field")]
     [SerializeField] private GameObject selectSlotPanel;
-    [SerializeField] private Button selectSlotFirstBtn;
-    [SerializeField] private Button CreaftCharacterFirstBtn;
-
-    [Header("Field")]
+    [SerializeField] private GameObject slotOptionPanel;
+    [SerializeField] private GameObject slotDeletePanel;
+    [SerializeField] private GameObject slotRenamePanel;
     [SerializeField] private GameObject selectField;
     [SerializeField] private GameObject creationField;
 
+    [Header("Button")]
+    [SerializeField] private Button selectSlotFirstBtn;
+    [SerializeField] private Button slotOptionFirstBtn;
+    [SerializeField] private Button slotDeleteFirstBtn;
+    [SerializeField] private Button CreaftCharacterFirstBtn;
+
     private Stack<GameObject> uiPanelStack = new Stack<GameObject>();
     private LoadingManager loadingManager;
+    private CharacterPreview characterPreview;
     private CharacterType chosenClass;
     private int selectedSlotForCreation;
+    private int confirmedSlotIndex;
 
 
     private void Awake()
@@ -56,12 +67,18 @@ public class SelectUIManager : MonoBehaviour
         creationField.SetActive(false);
 
         selectSlotPanel.SetActive(true);
+        slotOptionPanel.SetActive(false);
+        slotDeletePanel.SetActive(false);
+        slotRenamePanel.SetActive(false);
         characterCreationPanel.SetActive(false);
         nameInputPanel.SetActive(false);
         LoadingPanel.SetActive(false);
 
         if (!TryGetComponent(out loadingManager))
             Debug.Log("SelectUIManager ] LoadingManager 없음");
+
+        if (!TryGetComponent(out characterPreview))
+            Debug.Log("SelectUIManager ] CharacterPreview 없음");
     }
 
     private IEnumerator Start()
@@ -85,11 +102,16 @@ public class SelectUIManager : MonoBehaviour
         {
             GameObject topPanel = uiPanelStack.Peek();
 
-            if (topPanel == characterCreationPanel)
+            if (topPanel == slotOptionPanel)
             {
+                StartCoroutine(CloseTopPanelAnimated());
+                characterPreview.ClearCharacter();
+            }
+            else if (topPanel == characterCreationPanel)
+            {
+                StartCoroutine(CloseTopPanelAnimated());
                 selectField.SetActive(true);
                 creationField.SetActive(false);
-                StartCoroutine(CloseTopPanelAnimated());
             }
             else
             {
@@ -114,14 +136,100 @@ public class SelectUIManager : MonoBehaviour
     public void OnSlotSelected(int slotIndex)
     {
         GameData data = DataManager.Instance.GetDataForSlot(slotIndex);
+
         if (data != null)
         {
-            StartCoroutine(StartGame(slotIndex));
+            StartCoroutine(SelectData(data, slotIndex));
         }
         else
         {
             StartCoroutine(BeginCharacterCreation(slotIndex));
         }
+    }
+
+    private IEnumerator SelectData(GameData data, int slotIndex)
+    {
+        FadeIn(startfade / 2f);
+
+        yield return new WaitForSeconds(startfade / 2f);
+
+        nicknameText.text = data.characterInfo.characterName;
+        confirmedSlotIndex = slotIndex;
+        characterPreview.ShowCharacter(data.characterInfo.actorProfileID);
+        OpenPanel(slotOptionPanel, false);
+
+        yield return new WaitForSeconds(startfade / 2f);
+
+        FadeOut(startfade / 2f);
+    }
+
+    private IEnumerator BeginCharacterCreation(int slotIndex)
+    {
+        FadeIn(startfade / 2f);
+
+        yield return new WaitForSeconds(startfade / 2f);
+
+        selectedSlotForCreation = slotIndex;
+        selectField.SetActive(false);
+        creationField.SetActive(true);
+        OpenPanel(characterCreationPanel, false);
+
+        yield return new WaitForSeconds(startfade / 2f);
+
+        FadeOut(startfade / 2f);
+    }
+
+    public void OnCharacterClassSelected(int classIndex)
+    {
+        this.chosenClass = (CharacterType)classIndex;
+
+        OpenPanel(nameInputPanel, false);
+    }
+
+    public void OnConfirmCreation()
+    {
+        string characterName = nameInputField.text;
+
+        if (string.IsNullOrWhiteSpace(characterName))
+        {
+            return;
+        }
+
+        ActorProfile selectedProfile = null;
+
+        switch (chosenClass)
+        {
+            case CharacterType.SlayerTypeA:
+                selectedProfile = SlayerTypeA_Profile;
+                break;
+            case CharacterType.SlayerTypeB:
+                selectedProfile = SlayerTypeB_Profile;
+                break;
+        }
+
+        if (selectedProfile == null)
+        {
+            return;
+        }
+
+        GameData newData = new GameData();
+
+        newData.characterInfo.actorProfileID = selectedProfile.alias;
+        newData.characterInfo.characterName = characterName;
+        newData.characterInfo.level = 1;
+        newData.characterInfo.experience = 0;
+        newData.gold = 0;
+
+        DataManager.Instance.gameData = newData;
+        DataManager.Instance.currentSlotIndex = selectedSlotForCreation;
+        DataManager.Instance.SaveGame();
+
+        StartCoroutine(StartGame(selectedSlotForCreation));
+    }
+
+    public void OnStartGame()
+    {
+        StartCoroutine(StartGame(confirmedSlotIndex));
     }
 
     private IEnumerator StartGame(int slotIndex)
@@ -140,66 +248,37 @@ public class SelectUIManager : MonoBehaviour
         loadingManager.StartLoading("InGame");
     }
 
-    private IEnumerator BeginCharacterCreation(int slotIndex)
+    public void OnDeleteData()
     {
-        FadeIn(startfade / 2f);
-
-        yield return new WaitForSeconds(startfade / 2f);
-
-        selectedSlotForCreation = slotIndex;
-        selectField.SetActive(false);
-        creationField.SetActive(true);
-        OpenPanel(characterCreationPanel, true);
-
-        yield return new WaitForSeconds(startfade / 2f);
-
-        FadeOut(startfade / 2f);
+        OpenPanel(slotDeletePanel, false);
     }
 
-    public void OnCharacterClassSelected(int classIndex)
+    public void OnDelete()
     {
-        this.chosenClass = (CharacterType)classIndex;
-
-        OpenPanel(nameInputPanel, false);
+        DataManager.Instance.DeleteData(confirmedSlotIndex);
+        saveSlots[confirmedSlotIndex].Setup(this, confirmedSlotIndex, null);
+        OnEsc();
+        OnEsc();
     }
 
-    public void OnConfirmCreation()
+    public void OnRenameCharacter()
     {
-        string characterName = nameInputField.text;
-        if (string.IsNullOrWhiteSpace(characterName))
+        OpenPanel(slotRenamePanel, false);
+    }
+
+    public void OnRename()
+    {
+        string newName = newNameInputField.text;
+
+        if (string.IsNullOrWhiteSpace(newName))
         {
             return;
         }
 
-        ActorProfile selectedProfile = null;
-        switch (chosenClass)
-        {
-            case CharacterType.SlayerTypeA:
-                selectedProfile = SlayerTypeA_Profile;
-                break;
-            case CharacterType.SlayerTypeB:
-                selectedProfile = SlayerTypeB_Profile;
-                break;
-        }
-
-        if (selectedProfile == null)
-        {
-            return;
-        }
-
-        GameData newData = new GameData();
-
-        newData.characterInfo.actorProfileID = selectedProfile.name;
-        newData.characterInfo.characterName = characterName;
-        newData.characterInfo.level = 1;
-        newData.characterInfo.experience = 0;
-        newData.gold = 0;
-
-        DataManager.Instance.gameData = newData;
-        DataManager.Instance.currentSlotIndex = selectedSlotForCreation;
-        DataManager.Instance.SaveGame();
-
-        StartGame(selectedSlotForCreation);
+        DataManager.Instance.RenameCharacter(confirmedSlotIndex, newName);
+        saveSlots[confirmedSlotIndex].Setup(this, confirmedSlotIndex, DataManager.Instance.GetDataForSlot(confirmedSlotIndex));
+        OnEsc();
+        OnEsc();
     }
 
     //-----게임 패드
@@ -222,6 +301,21 @@ public class SelectUIManager : MonoBehaviour
         {
             panelToHide.SetActive(false);
             panelToOpen.SetActive(true);
+        }
+
+        if (panelToOpen == slotOptionPanel)
+        {
+            SetSelectedUIElement(slotOptionFirstBtn.gameObject);
+        }
+
+        if (panelToOpen == slotDeletePanel)
+        {
+            SetSelectedUIElement(slotDeleteFirstBtn.gameObject);
+        }
+
+        if (panelToOpen == slotRenamePanel)
+        {
+            SetSelectedUIElement(newNameInputField.gameObject);
         }
 
         if (panelToOpen == characterCreationPanel)

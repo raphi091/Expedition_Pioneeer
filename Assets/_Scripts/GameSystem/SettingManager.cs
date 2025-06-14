@@ -19,6 +19,10 @@ public class SettingManager : MonoBehaviour
     [SerializeField] private Slider bgmVolume;
     [SerializeField] private Slider sfxVolume;
 
+    [Header("Mouse Setting")]
+    [SerializeField] private Slider mouseSensitivitySlider;
+    [SerializeField] private TextMeshProUGUI mouseSensitivityText;
+
     private Resolution[] resolutions;
 
     private void Start()
@@ -37,6 +41,8 @@ public class SettingManager : MonoBehaviour
         masterVolume.onValueChanged.AddListener(SetMasterVolume);
         bgmVolume.onValueChanged.AddListener(SetMusicVolume);
         sfxVolume.onValueChanged.AddListener(SetSFXVolume);
+
+        mouseSensitivitySlider.onValueChanged.AddListener(SetMouseSensitivity);
     }
 
    private void SetupResolutions()
@@ -89,6 +95,9 @@ public class SettingManager : MonoBehaviour
         SetMasterVolume(settings.masterVolume);
         SetMusicVolume(settings.musicVolume);
         SetSFXVolume(settings.sfxVolume);
+
+        mouseSensitivitySlider.value = settings.mouseSensitivity;
+        UpdateMouseSensitivityText(settings.mouseSensitivity);
     }
 
     public void SetResolution(int resolutionIndex)
@@ -125,6 +134,20 @@ public class SettingManager : MonoBehaviour
         DataManager.Instance.setting.sfxVolume = value;
     }
 
+    public void SetMouseSensitivity(float value)
+    {
+        DataManager.Instance.setting.mouseSensitivity = value;
+        UpdateMouseSensitivityText(value);
+    }
+
+    private void UpdateMouseSensitivityText(float value)
+    {
+        if (mouseSensitivityText != null)
+        {
+            mouseSensitivityText.text = value.ToString("F2");
+        }
+    }
+
     public void OnClickConfirmReset()
     {
         DataManager.Instance.setting = new GameSetting();
@@ -136,5 +159,12 @@ public class SettingManager : MonoBehaviour
     public void ApplyAndSaveChanges()
     {
         DataManager.Instance.SaveSettings();
+
+        var sensitivityController = FindObjectOfType<CameraSensitivityControl>();
+
+        if (sensitivityController != null)
+        {
+            sensitivityController.UpdateSensitivity();
+        }
     }
 }

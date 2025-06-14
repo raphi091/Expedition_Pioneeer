@@ -12,6 +12,8 @@ public class GameSetting
     public float musicVolume;
     public float sfxVolume;
 
+    public float mouseSensitivity;
+
     public GameSetting()
     {
         resolutionIndex = -1;
@@ -19,5 +21,6 @@ public class GameSetting
         masterVolume = 1f;
         musicVolume = 1f;
         sfxVolume = 1f;
+        mouseSensitivity = 1f;
     }
 }

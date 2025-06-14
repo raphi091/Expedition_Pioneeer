@@ -15,11 +15,14 @@ MonoBehaviour:
   _T0: 0
   _h0: 0
   actorType: 1
-  alias: male
+  alias: SlayerA
   model: {fileID: 8573228673619331037, guid: 55bb12ca20c36f949b7862aa9935d517, type: 3}
   avatar: {fileID: 9000000, guid: bebca4ac916965c4ba95c6c83ba4bc69, type: 3}
   _h2: 0
   health: 100
+  attackdamage: 0
+  attackspeed: 0
+  attackrange: 0
   walkspeed: 2
   runspeed: 5
   crouchwalkspeed: 1
@@ -27,6 +30,3 @@ MonoBehaviour:
   dodgedistance: 3
   dodgeduration: 0.4
   sightrange: 0
-  attackspeed: 0
-  attackrange: 0
-  attackdamage: 0

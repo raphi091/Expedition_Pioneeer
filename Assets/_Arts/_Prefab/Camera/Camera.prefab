@@ -216,6 +216,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3861743139451051580}
   - component: {fileID: 7898561226391217036}
+  - component: {fileID: 8508374799928811380}
   m_Layer: 0
   m_Name: LockOn Cam
   m_TagString: Untagged
@@ -278,6 +279,23 @@ MonoBehaviour:
         m_Calls: []
   m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 4667934818189961963}
+--- !u!114 &8508374799928811380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2670665467653220891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 449ef5ebbe24720439ec31d15f7b6f3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FocusTracksTarget: 0
+  m_FocusTracking: 0
+  m_FocusTarget: {fileID: 0}
+  m_FocusOffset: 0
+  m_Profile: {fileID: 11400000, guid: dfe9356fecfecce448e54d8afe208ca7, type: 2}
 --- !u!1 &2921957294637032603
 GameObject:
   m_ObjectHideFlags: 0
@@ -306,8 +324,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2921957294637032603}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.11367165, y: -0, z: -0, w: 0.9935184}
-  m_LocalPosition: {x: 0, y: 2.5, z: -3}
+  m_LocalRotation: {x: 0.11367167, y: -0, z: -0, w: 0.9935184}
+  m_LocalPosition: {x: 0, y: 6.5800004, z: -3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -429,8 +447,8 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
-  m_Antialiasing: 0
+  m_RenderPostProcessing: 1
+  m_Antialiasing: 1
   m_AntialiasingQuality: 2
   m_StopNaN: 0
   m_Dithering: 0
@@ -879,7 +897,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6987592736185969947}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.11367164, y: -0, z: -0, w: 0.9935184}
+  m_LocalRotation: {x: 0.11367165, y: -0, z: -0, w: 0.9935184}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -942,8 +960,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2294627149821205666}
+  - component: {fileID: 5809398255231846180}
   - component: {fileID: 5777592830998835163}
   - component: {fileID: 4807692314264073225}
+  - component: {fileID: 3459214699592448914}
   m_Layer: 0
   m_Name: Follow Cam
   m_TagString: Untagged
@@ -960,7 +980,7 @@ Transform:
   m_GameObject: {fileID: 7035059845593455229}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.5, z: -3}
+  m_LocalPosition: {x: 0, y: 6.5800004, z: -3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -969,6 +989,18 @@ Transform:
   - {fileID: 812117910358185676}
   m_Father: {fileID: 5647907531631907071}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5809398255231846180
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7035059845593455229}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2bb89d3e8b6b7243baffef0efd7f19b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &5777592830998835163
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1090,6 +1122,23 @@ MonoBehaviour:
   AutoEnableInputs: 1
   XYAxis: {fileID: -3787169064211337688, guid: fb584c874c42a5146abc079a710ded69, type: 3}
   ZAxis: {fileID: 0}
+--- !u!114 &3459214699592448914
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7035059845593455229}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 449ef5ebbe24720439ec31d15f7b6f3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FocusTracksTarget: 0
+  m_FocusTracking: 0
+  m_FocusTarget: {fileID: 0}
+  m_FocusOffset: 0
+  m_Profile: {fileID: 11400000, guid: dfe9356fecfecce448e54d8afe208ca7, type: 2}
 --- !u!1 &7861947886621864577
 GameObject:
   m_ObjectHideFlags: 3
@@ -1115,7 +1164,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7861947886621864577}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.08226968, y: -0, z: -0, w: 0.9966101}
+  m_LocalRotation: {x: 0.08226975, y: -0, z: -0, w: 0.9966101}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

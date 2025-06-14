@@ -272,7 +272,7 @@ GameObject:
   - component: {fileID: 305669855}
   - component: {fileID: 305669854}
   m_Layer: 0
-  m_Name: StartUIManager
+  m_Name: StartManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -919,7 +919,7 @@ GameObject:
   - component: {fileID: 2123264493}
   - component: {fileID: 2123264494}
   m_Layer: 0
-  m_Name: Manager
+  m_Name: MainManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

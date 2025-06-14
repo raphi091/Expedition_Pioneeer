@@ -12,7 +12,7 @@ public class LobbyUIManager : MonoBehaviour
 {
     [Header("Panel")]
     [SerializeField] private GameObject StartPanel;
-    [SerializeField] private GameObject LobbyPanel, OptionPanel, ExitPanel;
+    [SerializeField] private GameObject LobbyPanel, OptionPanel, ExitPanel, BackPanel;
 
     [Header("Start")]
     [SerializeField] private Image startLogo;
@@ -27,7 +27,7 @@ public class LobbyUIManager : MonoBehaviour
 
     [Header("Option")]
     [SerializeField] private GameObject screenPanel;
-    [SerializeField] private GameObject soundPanel, keyPanel, resetPanel;
+    [SerializeField] private GameObject soundPanel, mousePanel, keyPanel, resetPanel;
     [SerializeField] private Button optionFirstBtn;
 
     [Header("BloomSet")]
@@ -52,6 +52,7 @@ public class LobbyUIManager : MonoBehaviour
         StartBtn.SetActive(false);
         OptionPanel.SetActive(false);
         ExitPanel.SetActive(false);
+        BackPanel.SetActive(false);
 
         if (!volume.profile.TryGet(out bloom))
             Debug.LogWarning("LobbyUIManager ] Volume ] Bloom 없음");
@@ -127,6 +128,7 @@ public class LobbyUIManager : MonoBehaviour
 
         StartPanel.SetActive(false);
         LobbyPanel.SetActive(true);
+        BackPanel.SetActive(true);
 
         yield return new WaitForSeconds(duration / 5f);
 
@@ -148,6 +150,7 @@ public class LobbyUIManager : MonoBehaviour
 
         screenPanel.SetActive(true);
         soundPanel.SetActive(false);
+        mousePanel.SetActive(false);
         keyPanel.SetActive(false);
         resetPanel.SetActive(false);
     }
@@ -158,6 +161,18 @@ public class LobbyUIManager : MonoBehaviour
 
         screenPanel.SetActive(false);
         soundPanel.SetActive(true);
+        mousePanel.SetActive(false);
+        keyPanel.SetActive(false);
+        resetPanel.SetActive(false);
+    }
+
+    public void OnOptionMouseSet()
+    {
+        if (mousePanel.activeSelf) return;
+
+        screenPanel.SetActive(false);
+        soundPanel.SetActive(false);
+        mousePanel.SetActive(true);
         keyPanel.SetActive(false);
         resetPanel.SetActive(false);
     }
@@ -168,6 +183,7 @@ public class LobbyUIManager : MonoBehaviour
 
         screenPanel.SetActive(false);
         soundPanel.SetActive(false);
+        mousePanel.SetActive(false);
         keyPanel.SetActive(true);
         resetPanel.SetActive(false);
     }
@@ -178,6 +194,7 @@ public class LobbyUIManager : MonoBehaviour
 
         screenPanel.SetActive(false);
         soundPanel.SetActive(false);
+        mousePanel.SetActive(false);
         keyPanel.SetActive(false);
         resetPanel.SetActive(true);
     }

@@ -36,6 +36,7 @@ public class DataManager : MonoBehaviour
         return Path.Combine(Application.persistentDataPath, $"gamedata_{slotIndex}.json");
     }
 
+    //-----게임 관련
     public void SaveGame()
     {
         if (currentSlotIndex < 0)
@@ -76,6 +77,55 @@ public class DataManager : MonoBehaviour
         }
     }
 
+    public void DeleteData(int slotIndex)
+    {
+        string path = GetPath(slotIndex);
+
+        if (File.Exists(path))
+        {
+            File.Delete(path);
+
+            if (slotIndex == currentSlotIndex)
+            {
+                gameData = null;
+                currentSlotIndex = -1;
+            }
+        }
+        else
+        {
+            Debug.LogWarning($"슬롯 {slotIndex}에 삭제할 데이터 파일이 없습니다.");
+        }
+    }
+
+    public bool RenameCharacter(int slotIndex, string newName)
+    {
+        string path = GetPath(slotIndex);
+
+        if (File.Exists(path))
+        {
+            string json = File.ReadAllText(path);
+            GameData dataToModify = JsonUtility.FromJson<GameData>(json);
+
+            dataToModify.characterInfo.characterName = newName;
+
+            string newJson = JsonUtility.ToJson(dataToModify, true);
+            File.WriteAllText(path, newJson);
+
+            if (slotIndex == currentSlotIndex)
+            {
+                gameData.characterInfo.characterName = newName;
+            }
+
+            return true;
+        }
+        else
+        {
+            Debug.LogError($"슬롯 {slotIndex}에 이름 변경을 할 데이터 파일이 없습니다.");
+            return false;
+        }
+    }
+
+    //-----설정 관련
     public void SaveSettings()
     {
         string json = JsonUtility.ToJson(setting, true);
