@@ -39,7 +39,7 @@ public class SettingManager : MonoBehaviour
         fullscreenToggle.onValueChanged.AddListener(SetFullscreen);
 
         masterVolume.onValueChanged.AddListener(SetMasterVolume);
-        bgmVolume.onValueChanged.AddListener(SetMusicVolume);
+        bgmVolume.onValueChanged.AddListener(SetBGMVolume);
         sfxVolume.onValueChanged.AddListener(SetSFXVolume);
 
         mouseSensitivitySlider.onValueChanged.AddListener(SetMouseSensitivity);
@@ -89,11 +89,11 @@ public class SettingManager : MonoBehaviour
         }
 
         masterVolume.value = settings.masterVolume;
-        bgmVolume.value = settings.musicVolume;
+        bgmVolume.value = settings.bgmVolume;
         sfxVolume.value = settings.sfxVolume;
 
         SetMasterVolume(settings.masterVolume);
-        SetMusicVolume(settings.musicVolume);
+        SetBGMVolume(settings.bgmVolume);
         SetSFXVolume(settings.sfxVolume);
 
         mouseSensitivitySlider.value = settings.mouseSensitivity;
@@ -118,19 +118,22 @@ public class SettingManager : MonoBehaviour
 
     public void SetMasterVolume(float value)
     {
-        mixer.SetFloat("MasterVolume", Mathf.Log10(value) * 20);
+        float volume = value > 0.0001f ? Mathf.Log10(value) * 20 : -80f;
+        mixer.SetFloat("MasterVolume", volume);
         DataManager.Instance.setting.masterVolume = value;
     }
 
-    public void SetMusicVolume(float value)
+    public void SetBGMVolume(float value)
     {
-        mixer.SetFloat("MusicVolume", Mathf.Log10(value) * 20);
-        DataManager.Instance.setting.musicVolume = value;
+        float volume = value > 0.0001f ? Mathf.Log10(value) * 20 : -80f;
+        mixer.SetFloat("BGMVolume", volume);
+        DataManager.Instance.setting.bgmVolume = value;
     }
 
     public void SetSFXVolume(float value)
     {
-        mixer.SetFloat("SFXVolume", Mathf.Log10(value) * 20);
+        float volume = value > 0.0001f ? Mathf.Log10(value) * 20 : -80f;
+        mixer.SetFloat("SFXVolume", volume);
         DataManager.Instance.setting.sfxVolume = value;
     }
 

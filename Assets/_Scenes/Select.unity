@@ -2238,13 +2238,13 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 819966535}
   - {fileID: 970667808}
   - {fileID: 1959491952}
   - {fileID: 1298390476}
   - {fileID: 1101023100}
   - {fileID: 1653474614}
   - {fileID: 763225918}
+  - {fileID: 819966535}
   - {fileID: 1050494314}
   - {fileID: 1859822756}
   m_Father: {fileID: 0}
@@ -2613,7 +2613,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uB4A4\uB85C\uAC00\uAE30"
+  m_text: "ESC \uB4A4\uB85C\uAC00\uAE30"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0592c6b1bb3f44841ae03d9ad3628fd7, type: 2}
   m_sharedMaterial: {fileID: 4990626714934026588, guid: 0592c6b1bb3f44841ae03d9ad3628fd7, type: 2}

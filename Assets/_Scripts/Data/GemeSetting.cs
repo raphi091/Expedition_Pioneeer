@@ -9,7 +9,7 @@ public class GameSetting
     public FullScreenMode fullscreenMode;
 
     public float masterVolume;
-    public float musicVolume;
+    public float bgmVolume;
     public float sfxVolume;
 
     public float mouseSensitivity;
@@ -19,7 +19,7 @@ public class GameSetting
         resolutionIndex = -1;
         fullscreenMode = FullScreenMode.FullScreenWindow;
         masterVolume = 1f;
-        musicVolume = 1f;
+        bgmVolume = 1f;
         sfxVolume = 1f;
         mouseSensitivity = 1f;
     }
