@@ -7,14 +7,14 @@ using CustomInspector;
 public struct PlayerState
 {
     public int health;
-
+    public int stamina;
     public int damage;
-
     public float attackrange;
 
     public void Set(ActorProfile profile)
     {
         health = profile.health;
+        health = profile.stamina;
         damage = profile.attackdamage;
         attackrange = profile.attackrange;
     }

@@ -74,6 +74,8 @@ public class SelectUIManager : MonoBehaviour
         nameInputPanel.SetActive(false);
         LoadingPanel.SetActive(false);
 
+        fade.gameObject.SetActive(true);
+
         if (!TryGetComponent(out loadingManager))
             Debug.Log("SelectUIManager ] LoadingManager 없음");
 

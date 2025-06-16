@@ -67,6 +67,6 @@ public class GameManager : MonoBehaviour
 
     private void OnPausePressed(InputAction.CallbackContext context)
     {
-        FindObjectOfType<PlayerMoveControl>().CursorLockState();
+        FindObjectOfType<InGameUIManager>()?.OnEsc();
     }
 }

@@ -211,7 +211,6 @@ public class PlayerMoveControl : MonoBehaviour
 
     public void CursorLockState()
     {
-
         if (Cursor.lockState == CursorLockMode.Locked)
         {
             UnlockCursor();
@@ -220,7 +219,6 @@ public class PlayerMoveControl : MonoBehaviour
         {
             LockCursor();
         }
-
     }
 
     private void LockCursor()

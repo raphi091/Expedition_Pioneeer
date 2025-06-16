@@ -172,7 +172,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e018acbc59b891241945409ad4b48dc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  profile: {fileID: 11400000, guid: 8f28fd7004006a84fba831c8bd1846cf, type: 2}
+  profile: {fileID: 11400000, guid: c36407b318075f54ea36a8e38bdfc87b, type: 2}
   input: {fileID: 0}
   characterController: {fileID: 0}
   animator: {fileID: 0}

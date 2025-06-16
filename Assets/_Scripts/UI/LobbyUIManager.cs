@@ -57,6 +57,8 @@ public class LobbyUIManager : MonoBehaviour
         OptionPanel.SetActive(false);
         ExitPanel.SetActive(false);
 
+        fade.gameObject.SetActive(true);
+
         if (!volume.profile.TryGet(out bloom))
             Debug.LogWarning("LobbyUIManager ] Volume ] Bloom 없음");
 

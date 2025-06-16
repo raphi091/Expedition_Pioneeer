@@ -34,6 +34,7 @@ public class ActorProfile : ScriptableObject
     [Space(15), HorizontalLine(color:FixedColor.CloudWhite, message = "ATTRIBUTES"), HideField] public bool _h2;
 
     [Tooltip("체력")] public int health = 100;
+    [Tooltip("행동력")] public int stamina = 100;
 
     [Tooltip("공격력")] public int attackdamage;
     [Tooltip("초당 공격 속도 ( sec )")] public float attackspeed;
