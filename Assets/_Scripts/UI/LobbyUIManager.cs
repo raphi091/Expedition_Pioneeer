@@ -70,6 +70,7 @@ public class LobbyUIManager : MonoBehaviour
         yield return new WaitForSeconds(startDelay / 2f);
 
         FadeOut(startfade);
+        SoundManager.Instance.PlayMusic(BGMTrackName.Lobby);
 
         yield return new WaitForSeconds(startfade / 2f);
 

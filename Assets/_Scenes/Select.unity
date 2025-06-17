@@ -11672,9 +11672,9 @@ MonoBehaviour:
   characterStage: {fileID: 5801860159999598415}
   characterMappings:
   - actorID: SlayerA
-    characterPrefab: {fileID: 0}
+    characterPrefab: {fileID: 3117997174503050020, guid: effcd7b0a854b8844a3ffa29dd66aa82, type: 3}
   - actorID: SlayerB
-    characterPrefab: {fileID: 0}
+    characterPrefab: {fileID: 978358316565252701, guid: a217638d52d8b3e4faa5237461546f78, type: 3}
 --- !u!1 &2026261536
 GameObject:
   m_ObjectHideFlags: 0

@@ -47,6 +47,7 @@ public class InGameUIManager : MonoBehaviour
     private IEnumerator Start()
     {
         FadeOut(startfade);
+        SoundManager.Instance.PlayMusic(BGMTrackName.Village);
 
         yield return new WaitForSeconds(startfade);
     }
