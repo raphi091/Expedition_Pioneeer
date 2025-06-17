@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b67faf71e9370a489df158459b32e9c, type: 3}
+  m_Name: SlayerAData
+  m_EditorClassIdentifier: 
+  _T0: 0
+  _h0: 0
+  actorType: 1
+  alias: SlayerA
+  model: {fileID: 7187093201481782009, guid: 2127b1a70c21c7b4487c80073039ec7b, type: 3}
+  avatar: {fileID: 9000000, guid: 4a919e57ec0b79348ab025eeaa74ef2b, type: 3}
+  _h2: 0
+  health: 100
+  stamina: 100
+  attackdamage: 0
+  attackspeed: 0
+  attackrange: 0
+  walkspeed: 2
+  runspeed: 5
+  crouchwalkspeed: 1
+  rotatespeed: 10
+  dodgedistance: 3
+  dodgeduration: 0.4
+  sightrange: 0
