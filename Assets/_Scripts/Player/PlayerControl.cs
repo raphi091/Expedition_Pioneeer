@@ -23,7 +23,7 @@ public struct PlayerState
 
 public class PlayerControl : MonoBehaviour
 {
-    public event Action<float, float> OnHealthChanged;
+    public event Action<float, float, float> OnHealthChanged;
     public event Action<float, float> OnStaminaChanged;
 
     public ActorProfile Profile { get; private set; }
@@ -52,7 +52,9 @@ public class PlayerControl : MonoBehaviour
     private GameObject currentHandWeaponInstance;
     private GameObject currentSheathWeaponInstance;
 
-    private float currentHealthFloat;
+    private float currentHealth;
+    private float recoverableHealth;
+    private float maxHealth;
     private float healthRegenRate;
     private float healthRegenDelay;
     private float timeSinceLastDamage;
@@ -62,6 +64,12 @@ public class PlayerControl : MonoBehaviour
     private float staminaRegenRate;
     private float runStaminaCost;
     private float dodgeStaminaCost;
+
+    public float CurrentHealth => currentHealth;
+    public float RecoverableHealth => recoverableHealth;
+    public float MaxHealth => maxHealth;
+    public float CurrentStamina => currentStamina;
+    public float MaxStamina => maxStamina;
 
 
     private void Awake()
@@ -96,6 +104,8 @@ public class PlayerControl : MonoBehaviour
             input.actionInput.Player.Dodge.performed += OnDodge;
             input.actionInput.Player.LockOn.performed += OnLockOn;
             input.actionInput.Player.Attack.performed += OnAttack;
+            input.actionInput.Player.SecondaryAttack.performed += OnAttack;
+            input.actionInput.Player.Charge.performed += OnAttack;
         }
     }
 
@@ -109,25 +119,27 @@ public class PlayerControl : MonoBehaviour
         input.actionInput.Player.Dodge.performed -= OnDodge;
         input.actionInput.Player.LockOn.performed -= OnLockOn;
         input.actionInput.Player.Attack.performed -= OnAttack;
+        input.actionInput.Player.SecondaryAttack.performed -= OnAttack;
+        input.actionInput.Player.Charge.performed -= OnAttack;
     }
 
     private void Update()
     {
         timeSinceLastDamage += Time.deltaTime;
 
-        if (currentHealthFloat < Profile.health && timeSinceLastDamage >= healthRegenDelay)
+        if (currentHealth < recoverableHealth && timeSinceLastDamage >= healthRegenDelay)
         {
-            currentHealthFloat += healthRegenRate * Time.deltaTime;
-            currentHealthFloat = Mathf.Clamp(currentHealthFloat, 0, Profile.health);
+            currentHealth += healthRegenRate * Time.deltaTime;
+            currentHealth = Mathf.Clamp(currentHealth, 0, recoverableHealth);
 
-            if (State.health != (int)currentHealthFloat)
+            if (State.health != Mathf.FloorToInt(currentHealth))
             {
-                State.health = Mathf.FloorToInt(currentHealthFloat);
-                OnHealthChanged?.Invoke(State.health, Profile.health);
+                State.health = Mathf.FloorToInt(currentHealth);
+                OnHealthChanged?.Invoke(currentHealth, recoverableHealth, Profile.health);
             }
         }
 
-        if (!moveControl.isRunning && !moveControl.isDodging /* && !attackControl.IsAttacking */)
+        if (!moveControl.IsRunning && !moveControl.IsDodging /* && !attackControl.IsAttacking */)
         {
             if (currentStamina < maxStamina)
             {
@@ -168,8 +180,9 @@ public class PlayerControl : MonoBehaviour
     {
         if (Profile != null)
         {
-            currentHealthFloat = State.health;
-
+            maxHealth = Profile.health;
+            currentHealth = maxHealth;
+            recoverableHealth = maxHealth;
             healthRegenRate = Profile.healthRegenRate;
             healthRegenDelay = Profile.healthRegenDelay;
 
@@ -180,7 +193,7 @@ public class PlayerControl : MonoBehaviour
             runStaminaCost = Profile.runStaminaCost;
             dodgeStaminaCost = Profile.dodgeStaminaCost;
 
-            OnHealthChanged?.Invoke(State.health, Profile.health);
+            OnHealthChanged?.Invoke(currentHealth, recoverableHealth, maxHealth);
             OnStaminaChanged?.Invoke(currentStamina, maxStamina);
         }
     }
@@ -220,7 +233,7 @@ public class PlayerControl : MonoBehaviour
 
     private void OnCrouch(InputAction.CallbackContext context)
     {
-        if (moveControl.isDodging) return;
+        if (moveControl.IsDodging) return;
 
         if (IsWeaponEquipped)
             RequestUnequipWeapon();
@@ -230,7 +243,7 @@ public class PlayerControl : MonoBehaviour
 
     private void OnAttack(InputAction.CallbackContext context)
     {
-        if (moveControl.isDodging || moveControl.isCrouched) return;
+        if (moveControl.IsDodging || moveControl.IsCrouched) return;
 
         if (!IsWeaponEquipped)
             RequestEquipWeapon();
@@ -241,14 +254,14 @@ public class PlayerControl : MonoBehaviour
     //-----무기 관련
     public void RequestEquipWeapon()
     {
-        if (IsWeaponEquipped || moveControl.isDodging || moveControl.isCrouched || Weapon == null) return;
+        if (IsWeaponEquipped || moveControl.IsDodging || moveControl.IsCrouched || Weapon == null) return;
 
         animator.SetBool(AnimatorHashSet.WEAPON, true);
     }
 
     public void RequestUnequipWeapon()
     {
-        if (!IsWeaponEquipped || moveControl.isDodging) return;
+        if (!IsWeaponEquipped || moveControl.IsDodging) return;
 
         animator.SetBool(AnimatorHashSet.WEAPON, false);
     }
@@ -312,19 +325,22 @@ public class PlayerControl : MonoBehaviour
     //-----체력 및 스테미너
     public void TakeDamage(int damage)
     {
-        if (State.health <= 0) return;
+        if (currentHealth <= 0) return;
 
-        State.health -= damage;
-        currentHealthFloat = State.health;
-        State.health = Mathf.Clamp(State.health, 0, Profile.health);
+        float permanentDamage = damage * (1.0f - Profile.recoverableDamageRatio);
 
-        OnHealthChanged?.Invoke(State.health, Profile.health);
+        currentHealth -= damage;
+        recoverableHealth -= permanentDamage;
 
+        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+        recoverableHealth = Mathf.Clamp(recoverableHealth, currentHealth, maxHealth);
+
+        OnHealthChanged?.Invoke(currentHealth, recoverableHealth, maxHealth);
         timeSinceLastDamage = 0f;
 
-        if (State.health <= 0)
-        {
-            Debug.Log("캐릭터 사망");
+        if (currentHealth <= 0) 
+        { 
+            // 죽음 처리
         }
     }
 

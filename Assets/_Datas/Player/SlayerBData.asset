@@ -20,10 +20,13 @@ MonoBehaviour:
   avatar: {fileID: 9000000, guid: 02c2928bc029e5340a002ce0ba3c291c, type: 3}
   _h2: 0
   health: 100
+  healthRegenRate: 1
+  healthRegenDelay: 5
+  recoverableDamageRatio: 0.4
   stamina: 100
-  attackdamage: 0
-  attackspeed: 0
-  attackrange: 0
+  staminaRegenRate: 7
+  runStaminaCost: 4
+  dodgeStaminaCost: 20
   walkspeed: 2
   runspeed: 5
   crouchwalkspeed: 1

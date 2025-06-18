@@ -27,12 +27,12 @@ public class PlayerMoveControl : MonoBehaviour
     private GameObject currentSheathWeaponInstance;
     private bool isWeaponEquipped = false;
 
-    public bool isCrouched = false;
-    public bool isDodging = false;
-    public bool isRunning = false;
 
     private Vector2 moveInputRaw;
     private Vector3 velocity;
+    private bool isCrouched = false;
+    private bool isDodging = false;
+    private bool isRunning = false;
     private bool wantsToDodge = false;
 
     private float walkSpeed;
@@ -65,6 +65,10 @@ public class PlayerMoveControl : MonoBehaviour
 
     [Header("Cursor")]
     public bool lockCursorOnStart = true;
+
+    public bool IsCrouched => isCrouched;
+    public bool IsDodging => isDodging;
+    public bool IsRunning => isRunning;
 
 
     private void Awake()

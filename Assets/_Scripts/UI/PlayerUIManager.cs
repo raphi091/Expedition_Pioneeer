@@ -8,6 +8,7 @@ public class PlayerUIManager : MonoBehaviour
 {
     [Header("UI Elements")]
     public Image healthBar;
+    public Image healthBarRecoverable;
     public Image staminaBar;
 
     [Header("Colors")]
@@ -29,7 +30,8 @@ public class PlayerUIManager : MonoBehaviour
                 normalHealthColor = healthBar.color;
             }
 
-            UpdateHealthBar(pc.State.health, pc.Profile.health);
+            UpdateHealthBar(pc.CurrentHealth, pc.RecoverableHealth, pc.MaxHealth);
+            UpdateStaminaBar(pc.CurrentStamina, pc.MaxStamina);
         }
         else
         {
@@ -46,17 +48,25 @@ public class PlayerUIManager : MonoBehaviour
         }
     }
 
-    private void UpdateHealthBar(float currentHealth, float maxHealth)
+    private void UpdateHealthBar(float current, float recoverable, float max)
     {
-        if (healthBar == null) return;
+        if (max <= 0) return;
 
-        healthBar.fillAmount = currentHealth / maxHealth;
+        if (healthBar != null)
+        {
+            healthBar.fillAmount = current / max;
+        }
 
-        if (currentHealth / maxHealth < 0.2f)
+        if (healthBarRecoverable != null)
+        {
+            healthBarRecoverable.fillAmount = recoverable / max;
+        }
+
+        if (healthBar != null && current / max < 0.15f)
         {
             healthBar.color = lowHealthColor;
         }
-        else
+        else if (healthBar != null)
         {
             healthBar.color = normalHealthColor;
         }
