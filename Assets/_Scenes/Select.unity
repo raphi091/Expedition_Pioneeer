@@ -11643,6 +11643,7 @@ MonoBehaviour:
   slotOptionFirstBtn: {fileID: 2077296710}
   slotDeleteFirstBtn: {fileID: 2026261538}
   CreaftCharacterFirstBtn: {fileID: 248163012}
+  ButtonClip: {fileID: 8300000, guid: 850f67cdafc1c7a4598e511a8c607f54, type: 3}
 --- !u!114 &2017081240
 MonoBehaviour:
   m_ObjectHideFlags: 0

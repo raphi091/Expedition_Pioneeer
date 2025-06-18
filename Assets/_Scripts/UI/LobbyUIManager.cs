@@ -39,6 +39,9 @@ public class LobbyUIManager : MonoBehaviour
     public float bloomDuration = 1f;
     public float startDelay = 0.5f;
 
+    [Header("SFX")]
+    public List<AudioClip> ButtonClips;
+
     [SerializeField] private Volume volume;
     private Bloom bloom;
 
@@ -70,7 +73,7 @@ public class LobbyUIManager : MonoBehaviour
         yield return new WaitForSeconds(startDelay / 2f);
 
         FadeOut(startfade);
-        SoundManager.Instance.PlayMusic(BGMTrackName.Lobby);
+        SoundManager.Instance.PlayBGM(BGMTrackName.Lobby);
 
         yield return new WaitForSeconds(startfade / 2f);
 
@@ -129,6 +132,7 @@ public class LobbyUIManager : MonoBehaviour
     private IEnumerator Startbtn(float duration)
     {
         FadeIn(duration);
+        SoundManager.Instance.PlaySFX(ButtonClips[0]);
 
         yield return new WaitForSeconds(duration);
 
@@ -153,6 +157,8 @@ public class LobbyUIManager : MonoBehaviour
     {
         if (screenPanel.activeSelf) return;
 
+        SoundManager.Instance.PlaySFX(ButtonClips[1]);
+
         screenPanel.SetActive(true);
         soundPanel.SetActive(false);
         mousePanel.SetActive(false);
@@ -163,6 +169,8 @@ public class LobbyUIManager : MonoBehaviour
     public void OnOptionSoundSet()
     {
         if (soundPanel.activeSelf) return;
+
+        SoundManager.Instance.PlaySFX(ButtonClips[1]);
 
         screenPanel.SetActive(false);
         soundPanel.SetActive(true);
@@ -175,6 +183,8 @@ public class LobbyUIManager : MonoBehaviour
     {
         if (mousePanel.activeSelf) return;
 
+        SoundManager.Instance.PlaySFX(ButtonClips[1]);
+
         screenPanel.SetActive(false);
         soundPanel.SetActive(false);
         mousePanel.SetActive(true);
@@ -185,6 +195,8 @@ public class LobbyUIManager : MonoBehaviour
     public void OnOptionManuelSet()
     {
         if (manuelPanel.activeSelf) return;
+
+        SoundManager.Instance.PlaySFX(ButtonClips[1]);
 
         screenPanel.SetActive(false);
         soundPanel.SetActive(false);
@@ -201,6 +213,8 @@ public class LobbyUIManager : MonoBehaviour
     {
         if (keyboardMPanel.activeSelf) return;
 
+        SoundManager.Instance.PlaySFX(ButtonClips[1]);
+
         keyboardMPanel.SetActive(true);
         mouseMPanel.SetActive(false);
         gamepadMPanel.SetActive(false);
@@ -209,6 +223,8 @@ public class LobbyUIManager : MonoBehaviour
     public void OnManuelMouse()
     {
         if (mouseMPanel.activeSelf) return;
+
+        SoundManager.Instance.PlaySFX(ButtonClips[1]);
 
         keyboardMPanel.SetActive(false);
         mouseMPanel.SetActive(true);
@@ -219,6 +235,8 @@ public class LobbyUIManager : MonoBehaviour
     {
         if (gamepadMPanel.activeSelf) return;
 
+        SoundManager.Instance.PlaySFX(ButtonClips[1]);
+
         keyboardMPanel.SetActive(false);
         mouseMPanel.SetActive(false);
         gamepadMPanel.SetActive(true);
@@ -227,6 +245,8 @@ public class LobbyUIManager : MonoBehaviour
     public void OnOptionReset()
     {
         if (resetPanel.activeSelf) return;
+
+        SoundManager.Instance.PlaySFX(ButtonClips[1]);
 
         screenPanel.SetActive(false);
         soundPanel.SetActive(false);
@@ -238,7 +258,7 @@ public class LobbyUIManager : MonoBehaviour
     public void OnExitButton()
     {
         ExitPanel.SetActive(true);
-
+        SoundManager.Instance.PlaySFX(ButtonClips[1]);
         SetSelectedUIElement(exitFirstBtn.gameObject);
     }
 
@@ -250,7 +270,7 @@ public class LobbyUIManager : MonoBehaviour
     public void OnExitNoButton()
     {
         ExitPanel.SetActive(false);
-
+        SoundManager.Instance.PlaySFX(ButtonClips[1]);
         SetSelectedUIElement(lobbyFirstBtn.gameObject);
     }
 
@@ -262,6 +282,7 @@ public class LobbyUIManager : MonoBehaviour
     private IEnumerator GameStart()
     {
         FadeIn(startfade / 2f);
+        SoundManager.Instance.PlaySFX(ButtonClips[1]);
 
         yield return new WaitForSeconds(startfade / 2f);
 
@@ -313,6 +334,8 @@ public class LobbyUIManager : MonoBehaviour
     {
         if (uiPanelStack.Count > 0)
         {
+            SoundManager.Instance.PlaySFX(ButtonClips[1]);
+
             GameObject panelToClose = uiPanelStack.Pop();
             panelToClose.SetActive(false);
             GameObject panelToShow = (uiPanelStack.Count > 0) ? uiPanelStack.Peek() : LobbyPanel;
@@ -333,6 +356,8 @@ public class LobbyUIManager : MonoBehaviour
 
     private IEnumerator AnimateAndSwitchPanels(GameObject panelToHide, GameObject panelToShow)
     {
+        SoundManager.Instance.PlaySFX(ButtonClips[1]);
+
         yield return StartCoroutine(Fade(1f, startfade / 2f));
 
         panelToHide.SetActive(false);

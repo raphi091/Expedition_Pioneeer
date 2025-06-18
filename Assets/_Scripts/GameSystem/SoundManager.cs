@@ -32,10 +32,13 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private AudioMixerGroup bgmMixerGroup;
     [SerializeField] private float crossfadeDuration = 1.5f;
 
+    [Header("SFX")]
+    [SerializeField] private AudioMixerGroup sfxMixerGroup;
+
     private AudioSource bgmA;
     private AudioSource bgmB;
     private bool isPlaying = true;
-    // sprivate AudioSource sfxSource; // 이후 효과음 작업
+    private AudioSource sfxSource;
 
     private Dictionary<BGMTrackName, AudioClip> musicClipDict;
 
@@ -64,10 +67,9 @@ public class SoundManager : MonoBehaviour
         bgmA.playOnAwake = false;
         bgmB.playOnAwake = false;
 
-        // 이후 sfx 작업
-        // sfxSource = gameObject.AddComponent<AudioSource>();
-        // sfxSource.outputAudioMixerGroup = sfxMixerGroup; // (나중에 SFX 믹서 그룹을 만든다면 연결)
-        // sfxSource.playOnAwake = false;
+        sfxSource = gameObject.AddComponent<AudioSource>();
+        sfxSource.outputAudioMixerGroup = sfxMixerGroup;
+        sfxSource.playOnAwake = false;
 
         musicClipDict = new Dictionary<BGMTrackName, AudioClip>();
         foreach (var track in musicTracks)
@@ -76,7 +78,7 @@ public class SoundManager : MonoBehaviour
         }
     }
 
-    public void PlayMusic(BGMTrackName trackName, bool loop = true)
+    public void PlayBGM(BGMTrackName trackName, bool loop = true)
     {
         if (!musicClipDict.ContainsKey(trackName) || musicClipDict[trackName] == null)
         {
@@ -124,9 +126,9 @@ public class SoundManager : MonoBehaviour
         isPlaying = !isPlaying;
     }
 
-    // 이후 sfx 작업
+    
     public void PlaySFX(AudioClip clip)
     {
-        // sfxSource.PlayOneShot(clip);
+        sfxSource.PlayOneShot(clip);
     }
 }

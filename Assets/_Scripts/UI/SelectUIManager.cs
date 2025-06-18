@@ -53,6 +53,9 @@ public class SelectUIManager : MonoBehaviour
     [SerializeField] private Button slotDeleteFirstBtn;
     [SerializeField] private Button CreaftCharacterFirstBtn;
 
+    [Header("SFX")]
+    public AudioClip ButtonClip;
+
     private Stack<GameObject> uiPanelStack = new Stack<GameObject>();
     private LoadingManager loadingManager;
     private CharacterPreview characterPreview;
@@ -129,6 +132,7 @@ public class SelectUIManager : MonoBehaviour
     public IEnumerator ReturnLobby()
     {
         FadeIn(startfade);
+        SoundManager.Instance.PlaySFX(ButtonClip);
 
         yield return new WaitForSeconds(startfade);
 
@@ -239,6 +243,7 @@ public class SelectUIManager : MonoBehaviour
     private IEnumerator StartGame(int slotIndex)
     {
         FadeIn(startfade);
+        SoundManager.Instance.PlaySFX(ButtonClip);
 
         yield return new WaitForSeconds(startfade);
 
@@ -303,6 +308,8 @@ public class SelectUIManager : MonoBehaviour
         }
         else
         {
+            SoundManager.Instance.PlaySFX(ButtonClip);
+
             panelToHide.SetActive(false);
             panelToOpen.SetActive(true);
         }
@@ -350,6 +357,8 @@ public class SelectUIManager : MonoBehaviour
     {
         if (uiPanelStack.Count > 0)
         {
+            SoundManager.Instance.PlaySFX(ButtonClip);
+
             GameObject panelToClose = uiPanelStack.Pop();
             panelToClose.SetActive(false);
             GameObject panelToShow = (uiPanelStack.Count > 0) ? uiPanelStack.Peek() : selectSlotPanel;
@@ -371,6 +380,8 @@ public class SelectUIManager : MonoBehaviour
 
     private IEnumerator AnimateAndSwitchPanels(GameObject panelToHide, GameObject panelToShow)
     {
+        SoundManager.Instance.PlaySFX(ButtonClip);
+        
         yield return StartCoroutine(Fade(1f, startfade / 2f));
 
         panelToHide.SetActive(false);
