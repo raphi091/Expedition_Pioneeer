@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,6 +23,9 @@ public struct PlayerState
 
 public class PlayerControl : MonoBehaviour
 {
+    public event Action<float, float> OnHealthChanged;
+    public event Action<float, float> OnStaminaChanged;
+
     public ActorProfile Profile { get; private set; }
     public WeaponInfo Weapon { get; private set; }
     public PlayerState State;
@@ -32,20 +36,33 @@ public class PlayerControl : MonoBehaviour
     public CharacterController characterController;
     public Animator animator;
     public Transform maincamera;
-    public Transform modelSpawnpoint;
+    public Transform model;
 
     [Header("Controller")]
     public PlayerMoveControl moveControl;
     public PlayerAttackControl attackControl;
 
     [Header("Weapon")]
-    public Transform handSlot;
+    public Transform handSlotR;
+    public Transform handSlotL;
     public Transform backSlot;
-    public Transform waistSlot;
+    public Transform hipSlot;
 
     private RuntimeAnimatorController baseAnimatorController;
     private GameObject currentHandWeaponInstance;
     private GameObject currentSheathWeaponInstance;
+
+    private float currentHealthFloat;
+    private float healthRegenRate;
+    private float healthRegenDelay;
+    private float timeSinceLastDamage;
+
+    private float currentStamina;
+    private float maxStamina;
+    private float staminaRegenRate;
+    private float runStaminaCost;
+    private float dodgeStaminaCost;
+
 
     private void Awake()
     {
@@ -94,18 +111,78 @@ public class PlayerControl : MonoBehaviour
         input.actionInput.Player.Attack.performed -= OnAttack;
     }
 
+    private void Update()
+    {
+        timeSinceLastDamage += Time.deltaTime;
+
+        if (currentHealthFloat < Profile.health && timeSinceLastDamage >= healthRegenDelay)
+        {
+            currentHealthFloat += healthRegenRate * Time.deltaTime;
+            currentHealthFloat = Mathf.Clamp(currentHealthFloat, 0, Profile.health);
+
+            if (State.health != (int)currentHealthFloat)
+            {
+                State.health = Mathf.FloorToInt(currentHealthFloat);
+                OnHealthChanged?.Invoke(State.health, Profile.health);
+            }
+        }
+
+        if (!moveControl.isRunning && !moveControl.isDodging /* && !attackControl.IsAttacking */)
+        {
+            if (currentStamina < maxStamina)
+            {
+                currentStamina += staminaRegenRate * Time.deltaTime;
+                currentStamina = Mathf.Clamp(currentStamina, 0, maxStamina);
+                OnStaminaChanged?.Invoke(currentStamina, maxStamina);
+            }
+        }
+    }
+
     public void SetupCharacter(GameData data, ActorProfile profile)
     {
         Profile = profile;
 
-        Instantiate(Profile.model, modelSpawnpoint);
+        Instantiate(Profile.model, model);
         animator.avatar = Profile.avatar;
         baseAnimatorController = animator.runtimeAnimatorController;
 
         moveControl?.Initialize(this);
         attackControl?.Initialize(this);
 
+        FindAndCacheSlots(model);
+        InitializeState();
         RecalculateStats(data);
+    }
+
+    private void FindAndCacheSlots(Transform modelRoot)
+    {
+        if (modelRoot == null) return;
+
+        handSlotR = modelRoot.FindSlot("WEAPON_HAND_R", "HANDSLOTR");
+        handSlotL = modelRoot.FindSlot("WEAPON_HAND_L", "HANDSLOTL");
+        backSlot = modelRoot.FindSlot("BACK_SLOT", "BACKSLOT");
+        hipSlot = modelRoot.FindSlot("HIP_SLOT", "HIPSLOT");
+    }
+
+    public void InitializeState()
+    {
+        if (Profile != null)
+        {
+            currentHealthFloat = State.health;
+
+            healthRegenRate = Profile.healthRegenRate;
+            healthRegenDelay = Profile.healthRegenDelay;
+
+            State.Set(Profile);
+            maxStamina = Profile.stamina;
+            currentStamina = maxStamina;
+            staminaRegenRate = Profile.staminaRegenRate;
+            runStaminaCost = Profile.runStaminaCost;
+            dodgeStaminaCost = Profile.dodgeStaminaCost;
+
+            OnHealthChanged?.Invoke(State.health, Profile.health);
+            OnStaminaChanged?.Invoke(currentStamina, maxStamina);
+        }
     }
 
     public void RecalculateStats(GameData data)
@@ -120,6 +197,7 @@ public class PlayerControl : MonoBehaviour
         // }
     }
 
+    //-----이동 및 공격
     private void OnMove(InputAction.CallbackContext context)
     {
         moveControl?.Move(context.ReadValue<Vector2>());
@@ -144,9 +222,9 @@ public class PlayerControl : MonoBehaviour
     {
         if (moveControl.isDodging) return;
 
-        if (IsWeaponEquipped) 
+        if (IsWeaponEquipped)
             RequestUnequipWeapon();
-        else 
+        else
             moveControl.Crouch();
     }
 
@@ -156,10 +234,11 @@ public class PlayerControl : MonoBehaviour
 
         if (!IsWeaponEquipped)
             RequestEquipWeapon();
-        else 
+        else
             attackControl.RequestPrimaryAttack();
     }
 
+    //-----무기 관련
     public void RequestEquipWeapon()
     {
         if (IsWeaponEquipped || moveControl.isDodging || moveControl.isCrouched || Weapon == null) return;
@@ -181,7 +260,7 @@ public class PlayerControl : MonoBehaviour
             State.damage = Weapon.Damage;
             State.attackrange = Weapon.AttackRange;
 
-            if (animator != null) 
+            if (animator != null)
                 animator.runtimeAnimatorController = Weapon.animatorOverride ?? baseAnimatorController;
         }
     }
@@ -204,28 +283,70 @@ public class PlayerControl : MonoBehaviour
 
     private void UpdateWeaponVisuals()
     {
-        if (currentHandWeaponInstance != null) 
-            Destroy(currentHandWeaponInstance);
+        if (currentHandWeaponInstance != null) Destroy(currentHandWeaponInstance);
 
-        if (currentSheathWeaponInstance != null) 
-            Destroy(currentSheathWeaponInstance);
+        if (currentSheathWeaponInstance != null) Destroy(currentSheathWeaponInstance);
 
-        if (Weapon == null) return;
+        WeaponInfo weaponData = this.Weapon;
+        if (weaponData == null) return;
 
         if (IsWeaponEquipped)
         {
-            if (Weapon.weaponPrefab != null && handSlot != null)
-                currentHandWeaponInstance = Instantiate(Weapon.weaponPrefab, handSlot);
+            if (weaponData.weaponPrefab != null && handSlotR != null)
+                currentHandWeaponInstance = Instantiate(weaponData.weaponPrefab, handSlotR);
         }
         else
         {
-            if (Weapon.weaponPrefab != null)
+            if (weaponData.weaponPrefab != null)
             {
-                Transform targetSlot = (Weapon.equipPostion == EquipPostion.Waist) ? waistSlot : backSlot;
+                Transform targetSlot = (weaponData.equipPostion == EquipPostion.Hip) ? hipSlot : backSlot;
+
                 if (targetSlot != null)
-                    currentSheathWeaponInstance = Instantiate(Weapon.weaponPrefab, targetSlot);
+                    currentSheathWeaponInstance = Instantiate(weaponData.weaponPrefab, targetSlot);
+                else
+                    Debug.LogWarning($"{weaponData.name}의 Sheath Slot을 찾지 못해 무기 외형을 표시할 수 없습니다.");
             }
         }
+    }
+
+    //-----체력 및 스테미너
+    public void TakeDamage(int damage)
+    {
+        if (State.health <= 0) return;
+
+        State.health -= damage;
+        currentHealthFloat = State.health;
+        State.health = Mathf.Clamp(State.health, 0, Profile.health);
+
+        OnHealthChanged?.Invoke(State.health, Profile.health);
+
+        timeSinceLastDamage = 0f;
+
+        if (State.health <= 0)
+        {
+            Debug.Log("캐릭터 사망");
+        }
+    }
+
+    public bool TryConsumeStamina(float amount)
+    {
+        if (currentStamina >= amount)
+        {
+            currentStamina -= amount;
+            OnStaminaChanged?.Invoke(currentStamina, maxStamina);
+            return true;
+        }
+        return false;
+    }
+
+    public float GetDodgeStaminaCost()
+    {
+        return dodgeStaminaCost;
+    }
+
+    public float GetRunStaminaCostPerSecond()
+    {
+        return runStaminaCost;
     }
 }
 

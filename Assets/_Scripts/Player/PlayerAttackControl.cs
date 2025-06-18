@@ -14,10 +14,11 @@ public class PlayerAttackControl : MonoBehaviour
     public float attackRadius = 0.7f;
     public LayerMask enemyLayerMask;
 
-    public void Initialize(PlayerControl pc)
+
+    public void Initialize(PlayerControl playerControl)
     {
-        this.playerControl = pc;
-        this.animator = pc.animator;
+        this.playerControl = playerControl;
+        this.animator = playerControl.animator;
     }
 
     public void RequestPrimaryAttack()

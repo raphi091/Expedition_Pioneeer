@@ -125,7 +125,7 @@ public class ItemUIManager : MonoBehaviour
         SetSlotData(nextSlot, playerItems[nextIndex], nextSlotPosition, sideSlotScale, sideSlotAlpha);
 
         currentItemName.text = playerItems[currentItemIndex].itemInfo.itemName;
-        currentItemQuantity.text = playerItems[currentItemIndex].quantity.ToString();
+        currentItemQuantity.text = $"{playerItems[currentItemIndex].quantity}";
     }
 
     private void SetSlotData(SlotUI slot, PlayerItem data, Vector2 pos, Vector3 scale, float alpha)

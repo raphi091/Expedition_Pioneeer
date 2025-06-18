@@ -11,6 +11,7 @@ using Cinemachine;
 public class PlayerMoveControl : MonoBehaviour
 {
     [Header("Setting")]
+    private PlayerControl pc;
     private Animator animator;
     private CharacterController cc;
     private Transform maincamera;
@@ -28,10 +29,10 @@ public class PlayerMoveControl : MonoBehaviour
 
     public bool isCrouched = false;
     public bool isDodging = false;
+    public bool isRunning = false;
 
     private Vector2 moveInputRaw;
     private Vector3 velocity;
-    private bool isRunning = false;
     private bool wantsToDodge = false;
 
     private float walkSpeed;
@@ -86,6 +87,7 @@ public class PlayerMoveControl : MonoBehaviour
 
     public void Initialize(PlayerControl playerControl)
     {
+        pc = playerControl;
         cc = playerControl.characterController;
         animator = playerControl.animator;
         maincamera = playerControl.maincamera;
@@ -240,6 +242,23 @@ public class PlayerMoveControl : MonoBehaviour
             }
         }
 
+        if (isRunning && moveInputRaw.magnitude > 0.1f)
+        {
+            if (pc.TryConsumeStamina(pc.GetRunStaminaCostPerSecond() * Time.fixedDeltaTime))
+            {
+                movespeed = runSpeed;
+            }
+            else
+            {
+                isRunning = false;
+                movespeed = walkSpeed;
+            }
+        }
+        else if (moveInputRaw.magnitude > 0.1f)
+        {
+            movespeed = walkSpeed;
+        }
+
         Vector3 moveDir = new Vector3(moveInputRaw.x, 0, moveInputRaw.y);
         Vector3 worldMoveDir = Vector3.zero;
 
@@ -286,6 +305,11 @@ public class PlayerMoveControl : MonoBehaviour
 
     private IEnumerator DodgeCo()
     {
+        if (!pc.TryConsumeStamina(pc.GetDodgeStaminaCost()))
+        {
+            yield break;
+        }
+
         isDodging = true;
         animator.SetTrigger(AnimatorHashSet.DODGE);
 

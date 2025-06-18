@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &184848570103525419
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6694336846090318286}
+  m_Layer: 0
+  m_Name: AttackPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6694336846090318286
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 184848570103525419}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.1, z: 0.35}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7994082840438354056}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &970731476651415903
 GameObject:
   m_ObjectHideFlags: 0
@@ -76,6 +107,7 @@ GameObject:
   - component: {fileID: 8062988942970690486}
   - component: {fileID: 2451801442377688056}
   - component: {fileID: 3817575714091011040}
+  - component: {fileID: 3260580974276175115}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -98,6 +130,7 @@ Transform:
   m_Children:
   - {fileID: 147215788770613968}
   - {fileID: 7514815341826251390}
+  - {fileID: 6694336846090318286}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &9129979802924070756
@@ -171,12 +204,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e018acbc59b891241945409ad4b48dc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Profile: {fileID: 0}
   input: {fileID: 0}
   characterController: {fileID: 0}
   animator: {fileID: 0}
   maincamera: {fileID: 0}
-  modelSpawnpoint: {fileID: 0}
+  model: {fileID: 147215788770613968}
+  moveControl: {fileID: 0}
+  attackControl: {fileID: 0}
+  handSlotR: {fileID: 0}
+  handSlotL: {fileID: 0}
+  backSlot: {fileID: 0}
+  hipSlot: {fileID: 0}
 --- !u!114 &3817575714091011040
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -191,6 +229,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gravity: -9.81
   animationSpeed: 10
+  handWeaponSlot: {fileID: 0}
+  EquipWeaponSlot: {fileID: 0}
+  isCrouched: 0
+  isDodging: 0
+  isRunning: 0
   overallLookAtWeight: 0.55
   bodyLookAtWeight: 0.15
   headLookAtWeight: 0.8
@@ -209,3 +252,20 @@ MonoBehaviour:
   FollowCam: {fileID: 0}
   LockOnCam: {fileID: 0}
   lockCursorOnStart: 1
+--- !u!114 &3260580974276175115
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7338155294091210478}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2c0cc4729ef26f4698e83d068d166e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackPoint: {fileID: 6694336846090318286}
+  attackRadius: 0.7
+  enemyLayerMask:
+    serializedVersion: 2
+    m_Bits: 0

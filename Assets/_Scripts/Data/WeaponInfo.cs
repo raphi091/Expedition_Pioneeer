@@ -6,7 +6,7 @@ using UnityEngine;
 public enum EquipPostion
 {
     Back,
-    Waist
+    Hip
 }
 
 public enum WeaponType 

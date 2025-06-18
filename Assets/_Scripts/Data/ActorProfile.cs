@@ -25,7 +25,14 @@ public class ActorProfile : ScriptableObject
     [Space(15), HorizontalLine(color:FixedColor.CloudWhite, message = "ATTRIBUTES"), HideField] public bool _h2;
 
     [Tooltip("체력")] public int health = 100;
+    [Tooltip("초당 체력 회복량")] public float healthRegenRate = 1f;
+    [Tooltip("피격 후 회복 대기 시간")] public float healthRegenDelay = 4f;
+
+
     [Tooltip("행동력")] public int stamina = 100;
+    [Tooltip("초당 행동력 회복량")] public float staminaRegenRate = 10f;
+    [Tooltip("초당 달리기 행동력")] public float runStaminaCost = 4f;
+    [Tooltip("구르기 1회 행동력")] public float dodgeStaminaCost = 20f;
 
     [Tooltip("초당 걷는 속도 ( sec )")] public float walkspeed = 2.0f;
     [Tooltip("초당 뛰는 속도 ( sec )")] public float runspeed = 5.0f;

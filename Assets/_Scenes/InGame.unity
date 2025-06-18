@@ -41949,19 +41949,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7365729248475241513, guid: 204d91d5fed9c4e40b6b7da6933ee823, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9935183
+      value: 0.99351835
       objectReference: {fileID: 0}
     - target: {fileID: 7365729248475241513, guid: 204d91d5fed9c4e40b6b7da6933ee823, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.11367218
+      value: 0.11367209
       objectReference: {fileID: 0}
     - target: {fileID: 7365729248475241513, guid: 204d91d5fed9c4e40b6b7da6933ee823, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.000000007402289
+      value: -0.000000029609158
       objectReference: {fileID: 0}
     - target: {fileID: 7365729248475241513, guid: 204d91d5fed9c4e40b6b7da6933ee823, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 8.469238e-10
+      value: 0.0000000033876926
       objectReference: {fileID: 0}
     - target: {fileID: 7620433012184015579, guid: 204d91d5fed9c4e40b6b7da6933ee823, type: 3}
       propertyPath: m_LocalPosition.x
@@ -41981,7 +41981,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7620433012184015579, guid: 204d91d5fed9c4e40b6b7da6933ee823, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.113672175
+      value: 0.113672085
       objectReference: {fileID: 0}
     - target: {fileID: 7620433012184015579, guid: 204d91d5fed9c4e40b6b7da6933ee823, type: 3}
       propertyPath: m_LocalRotation.y
@@ -83984,8 +83984,6 @@ MonoBehaviour:
   ProfileID1: SlayerA
   ProfileID2: SlayerB
   player: {fileID: 6402227447786557759}
-  NewGameSpawnPoint: {fileID: 1923390647}
-  LoadGameSpawnPoint: {fileID: 1410266564}
 --- !u!4 &1865367551
 Transform:
   m_ObjectHideFlags: 0
@@ -94100,6 +94098,7 @@ GameObject:
   - component: {fileID: 2097690326}
   - component: {fileID: 2097690328}
   - component: {fileID: 2097690327}
+  - component: {fileID: 2097690329}
   m_Layer: 5
   m_Name: PlayerInfoPanel
   m_TagString: Untagged
@@ -94169,6 +94168,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2097690325}
   m_CullTransparentMesh: 1
+--- !u!114 &2097690329
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2097690325}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b865df17d1f21ef459d4a2c6e7fd77bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthBar: {fileID: 1487184708}
+  staminaBar: {fileID: 138694728}
+  lowHealthColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1001 &2097846432
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -97256,10 +97270,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2451801442377688056, guid: 9f23e14dd201da14da4f4be6b59df4a2, type: 3}
-      propertyPath: modelSpawnpoint
-      value: 
-      objectReference: {fileID: 6402227447786557760}
     - target: {fileID: 3817575714091011040, guid: 9f23e14dd201da14da4f4be6b59df4a2, type: 3}
       propertyPath: FollowCam
       value: 

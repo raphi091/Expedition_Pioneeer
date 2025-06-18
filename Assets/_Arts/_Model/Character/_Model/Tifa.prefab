@@ -1,5 +1,129 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3713331803338288954
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5541793407137079931}
+  m_Layer: 0
+  m_Name: HANDSLOTL
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5541793407137079931
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3713331803338288954}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
+  m_LocalPosition: {x: -0.00025, y: 0.0006, z: 0.00003}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5767271126829171473}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
+--- !u!1 &5992739701301874863
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8660514600661772665}
+  m_Layer: 0
+  m_Name: HANDSLOTR
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8660514600661772665
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5992739701301874863}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
+  m_LocalPosition: {x: 0.00025, y: 0.0006, z: 0.00003}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3727679775666120442}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+--- !u!1 &6595989621108523715
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8747602924528273671}
+  m_Layer: 0
+  m_Name: BACKSLOT
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8747602924528273671
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6595989621108523715}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.100188084, y: 0, z: 0, w: 0.99496853}
+  m_LocalPosition: {x: -0, y: 0.00074, z: -0.00114}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3272245058448329082}
+  m_LocalEulerAnglesHint: {x: 11.5, y: 0, z: 0}
+--- !u!1 &8774978312427221902
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3579565987805949621}
+  m_Layer: 0
+  m_Name: HIPSLOT
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3579565987805949621
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8774978312427221902}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.00171, y: 0, z: -0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7895566486907268428}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &5137323593677436943
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -71,6 +195,38 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 5866666021909216657, guid: 02c2928bc029e5340a002ce0ba3c291c, type: 3}
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 3087744716665935171, guid: 02c2928bc029e5340a002ce0ba3c291c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3579565987805949621}
+    - targetCorrespondingSourceObject: {fileID: 7647720325512655221, guid: 02c2928bc029e5340a002ce0ba3c291c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8747602924528273671}
+    - targetCorrespondingSourceObject: {fileID: -7547463297731822818, guid: 02c2928bc029e5340a002ce0ba3c291c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5541793407137079931}
+    - targetCorrespondingSourceObject: {fileID: 8426254245088255733, guid: 02c2928bc029e5340a002ce0ba3c291c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8660514600661772665}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 02c2928bc029e5340a002ce0ba3c291c, type: 3}
+--- !u!4 &3272245058448329082 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7647720325512655221, guid: 02c2928bc029e5340a002ce0ba3c291c, type: 3}
+  m_PrefabInstance: {fileID: 5137323593677436943}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &3727679775666120442 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8426254245088255733, guid: 02c2928bc029e5340a002ce0ba3c291c, type: 3}
+  m_PrefabInstance: {fileID: 5137323593677436943}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &5767271126829171473 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -7547463297731822818, guid: 02c2928bc029e5340a002ce0ba3c291c, type: 3}
+  m_PrefabInstance: {fileID: 5137323593677436943}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &7895566486907268428 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3087744716665935171, guid: 02c2928bc029e5340a002ce0ba3c291c, type: 3}
+  m_PrefabInstance: {fileID: 5137323593677436943}
+  m_PrefabAsset: {fileID: 0}
