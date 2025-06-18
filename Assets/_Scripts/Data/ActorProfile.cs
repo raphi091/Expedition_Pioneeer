@@ -22,23 +22,10 @@ public class ActorProfile : ScriptableObject
     [Preview(Size.medium)] public GameObject model;
     public Avatar avatar;
 
-
-    // [Space(15), HorizontalLine(color:FixedColor.CloudWhite, message = "ANIMATION"), HideField] public bool _h1;
-
-    // public AnimatorOverrideController animatorOverride;
-    // public List<AnimationClip> ATTACK;
-    // public List<AnimationClip> DAMAGE;
-    // public List<AnimationClip> DEATH;
-
-
     [Space(15), HorizontalLine(color:FixedColor.CloudWhite, message = "ATTRIBUTES"), HideField] public bool _h2;
 
     [Tooltip("체력")] public int health = 100;
     [Tooltip("행동력")] public int stamina = 100;
-
-    [Tooltip("공격력")] public int attackdamage;
-    [Tooltip("초당 공격 속도 ( sec )")] public float attackspeed;
-    [Tooltip("공격 범위")] public float attackrange;
 
     [Tooltip("초당 걷는 속도 ( sec )")] public float walkspeed = 2.0f;
     [Tooltip("초당 뛰는 속도 ( sec )")] public float runspeed = 5.0f;
@@ -49,9 +36,4 @@ public class ActorProfile : ScriptableObject
     [Tooltip("회피 시간")] public float dodgeduration = 0.4f;
 
     [Tooltip("시야 범위")] public float sightrange;
-
-
-    // [Space(15), HorizontalLine(color:FixedColor.CloudWhite, message = "ABILITIES"), HideField] public bool _h3;
-
-    // public List<AbilityData> abilities;
 }

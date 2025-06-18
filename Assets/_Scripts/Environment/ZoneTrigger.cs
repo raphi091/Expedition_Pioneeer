@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class ZoneTrigger : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [Header("Zone")]
+    [SerializeField] private BGMTrackName ZoneName;
 
-    // Update is called once per frame
-    void Update()
+
+    private void OnTriggerEnter(Collider other)
     {
-        
+        if (other.CompareTag("Player"))
+        {
+            SoundManager.Instance.PlayMusic(ZoneName);
+        }
     }
 }

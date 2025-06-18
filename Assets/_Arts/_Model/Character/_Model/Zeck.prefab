@@ -68,7 +68,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Zeck
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5866666021909216657, guid: 4a919e57ec0b79348ab025eeaa74ef2b, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

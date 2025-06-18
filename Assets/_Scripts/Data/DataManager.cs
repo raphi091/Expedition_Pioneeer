@@ -3,13 +3,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+public enum GameStartType
+{
+    NewGame,
+    LoadGame
+}
+
 public class DataManager : MonoBehaviour
 {
     public static DataManager Instance = null;
 
     [Header("PlayerData")]
+    public GameData gameData = null;
     public int currentSlotIndex = -1;
-    public GameData gameData;
+    public GameStartType startType;
 
     [Header("Settiong")]
     public GameSetting setting;

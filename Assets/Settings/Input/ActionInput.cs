@@ -93,6 +93,51 @@ namespace ActionPlayerInput
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""Interaction"",
+                    ""type"": ""Button"",
+                    ""id"": ""aef0bab1-ee80-4a3c-b385-4da4861d682a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Inventory"",
+                    ""type"": ""Button"",
+                    ""id"": ""1e369a4e-7d6d-4381-9ffa-fff30b1c40f0"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ItemScroll"",
+                    ""type"": ""Value"",
+                    ""id"": ""e09b8f12-b27a-4969-8af1-5f629fced610"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""ItemNext"",
+                    ""type"": ""Button"",
+                    ""id"": ""641cbe75-2a7a-4048-b849-fda3067aa37e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ItemPrevious"",
+                    ""type"": ""Button"",
+                    ""id"": ""4388138d-e6e4-4bbc-a980-930b828a4960"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Attack"",
                     ""type"": ""Button"",
                     ""id"": ""30abf6d3-45a7-4461-b42d-413fe8aaca00"",
@@ -111,18 +156,9 @@ namespace ActionPlayerInput
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Inventory"",
+                    ""name"": ""Charge"",
                     ""type"": ""Button"",
-                    ""id"": ""1e369a4e-7d6d-4381-9ffa-fff30b1c40f0"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Interaction"",
-                    ""type"": ""Button"",
-                    ""id"": ""aef0bab1-ee80-4a3c-b385-4da4861d682a"",
+                    ""id"": ""07df3410-92dd-4505-bf59-797936c5afaa"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -232,7 +268,7 @@ namespace ActionPlayerInput
                 {
                     ""name"": """",
                     ""id"": ""9f973413-5e27-4239-acee-38c4a63feeba"",
-                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
@@ -254,7 +290,7 @@ namespace ActionPlayerInput
                 {
                     ""name"": """",
                     ""id"": ""c8fcd86e-dcfd-4f88-8e93-b638cdbf3320"",
-                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
@@ -276,7 +312,7 @@ namespace ActionPlayerInput
                 {
                     ""name"": """",
                     ""id"": ""d59e8224-8edf-4221-bfb9-254e61860a07"",
-                    ""path"": ""<Gamepad>/leftStickPress"",
+                    ""path"": ""<Gamepad>/dpad/down"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
@@ -320,11 +356,99 @@ namespace ActionPlayerInput
                 {
                     ""name"": """",
                     ""id"": ""0976db17-4382-4433-b6a3-8bd2155c1bc5"",
-                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""path"": ""<Gamepad>/dpad/up"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""LockOn"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a06ed41c-bc52-4ceb-bee2-d76d1dd561a3"",
+                    ""path"": ""<Mouse>/scroll"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ItemScroll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6ec25531-a33a-4e17-b296-9e1990e4b5a7"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ItemNext"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d5145679-8f98-4671-864c-eb9fab1d47d5"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ItemPrevious"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0e6027b8-9c35-4923-9428-434d8911cd84"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interaction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""23a32f2c-1a98-4478-90b3-8973a81498db"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interaction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3595419f-55e4-4d8e-9293-cf2b2451c18b"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Inventory"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e116448d-bf15-4fec-bf4b-a74d0364c254"",
+                    ""path"": ""<Keyboard>/#(I)"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Inventory"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5265b96f-ea59-4bcc-83ba-3fc149abe98a"",
+                    ""path"": ""<Gamepad>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Inventory"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -374,56 +498,23 @@ namespace ActionPlayerInput
                 },
                 {
                     ""name"": """",
-                    ""id"": ""3595419f-55e4-4d8e-9293-cf2b2451c18b"",
-                    ""path"": ""<Keyboard>/tab"",
+                    ""id"": ""94c17554-1bf6-41b5-96ad-742dc0dee817"",
+                    ""path"": ""<Keyboard>/c"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Inventory"",
+                    ""action"": ""Charge"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""e116448d-bf15-4fec-bf4b-a74d0364c254"",
-                    ""path"": ""<Keyboard>/#(I)"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Inventory"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""5265b96f-ea59-4bcc-83ba-3fc149abe98a"",
+                    ""id"": ""f1b53af9-7c6c-4c36-8c0b-3a9de4011798"",
                     ""path"": ""<Gamepad>/buttonNorth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Inventory"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""0e6027b8-9c35-4923-9428-434d8911cd84"",
-                    ""path"": ""<Keyboard>/f"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Interaction"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""23a32f2c-1a98-4478-90b3-8973a81498db"",
-                    ""path"": ""<Gamepad>/buttonEast"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Interaction"",
+                    ""action"": ""Charge"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -923,10 +1014,14 @@ namespace ActionPlayerInput
             m_Player_Dodge = m_Player.FindAction("Dodge", throwIfNotFound: true);
             m_Player_Menu = m_Player.FindAction("Menu", throwIfNotFound: true);
             m_Player_LockOn = m_Player.FindAction("LockOn", throwIfNotFound: true);
+            m_Player_Interaction = m_Player.FindAction("Interaction", throwIfNotFound: true);
+            m_Player_Inventory = m_Player.FindAction("Inventory", throwIfNotFound: true);
+            m_Player_ItemScroll = m_Player.FindAction("ItemScroll", throwIfNotFound: true);
+            m_Player_ItemNext = m_Player.FindAction("ItemNext", throwIfNotFound: true);
+            m_Player_ItemPrevious = m_Player.FindAction("ItemPrevious", throwIfNotFound: true);
             m_Player_Attack = m_Player.FindAction("Attack", throwIfNotFound: true);
             m_Player_SecondaryAttack = m_Player.FindAction("SecondaryAttack", throwIfNotFound: true);
-            m_Player_Inventory = m_Player.FindAction("Inventory", throwIfNotFound: true);
-            m_Player_Interaction = m_Player.FindAction("Interaction", throwIfNotFound: true);
+            m_Player_Charge = m_Player.FindAction("Charge", throwIfNotFound: true);
             // Lobby
             m_Lobby = asset.FindActionMap("Lobby", throwIfNotFound: true);
             m_Lobby_Navigate = m_Lobby.FindAction("Navigate", throwIfNotFound: true);
@@ -1004,10 +1099,14 @@ namespace ActionPlayerInput
         private readonly InputAction m_Player_Dodge;
         private readonly InputAction m_Player_Menu;
         private readonly InputAction m_Player_LockOn;
+        private readonly InputAction m_Player_Interaction;
+        private readonly InputAction m_Player_Inventory;
+        private readonly InputAction m_Player_ItemScroll;
+        private readonly InputAction m_Player_ItemNext;
+        private readonly InputAction m_Player_ItemPrevious;
         private readonly InputAction m_Player_Attack;
         private readonly InputAction m_Player_SecondaryAttack;
-        private readonly InputAction m_Player_Inventory;
-        private readonly InputAction m_Player_Interaction;
+        private readonly InputAction m_Player_Charge;
         public struct PlayerActions
         {
             private @ActionInput m_Wrapper;
@@ -1019,10 +1118,14 @@ namespace ActionPlayerInput
             public InputAction @Dodge => m_Wrapper.m_Player_Dodge;
             public InputAction @Menu => m_Wrapper.m_Player_Menu;
             public InputAction @LockOn => m_Wrapper.m_Player_LockOn;
+            public InputAction @Interaction => m_Wrapper.m_Player_Interaction;
+            public InputAction @Inventory => m_Wrapper.m_Player_Inventory;
+            public InputAction @ItemScroll => m_Wrapper.m_Player_ItemScroll;
+            public InputAction @ItemNext => m_Wrapper.m_Player_ItemNext;
+            public InputAction @ItemPrevious => m_Wrapper.m_Player_ItemPrevious;
             public InputAction @Attack => m_Wrapper.m_Player_Attack;
             public InputAction @SecondaryAttack => m_Wrapper.m_Player_SecondaryAttack;
-            public InputAction @Inventory => m_Wrapper.m_Player_Inventory;
-            public InputAction @Interaction => m_Wrapper.m_Player_Interaction;
+            public InputAction @Charge => m_Wrapper.m_Player_Charge;
             public InputActionMap Get() { return m_Wrapper.m_Player; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -1053,18 +1156,30 @@ namespace ActionPlayerInput
                 @LockOn.started += instance.OnLockOn;
                 @LockOn.performed += instance.OnLockOn;
                 @LockOn.canceled += instance.OnLockOn;
+                @Interaction.started += instance.OnInteraction;
+                @Interaction.performed += instance.OnInteraction;
+                @Interaction.canceled += instance.OnInteraction;
+                @Inventory.started += instance.OnInventory;
+                @Inventory.performed += instance.OnInventory;
+                @Inventory.canceled += instance.OnInventory;
+                @ItemScroll.started += instance.OnItemScroll;
+                @ItemScroll.performed += instance.OnItemScroll;
+                @ItemScroll.canceled += instance.OnItemScroll;
+                @ItemNext.started += instance.OnItemNext;
+                @ItemNext.performed += instance.OnItemNext;
+                @ItemNext.canceled += instance.OnItemNext;
+                @ItemPrevious.started += instance.OnItemPrevious;
+                @ItemPrevious.performed += instance.OnItemPrevious;
+                @ItemPrevious.canceled += instance.OnItemPrevious;
                 @Attack.started += instance.OnAttack;
                 @Attack.performed += instance.OnAttack;
                 @Attack.canceled += instance.OnAttack;
                 @SecondaryAttack.started += instance.OnSecondaryAttack;
                 @SecondaryAttack.performed += instance.OnSecondaryAttack;
                 @SecondaryAttack.canceled += instance.OnSecondaryAttack;
-                @Inventory.started += instance.OnInventory;
-                @Inventory.performed += instance.OnInventory;
-                @Inventory.canceled += instance.OnInventory;
-                @Interaction.started += instance.OnInteraction;
-                @Interaction.performed += instance.OnInteraction;
-                @Interaction.canceled += instance.OnInteraction;
+                @Charge.started += instance.OnCharge;
+                @Charge.performed += instance.OnCharge;
+                @Charge.canceled += instance.OnCharge;
             }
 
             private void UnregisterCallbacks(IPlayerActions instance)
@@ -1090,18 +1205,30 @@ namespace ActionPlayerInput
                 @LockOn.started -= instance.OnLockOn;
                 @LockOn.performed -= instance.OnLockOn;
                 @LockOn.canceled -= instance.OnLockOn;
+                @Interaction.started -= instance.OnInteraction;
+                @Interaction.performed -= instance.OnInteraction;
+                @Interaction.canceled -= instance.OnInteraction;
+                @Inventory.started -= instance.OnInventory;
+                @Inventory.performed -= instance.OnInventory;
+                @Inventory.canceled -= instance.OnInventory;
+                @ItemScroll.started -= instance.OnItemScroll;
+                @ItemScroll.performed -= instance.OnItemScroll;
+                @ItemScroll.canceled -= instance.OnItemScroll;
+                @ItemNext.started -= instance.OnItemNext;
+                @ItemNext.performed -= instance.OnItemNext;
+                @ItemNext.canceled -= instance.OnItemNext;
+                @ItemPrevious.started -= instance.OnItemPrevious;
+                @ItemPrevious.performed -= instance.OnItemPrevious;
+                @ItemPrevious.canceled -= instance.OnItemPrevious;
                 @Attack.started -= instance.OnAttack;
                 @Attack.performed -= instance.OnAttack;
                 @Attack.canceled -= instance.OnAttack;
                 @SecondaryAttack.started -= instance.OnSecondaryAttack;
                 @SecondaryAttack.performed -= instance.OnSecondaryAttack;
                 @SecondaryAttack.canceled -= instance.OnSecondaryAttack;
-                @Inventory.started -= instance.OnInventory;
-                @Inventory.performed -= instance.OnInventory;
-                @Inventory.canceled -= instance.OnInventory;
-                @Interaction.started -= instance.OnInteraction;
-                @Interaction.performed -= instance.OnInteraction;
-                @Interaction.canceled -= instance.OnInteraction;
+                @Charge.started -= instance.OnCharge;
+                @Charge.performed -= instance.OnCharge;
+                @Charge.canceled -= instance.OnCharge;
             }
 
             public void RemoveCallbacks(IPlayerActions instance)
@@ -1258,10 +1385,14 @@ namespace ActionPlayerInput
             void OnDodge(InputAction.CallbackContext context);
             void OnMenu(InputAction.CallbackContext context);
             void OnLockOn(InputAction.CallbackContext context);
+            void OnInteraction(InputAction.CallbackContext context);
+            void OnInventory(InputAction.CallbackContext context);
+            void OnItemScroll(InputAction.CallbackContext context);
+            void OnItemNext(InputAction.CallbackContext context);
+            void OnItemPrevious(InputAction.CallbackContext context);
             void OnAttack(InputAction.CallbackContext context);
             void OnSecondaryAttack(InputAction.CallbackContext context);
-            void OnInventory(InputAction.CallbackContext context);
-            void OnInteraction(InputAction.CallbackContext context);
+            void OnCharge(InputAction.CallbackContext context);
         }
         public interface ILobbyActions
         {

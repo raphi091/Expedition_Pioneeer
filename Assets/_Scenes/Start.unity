@@ -917,6 +917,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2123264492}
   - component: {fileID: 2123264493}
+  - component: {fileID: 2123264495}
   - component: {fileID: 2123264494}
   m_Layer: 0
   m_Name: MainManager
@@ -952,7 +953,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75320fc6eb6bd2c4e85f07a0c964679a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentSlotIndex: -1
   gameData:
     playTime: 0
     gold: 0
@@ -963,12 +963,17 @@ MonoBehaviour:
       experience: 0
     inventory: []
     equipmentStash: []
+    playerPosition: {x: 0, y: 0, z: 0}
+    playerRotation: {x: 0, y: 0, z: 0, w: 1}
+  currentSlotIndex: -1
+  startType: 0
   setting:
     resolutionIndex: -1
     fullscreenMode: 1
     masterVolume: 1
-    musicVolume: 1
+    bgmVolume: 1
     sfxVolume: 1
+    mouseSensitivity: 1
 --- !u!114 &2123264494
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -981,6 +986,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 404e9533f00ad33478a8355fc4ec2436, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2123264495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2123264491}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdb87c5ab8e310d4db5a59e78aea7dda, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  allProfiles:
+  - {fileID: 11400000, guid: c36407b318075f54ea36a8e38bdfc87b, type: 2}
+  - {fileID: 11400000, guid: 8f28fd7004006a84fba831c8bd1846cf, type: 2}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

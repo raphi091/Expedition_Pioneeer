@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
+public enum EquipPostion
+{
+    Back,
+    Waist
+}
+
 public enum WeaponType 
 { 
     NONE = 0,
@@ -27,9 +33,15 @@ public class WeaponInfo : ScriptableObject
     public WeaponType weaponType;
     public GameObject weaponPrefab;
 
+    [Header("Animation & Location")]
+    public AnimatorOverrideController animatorOverride;
+    public EquipPostion equipPostion = EquipPostion.Back;
+
     [Header("Stats")]
-    public int baseAttack;
-    public float baseSharpness;
+    public int Damage;
+    public float Sharpness;
+    public float AttackRange;
+    public float AttackSpeed;
 
     [Header("Craft")]
     public bool isCraftable = true;

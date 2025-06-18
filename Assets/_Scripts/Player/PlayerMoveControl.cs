@@ -11,8 +11,6 @@ using Cinemachine;
 public class PlayerMoveControl : MonoBehaviour
 {
     [Header("Setting")]
-    private PlayerControl pc;
-    private InputControl input;
     private Animator animator;
     private CharacterController cc;
     private Transform maincamera;
@@ -21,13 +19,20 @@ public class PlayerMoveControl : MonoBehaviour
     public float gravity = -9.81f;
     public float animationSpeed = 10f;
 
+    [Header("Weapon Settings")]
+    public Transform handWeaponSlot;
+    public Transform EquipWeaponSlot;
+    private GameObject currentHandWeaponInstance;
+    private GameObject currentSheathWeaponInstance;
+    private bool isWeaponEquipped = false;
+
+    public bool isCrouched = false;
+    public bool isDodging = false;
+
     private Vector2 moveInputRaw;
+    private Vector3 velocity;
     private bool isRunning = false;
     private bool wantsToDodge = false;
-
-    private bool isCrouched = false;
-    private Vector3 velocity;
-    private bool isDodging = false;
 
     private float walkSpeed;
     private float runSpeed;
@@ -63,41 +68,11 @@ public class PlayerMoveControl : MonoBehaviour
 
     private void Awake()
     {
-        if (!TryGetComponent(out pc))
-            Debug.LogWarning("PlayerMovementController ] PlayerControl 없음");
-
-        if (!TryGetComponent(out input))
-            Debug.LogWarning("PlayerMovementController ] InputControl 없음");
-
-        if (input.actionInput == null)
-            Debug.Log("1");
-
-        if (!TryGetComponent(out cc))
-            Debug.LogWarning("PlayerMovementController ] CharacterController 없음");
-
-        if (!TryGetComponent(out animator))
-            Debug.LogWarning("PlayerMovementController ] Animator 없음");
-
-        maincamera = Camera.main.transform;
-
-        if (FollowCam == null || LockOnCam == null)
+        if (FollowCam != null && LockOnCam != null)
         {
             FollowCam.Priority = 10;
             LockOnCam.Priority = 5;
             LockOnCam.LookAt = null;
-        }
-
-        if (pc.Profile != null)
-        {
-            PlayerState tempState = pc.State;
-            tempState.Set(pc.Profile);
-            pc.State = tempState;
-
-            LoadStatsFromProfile(pc.Profile);
-        }
-        else
-        {
-            Debug.LogWarning("PlayerMovementController ] PlayerControl ] PlayerState 없음");
         }
     }
 
@@ -107,6 +82,15 @@ public class PlayerMoveControl : MonoBehaviour
         {
             LockCursor();
         }
+    }
+
+    public void Initialize(PlayerControl playerControl)
+    {
+        cc = playerControl.characterController;
+        animator = playerControl.animator;
+        maincamera = playerControl.maincamera;
+
+        LoadStatsFromProfile(playerControl.Profile);
     }
 
     private void LoadStatsFromProfile(ActorProfile profile)
@@ -119,60 +103,18 @@ public class PlayerMoveControl : MonoBehaviour
         dodgeDuration = profile.dodgeduration;
     }
 
-    private void OnEnable()
-    {
-        if (input != null && input.actionInput != null)
-        {
-            input.actionInput.Player.Move.performed += OnMove;
-            input.actionInput.Player.Move.canceled += OnMove;
-            input.actionInput.Player.Run.performed += OnRun;
-            input.actionInput.Player.Run.canceled += OnRunStop;
-            input.actionInput.Player.Crouch.performed += OnCrouch;
-            input.actionInput.Player.Dodge.performed += OnDodge;
-            input.actionInput.Player.LockOn.performed += OnLockOn;
-        }
-    }
-
-    private void OnDisable()
-    {
-        if (input != null && input.actionInput != null)
-        {
-            input.actionInput.Player.Move.performed -= OnMove;
-            input.actionInput.Player.Move.canceled -= OnMove;
-            input.actionInput.Player.Run.performed -= OnRun;
-            input.actionInput.Player.Run.canceled -= OnRunStop;
-            input.actionInput.Player.Crouch.performed -= OnCrouch;
-            input.actionInput.Player.Dodge.performed -= OnDodge;
-            input.actionInput.Player.LockOn.performed -= OnLockOn;
-        }
-    }
-
-    //-----입력 이벤트 핸들러
-    private void OnMove(InputAction.CallbackContext context)
-    {
-        moveInputRaw = context.ReadValue<Vector2>();
-    }
-
-    private void OnRun(InputAction.CallbackContext context)
-    {
-        isRunning = !isRunning;
-    }
-
-    private void OnRunStop(InputAction.CallbackContext context)
-    {
-        isRunning = false;
-    }
-
-    private void OnCrouch(InputAction.CallbackContext context)
+    public void Move(Vector2 input)
     {
         if (isDodging) return;
-
-        isCrouched = !isCrouched;
-        animator.SetBool(AnimatorHashSet.CROUCH, isCrouched);
-        UpdateCC(isCrouched);
+        moveInputRaw = input;
+    }
+    public void Run(bool isPressed)
+    {
+        if (isDodging) return;
+        isRunning = isPressed;
     }
 
-    private void OnDodge(InputAction.CallbackContext context)
+    public void Dodge()
     {
         if (!isDodging)
         {
@@ -180,9 +122,13 @@ public class PlayerMoveControl : MonoBehaviour
         }
     }
 
-    private void OnLockOn(InputAction.CallbackContext context)
+    public void Crouch()
     {
-        ToggleLockOn();
+        if (isDodging) return;
+
+        isCrouched = !isCrouched;
+        animator.SetBool(AnimatorHashSet.CROUCH, isCrouched);
+        UpdateCC(isCrouched);
     }
 
     void Update()
@@ -235,6 +181,8 @@ public class PlayerMoveControl : MonoBehaviour
 
     private void UpdateAnimator()
     {
+        if (animator == null) return;
+
         float movespeed = 0f;
         float magnitude = moveInputRaw.magnitude;
 
@@ -262,6 +210,7 @@ public class PlayerMoveControl : MonoBehaviour
                 movespeed = 0.0f;
             }
         }
+
         float currentmoveanimation = animator.GetFloat(AnimatorHashSet.MOVESPEED);
         float moveanimation = Mathf.Lerp(currentmoveanimation, movespeed, Time.deltaTime * animationSpeed);
         animator.SetFloat(AnimatorHashSet.MOVESPEED, moveanimation);
@@ -312,6 +261,8 @@ public class PlayerMoveControl : MonoBehaviour
 
     private void UpdateGravity()
     {
+        if (cc == null) return;
+
         if (cc.isGrounded && velocity.y < 0)
         {
             velocity.y = -2f;
@@ -362,7 +313,7 @@ public class PlayerMoveControl : MonoBehaviour
         isDodging = false;
     }
 
-    private void ToggleLockOn()
+    public void ToggleLockOn()
     {
         if (isLockedOn)
         {

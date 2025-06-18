@@ -36,6 +36,9 @@ public class GameData
     public List<PlayerItemData> inventory;
     public List<PlayerEquipmentData> equipmentStash;
 
+    public Vector3 playerPosition;
+    public Quaternion playerRotation;
+
     public GameData()
     {
         playTime = 0;
@@ -43,5 +46,8 @@ public class GameData
         characterInfo = new CharacterData { characterName = "새 캐릭터", level = 1 };
         inventory = new List<PlayerItemData>();
         equipmentStash = new List<PlayerEquipmentData>();
+
+        playerPosition = Vector3.zero;
+        playerRotation = Quaternion.identity;
     }
 }

@@ -222,6 +222,7 @@ public class SelectUIManager : MonoBehaviour
         newData.characterInfo.experience = 0;
         newData.gold = 0;
 
+        DataManager.Instance.startType = GameStartType.NewGame;
         DataManager.Instance.gameData = newData;
         DataManager.Instance.currentSlotIndex = selectedSlotForCreation;
         DataManager.Instance.SaveGame();
@@ -231,6 +232,7 @@ public class SelectUIManager : MonoBehaviour
 
     public void OnStartGame()
     {
+        DataManager.Instance.startType = GameStartType.LoadGame;
         StartCoroutine(StartGame(confirmedSlotIndex));
     }
 
