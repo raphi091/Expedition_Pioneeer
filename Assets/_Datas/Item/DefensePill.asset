@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d8961bfd68babe45aa7002510f20858, type: 3}
+  m_Name: DefensePill
+  m_EditorClassIdentifier: 
+  itemType: 1
+  itemID: 5
+  itemName: "\uACBD\uD654\uC57D"
+  itemIcon: {fileID: 21300000, guid: 121916b9c7e0d014a93cf6c549f230f2, type: 3}
+  itemDescription: "\uC7A0\uC2DC\uB3D9\uC548 \uBC29\uC5B4\uB825\uC744 \uC0C1\uC2B9\uC2DC\uD0A4\uB294
+    \uC544\uC774\uD15C"
+  pouchCapacity: 5
+  maxStack: 999

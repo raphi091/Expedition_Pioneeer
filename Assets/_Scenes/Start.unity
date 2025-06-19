@@ -918,6 +918,7 @@ GameObject:
   - component: {fileID: 2123264492}
   - component: {fileID: 2123264493}
   - component: {fileID: 2123264495}
+  - component: {fileID: 2123264496}
   - component: {fileID: 2123264494}
   m_Layer: 0
   m_Name: MainManager
@@ -961,7 +962,11 @@ MonoBehaviour:
       characterName: "\uC0C8 \uCE90\uB9AD\uD130"
       level: 1
       experience: 0
-    inventory: []
+    pouchItems: []
+    stashItems: []
+    currentEquippedWeapon:
+      weaponID: 
+      enhancementLevel: 0
     equipmentStash: []
     playerPosition: {x: 0, y: 0, z: 0}
     playerRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -1001,6 +1006,23 @@ MonoBehaviour:
   allProfiles:
   - {fileID: 11400000, guid: c36407b318075f54ea36a8e38bdfc87b, type: 2}
   - {fileID: 11400000, guid: 8f28fd7004006a84fba831c8bd1846cf, type: 2}
+--- !u!114 &2123264496
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2123264491}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a6db2e199f28dc4f8340508028bfe94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initialEquipment:
+  - {fileID: 11400000, guid: 7d7063449bc6010498172cc36500cceb, type: 2}
+  - {fileID: 11400000, guid: 576450ace6228b04a82064658e6caeb7, type: 2}
+  - {fileID: 11400000, guid: 4943bd25caa6cfe499ce082f6502955e, type: 2}
+  - {fileID: 11400000, guid: c2fc42a276f545047be7a4ee76f13b28, type: 2}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

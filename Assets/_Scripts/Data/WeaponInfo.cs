@@ -1,12 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using CustomInspector;
 
 
 public enum EquipPostion
 {
     Back,
-    Hip
+    Hip,
+    ArmL,
+    HandR,
+    HandL
 }
 
 public enum WeaponType 
@@ -16,6 +20,13 @@ public enum WeaponType
     DualSword, 
     Katana,
     Spear
+}
+
+[System.Serializable]
+public class WeaponPart
+{
+    public GameObject prefab;
+    public EquipPostion equipPoint;
 }
 
 [System.Serializable]
@@ -31,14 +42,16 @@ public class WeaponInfo : ScriptableObject
     public string weaponID;
     public string weaponName;
     public WeaponType weaponType;
-    public GameObject weaponPrefab;
+    [Preview] public Sprite itemIcon;
+    public List<WeaponPart> equippedParts;
+    public List<WeaponPart> sheathedParts;
 
     [Header("Animation & Location")]
     public AnimatorOverrideController animatorOverride;
-    public EquipPostion equipPostion = EquipPostion.Back;
 
     [Header("Stats")]
     public int Damage;
+    public float Critical;
     public float Sharpness;
     public float AttackRange;
     public float AttackSpeed;

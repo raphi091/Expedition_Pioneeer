@@ -18,6 +18,7 @@ public struct PlayerState
     {
         health = profile.health;
         stamina = profile.stamina;
+        damage = profile.damage;
     }
 }
 
@@ -45,8 +46,11 @@ public class PlayerControl : MonoBehaviour
     [Header("Weapon")]
     public Transform handSlotR;
     public Transform handSlotL;
+    public Transform armSlotL;
     public Transform backSlot;
     public Transform hipSlot;
+
+    private List<GameObject> activeWeaponInstances = new List<GameObject>();
 
     private RuntimeAnimatorController baseAnimatorController;
     private GameObject currentHandWeaponInstance;
@@ -104,8 +108,9 @@ public class PlayerControl : MonoBehaviour
             input.actionInput.Player.Dodge.performed += OnDodge;
             input.actionInput.Player.LockOn.performed += OnLockOn;
             input.actionInput.Player.Attack.performed += OnAttack;
-            input.actionInput.Player.SecondaryAttack.performed += OnAttack;
-            input.actionInput.Player.Charge.performed += OnAttack;
+            input.actionInput.Player.SecondaryAttack.performed += OnSecondaryAttack;
+            input.actionInput.Player.ChargeOrGuard.started += OnChargeOrGuard;
+            input.actionInput.Player.ChargeOrGuard.canceled += OnChargeOrGuard;
         }
     }
 
@@ -119,8 +124,9 @@ public class PlayerControl : MonoBehaviour
         input.actionInput.Player.Dodge.performed -= OnDodge;
         input.actionInput.Player.LockOn.performed -= OnLockOn;
         input.actionInput.Player.Attack.performed -= OnAttack;
-        input.actionInput.Player.SecondaryAttack.performed -= OnAttack;
-        input.actionInput.Player.Charge.performed -= OnAttack;
+        input.actionInput.Player.SecondaryAttack.performed -= OnSecondaryAttack;
+        input.actionInput.Player.ChargeOrGuard.started -= OnChargeOrGuard;
+        input.actionInput.Player.ChargeOrGuard.canceled -= OnChargeOrGuard;
     }
 
     private void Update()
@@ -139,7 +145,7 @@ public class PlayerControl : MonoBehaviour
             }
         }
 
-        if (!moveControl.IsRunning && !moveControl.IsDodging /* && !attackControl.IsAttacking */)
+        if (!moveControl.IsRunning && !moveControl.IsDodging && !attackControl.IsAttacking && !attackControl.IsCharging)
         {
             if (currentStamina < maxStamina)
             {
@@ -172,6 +178,7 @@ public class PlayerControl : MonoBehaviour
 
         handSlotR = modelRoot.FindSlot("WEAPON_HAND_R", "HANDSLOTR");
         handSlotL = modelRoot.FindSlot("WEAPON_HAND_L", "HANDSLOTL");
+        armSlotL = modelRoot.FindSlot("WEAPON_ARM_L", "ARMSLOTL");
         backSlot = modelRoot.FindSlot("BACK_SLOT", "BACKSLOT");
         hipSlot = modelRoot.FindSlot("HIP_SLOT", "HIPSLOT");
     }
@@ -213,16 +220,26 @@ public class PlayerControl : MonoBehaviour
     //-----이동 및 공격
     private void OnMove(InputAction.CallbackContext context)
     {
+        if (attackControl.IsAttacking || attackControl.IsCharging)
+        {
+            moveControl?.Move(Vector2.zero);
+            return;
+        }
+
         moveControl?.Move(context.ReadValue<Vector2>());
     }
 
     private void OnRun(InputAction.CallbackContext context)
     {
+        if (attackControl.IsAttacking || attackControl.IsCharging) return;
+
         moveControl?.Run(context.ReadValueAsButton());
     }
 
     private void OnDodge(InputAction.CallbackContext context)
     {
+        if (attackControl.IsAttacking || attackControl.IsCharging) return;
+
         moveControl?.Dodge();
     }
 
@@ -233,33 +250,65 @@ public class PlayerControl : MonoBehaviour
 
     private void OnCrouch(InputAction.CallbackContext context)
     {
-        if (moveControl.IsDodging) return;
+        if (attackControl.IsAttacking || attackControl.IsCharging || moveControl.IsDodging) return;
 
         if (IsWeaponEquipped)
-            RequestUnequipWeapon();
+            UnequipWeapon();
         else
             moveControl.Crouch();
     }
 
     private void OnAttack(InputAction.CallbackContext context)
     {
-        if (moveControl.IsDodging || moveControl.IsCrouched) return;
+        if (attackControl.IsAttacking || attackControl.IsCharging || moveControl.IsDodging || moveControl.IsCrouched) return;
 
-        if (!IsWeaponEquipped)
-            RequestEquipWeapon();
-        else
+        if (IsWeaponEquipped)
             attackControl.RequestPrimaryAttack();
+        else
+            EquipWeapon();
+    }
+
+    private void OnSecondaryAttack(InputAction.CallbackContext context)
+    {
+        if (attackControl.IsAttacking || attackControl.IsCharging || moveControl.IsDodging || moveControl.IsCrouched) return;
+
+        if (IsWeaponEquipped)
+            attackControl.RequestSecondaryAttack();
+        else
+            EquipWeapon();
+    }
+
+    private void OnChargeOrGuard(InputAction.CallbackContext context)
+    {
+        if (attackControl.IsAttacking || moveControl.IsDodging || moveControl.IsCrouched || !IsWeaponEquipped) return;
+
+        if (context.started)
+        {
+            attackControl.RequestChargeOrGuard_Start();
+        }
+        else if (context.canceled)
+        {
+            attackControl.RequestChargeOrGuard_End();
+        }
     }
 
     //-----무기 관련
-    public void RequestEquipWeapon()
+    public void SetWeapon(WeaponInfo newWeapon)
+    {
+        this.Weapon = newWeapon;
+
+        IsWeaponEquipped = false;
+        UpdateWeaponVisuals();
+    }
+
+    public void EquipWeapon()
     {
         if (IsWeaponEquipped || moveControl.IsDodging || moveControl.IsCrouched || Weapon == null) return;
 
         animator.SetBool(AnimatorHashSet.WEAPON, true);
     }
 
-    public void RequestUnequipWeapon()
+    public void UnequipWeapon()
     {
         if (!IsWeaponEquipped || moveControl.IsDodging) return;
 
@@ -296,29 +345,46 @@ public class PlayerControl : MonoBehaviour
 
     private void UpdateWeaponVisuals()
     {
-        if (currentHandWeaponInstance != null) Destroy(currentHandWeaponInstance);
-
-        if (currentSheathWeaponInstance != null) Destroy(currentSheathWeaponInstance);
-
-        WeaponInfo weaponData = this.Weapon;
-        if (weaponData == null) return;
-
-        if (IsWeaponEquipped)
+        foreach (GameObject instance in activeWeaponInstances)
         {
-            if (weaponData.weaponPrefab != null && handSlotR != null)
-                currentHandWeaponInstance = Instantiate(weaponData.weaponPrefab, handSlotR);
+            Destroy(instance);
         }
-        else
-        {
-            if (weaponData.weaponPrefab != null)
-            {
-                Transform targetSlot = (weaponData.equipPostion == EquipPostion.Hip) ? hipSlot : backSlot;
+        activeWeaponInstances.Clear();
 
-                if (targetSlot != null)
-                    currentSheathWeaponInstance = Instantiate(weaponData.weaponPrefab, targetSlot);
-                else
-                    Debug.LogWarning($"{weaponData.name}의 Sheath Slot을 찾지 못해 무기 외형을 표시할 수 없습니다.");
+        if (Weapon == null) return;
+
+        List<WeaponPart> partsToShow = IsWeaponEquipped ? Weapon.equippedParts : Weapon.sheathedParts;
+        if (partsToShow == null) return;
+
+        foreach (WeaponPart part in partsToShow)
+        {
+            if (part.prefab == null) continue;
+
+            Transform targetSlot = GetSlotTransform(part.equipPoint);
+            if (targetSlot != null)
+            {
+                GameObject newInstance = Instantiate(part.prefab, targetSlot);
+                activeWeaponInstances.Add(newInstance);
             }
+            else
+            {
+                Debug.LogWarning($"{part.equipPoint} 슬롯을 찾을 수 없어 {part.prefab.name}을 생성하지 못했습니다.");
+            }
+        }
+
+        animator.runtimeAnimatorController = Weapon.animatorOverride;
+    }
+
+    private Transform GetSlotTransform(EquipPostion equipPoint)
+    {
+        switch (equipPoint)
+        {
+            case EquipPostion.HandR: return handSlotR;
+            case EquipPostion.HandL: return handSlotL;
+            case EquipPostion.ArmL: return armSlotL;
+            case EquipPostion.Back: return backSlot;
+            case EquipPostion.Hip: return hipSlot;
+            default: return null;
         }
     }
 
@@ -339,8 +405,8 @@ public class PlayerControl : MonoBehaviour
         timeSinceLastDamage = 0f;
 
         if (currentHealth <= 0) 
-        { 
-            // 죽음 처리
+        {
+            animator.SetTrigger(AnimatorHashSet.DEATH);
         }
     }
 

@@ -133,6 +133,14 @@ public class DataManager : MonoBehaviour
         }
     }
 
+    public void UpdateEquippedWeapon(PlayerEquipmentData equippedWeapon)
+    {
+        if (gameData != null)
+        {
+            gameData.currentEquippedWeapon = equippedWeapon;
+        }
+    }
+
     //-----설정 관련
     public void SaveSettings()
     {

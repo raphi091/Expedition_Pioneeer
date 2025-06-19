@@ -42,5 +42,7 @@ public class ActorProfile : ScriptableObject
     [Tooltip("회피 거리")] public float dodgedistance = 3f;
     [Tooltip("회피 시간")] public float dodgeduration = 0.4f;
 
+    [Tooltip("기본 공격력")] public int damage = 10;
+
     [Tooltip("시야 범위")] public float sightrange;
 }

@@ -110,7 +110,7 @@ GameObject:
   - component: {fileID: 3260580974276175115}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -146,7 +146,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 6c82f48dc83045f4da2d90813365011d, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
@@ -213,6 +213,7 @@ MonoBehaviour:
   attackControl: {fileID: 0}
   handSlotR: {fileID: 0}
   handSlotL: {fileID: 0}
+  armSlotL: {fileID: 0}
   backSlot: {fileID: 0}
   hipSlot: {fileID: 0}
 --- !u!114 &3817575714091011040
@@ -231,9 +232,6 @@ MonoBehaviour:
   animationSpeed: 10
   handWeaponSlot: {fileID: 0}
   EquipWeaponSlot: {fileID: 0}
-  isCrouched: 0
-  isDodging: 0
-  isRunning: 0
   overallLookAtWeight: 0.55
   bodyLookAtWeight: 0.15
   headLookAtWeight: 0.8
@@ -269,3 +267,9 @@ MonoBehaviour:
   enemyLayerMask:
     serializedVersion: 2
     m_Bits: 0
+  basicComboMaxCount: 4
+  basicComboResetTime: 1.2
+  strongComboMaxCount: 2
+  strongComboResetTime: 1.5
+  chargeLevel2Time: 1.5
+  chargeDamageMultiplierLvl2: 2

@@ -1,5 +1,160 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &204117886053786663
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2790451081191685387}
+  m_Layer: 0
+  m_Name: ARMSLOTL
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2790451081191685387
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 204117886053786663}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.00137, y: 0.00043, z: 0.00017}
+  m_LocalScale: {x: 0.0106383, y: 0.0106383, z: 0.0106383}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 8397734034878296625}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1921608234766143454
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5968137568760451349}
+  m_Layer: 0
+  m_Name: HANDSLOTR
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5968137568760451349
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1921608234766143454}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.00077, y: -0.00024, z: 0.00015}
+  m_LocalScale: {x: 0.0106383, y: 0.0106383, z: 0.0106383}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 3465587263131729820}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2458632523566997804
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6428785126866263710}
+  m_Layer: 0
+  m_Name: HANDSLOTL
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6428785126866263710
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2458632523566997804}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.00077, y: 0.00024, z: -0.00015}
+  m_LocalScale: {x: 0.0106383, y: 0.0106383, z: 0.0106383}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 4729088735775035534}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4537211157123601765
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6056137119934335511}
+  m_Layer: 0
+  m_Name: HIPSLOT
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6056137119934335511
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4537211157123601765}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.00217, y: -0, z: -0}
+  m_LocalScale: {x: 0.010638298, y: 0.010638298, z: 0.010638298}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 6693537202018753640}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7222453915940070989
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3211138629793174315}
+  m_Layer: 0
+  m_Name: BACKSLOT
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3211138629793174315
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7222453915940070989}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.00146, y: 0.0016, z: -0.00001}
+  m_LocalScale: {x: 0.0106383, y: 0.0106383, z: 0.0106383}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 3824218954638454149}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &8033514509253439400
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -71,6 +226,46 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 5866666021909216657, guid: 4a919e57ec0b79348ab025eeaa74ef2b, type: 3}
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: -5505370723368045632, guid: 4a919e57ec0b79348ab025eeaa74ef2b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6056137119934335511}
+    - targetCorrespondingSourceObject: {fileID: -2707054796494011859, guid: 4a919e57ec0b79348ab025eeaa74ef2b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3211138629793174315}
+    - targetCorrespondingSourceObject: {fileID: -7208441673433506407, guid: 4a919e57ec0b79348ab025eeaa74ef2b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2790451081191685387}
+    - targetCorrespondingSourceObject: {fileID: -5846270692196909274, guid: 4a919e57ec0b79348ab025eeaa74ef2b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6428785126866263710}
+    - targetCorrespondingSourceObject: {fileID: -2349476437193732044, guid: 4a919e57ec0b79348ab025eeaa74ef2b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5968137568760451349}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4a919e57ec0b79348ab025eeaa74ef2b, type: 3}
+--- !u!4 &3465587263131729820 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -2349476437193732044, guid: 4a919e57ec0b79348ab025eeaa74ef2b, type: 3}
+  m_PrefabInstance: {fileID: 8033514509253439400}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &3824218954638454149 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -2707054796494011859, guid: 4a919e57ec0b79348ab025eeaa74ef2b, type: 3}
+  m_PrefabInstance: {fileID: 8033514509253439400}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &4729088735775035534 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -5846270692196909274, guid: 4a919e57ec0b79348ab025eeaa74ef2b, type: 3}
+  m_PrefabInstance: {fileID: 8033514509253439400}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &6693537202018753640 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -5505370723368045632, guid: 4a919e57ec0b79348ab025eeaa74ef2b, type: 3}
+  m_PrefabInstance: {fileID: 8033514509253439400}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &8397734034878296625 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -7208441673433506407, guid: 4a919e57ec0b79348ab025eeaa74ef2b, type: 3}
+  m_PrefabInstance: {fileID: 8033514509253439400}
+  m_PrefabAsset: {fileID: 0}

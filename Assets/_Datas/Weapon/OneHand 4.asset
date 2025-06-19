@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 301e1dc1967e1b54eb365442b35b013a, type: 3}
+  m_Name: OneHand 4
+  m_EditorClassIdentifier: 
+  weaponID: 4
+  weaponName: 
+  weaponType: 1
+  itemIcon: {fileID: 21300000, guid: 80640862b132de746b2037a8b14d332a, type: 3}
+  equippedParts:
+  - prefab: {fileID: 0}
+    equipPoint: 3
+  - prefab: {fileID: 0}
+    equipPoint: 2
+  sheathedParts:
+  - prefab: {fileID: 0}
+    equipPoint: 0
+  - prefab: {fileID: 0}
+    equipPoint: 2
+  animatorOverride: {fileID: 22100000, guid: 3315233b629d7994c99b05e408dd435a, type: 2}
+  Damage: 0
+  Sharpness: 0
+  AttackRange: 0
+  AttackSpeed: 0
+  isCraftable: 0
+  craftRecipe: []
+  craftGold: 0
+  requiredPreviousWeapon: {fileID: 0}
+  upgradeRecipe: []
+  upgradeGold: 0

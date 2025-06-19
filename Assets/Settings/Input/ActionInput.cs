@@ -156,9 +156,18 @@ namespace ActionPlayerInput
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Charge"",
+                    ""name"": ""ChargeOrGuard"",
                     ""type"": ""Button"",
                     ""id"": ""07df3410-92dd-4505-bf59-797936c5afaa"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""UseItem"",
+                    ""type"": ""Button"",
+                    ""id"": ""4c85e327-62b5-493a-9d58-e1e4aa30b483"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -503,7 +512,18 @@ namespace ActionPlayerInput
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Charge"",
+                    ""action"": ""ChargeOrGuard"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2e383fdf-9eb5-47d0-95d0-b10a828329b1"",
+                    ""path"": ""<Mouse>/backButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ChargeOrGuard"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -514,7 +534,29 @@ namespace ActionPlayerInput
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Charge"",
+                    ""action"": ""ChargeOrGuard"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d67d31a0-e4f9-4319-9c56-d3ba7a24985f"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UseItem"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3ba8c309-627e-4017-a7ef-665c26298171"",
+                    ""path"": ""<Gamepad>/dpad/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UseItem"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1021,7 +1063,8 @@ namespace ActionPlayerInput
             m_Player_ItemPrevious = m_Player.FindAction("ItemPrevious", throwIfNotFound: true);
             m_Player_Attack = m_Player.FindAction("Attack", throwIfNotFound: true);
             m_Player_SecondaryAttack = m_Player.FindAction("SecondaryAttack", throwIfNotFound: true);
-            m_Player_Charge = m_Player.FindAction("Charge", throwIfNotFound: true);
+            m_Player_ChargeOrGuard = m_Player.FindAction("ChargeOrGuard", throwIfNotFound: true);
+            m_Player_UseItem = m_Player.FindAction("UseItem", throwIfNotFound: true);
             // Lobby
             m_Lobby = asset.FindActionMap("Lobby", throwIfNotFound: true);
             m_Lobby_Navigate = m_Lobby.FindAction("Navigate", throwIfNotFound: true);
@@ -1106,7 +1149,8 @@ namespace ActionPlayerInput
         private readonly InputAction m_Player_ItemPrevious;
         private readonly InputAction m_Player_Attack;
         private readonly InputAction m_Player_SecondaryAttack;
-        private readonly InputAction m_Player_Charge;
+        private readonly InputAction m_Player_ChargeOrGuard;
+        private readonly InputAction m_Player_UseItem;
         public struct PlayerActions
         {
             private @ActionInput m_Wrapper;
@@ -1125,7 +1169,8 @@ namespace ActionPlayerInput
             public InputAction @ItemPrevious => m_Wrapper.m_Player_ItemPrevious;
             public InputAction @Attack => m_Wrapper.m_Player_Attack;
             public InputAction @SecondaryAttack => m_Wrapper.m_Player_SecondaryAttack;
-            public InputAction @Charge => m_Wrapper.m_Player_Charge;
+            public InputAction @ChargeOrGuard => m_Wrapper.m_Player_ChargeOrGuard;
+            public InputAction @UseItem => m_Wrapper.m_Player_UseItem;
             public InputActionMap Get() { return m_Wrapper.m_Player; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -1177,9 +1222,12 @@ namespace ActionPlayerInput
                 @SecondaryAttack.started += instance.OnSecondaryAttack;
                 @SecondaryAttack.performed += instance.OnSecondaryAttack;
                 @SecondaryAttack.canceled += instance.OnSecondaryAttack;
-                @Charge.started += instance.OnCharge;
-                @Charge.performed += instance.OnCharge;
-                @Charge.canceled += instance.OnCharge;
+                @ChargeOrGuard.started += instance.OnChargeOrGuard;
+                @ChargeOrGuard.performed += instance.OnChargeOrGuard;
+                @ChargeOrGuard.canceled += instance.OnChargeOrGuard;
+                @UseItem.started += instance.OnUseItem;
+                @UseItem.performed += instance.OnUseItem;
+                @UseItem.canceled += instance.OnUseItem;
             }
 
             private void UnregisterCallbacks(IPlayerActions instance)
@@ -1226,9 +1274,12 @@ namespace ActionPlayerInput
                 @SecondaryAttack.started -= instance.OnSecondaryAttack;
                 @SecondaryAttack.performed -= instance.OnSecondaryAttack;
                 @SecondaryAttack.canceled -= instance.OnSecondaryAttack;
-                @Charge.started -= instance.OnCharge;
-                @Charge.performed -= instance.OnCharge;
-                @Charge.canceled -= instance.OnCharge;
+                @ChargeOrGuard.started -= instance.OnChargeOrGuard;
+                @ChargeOrGuard.performed -= instance.OnChargeOrGuard;
+                @ChargeOrGuard.canceled -= instance.OnChargeOrGuard;
+                @UseItem.started -= instance.OnUseItem;
+                @UseItem.performed -= instance.OnUseItem;
+                @UseItem.canceled -= instance.OnUseItem;
             }
 
             public void RemoveCallbacks(IPlayerActions instance)
@@ -1392,7 +1443,8 @@ namespace ActionPlayerInput
             void OnItemPrevious(InputAction.CallbackContext context);
             void OnAttack(InputAction.CallbackContext context);
             void OnSecondaryAttack(InputAction.CallbackContext context);
-            void OnCharge(InputAction.CallbackContext context);
+            void OnChargeOrGuard(InputAction.CallbackContext context);
+            void OnUseItem(InputAction.CallbackContext context);
         }
         public interface ILobbyActions
         {

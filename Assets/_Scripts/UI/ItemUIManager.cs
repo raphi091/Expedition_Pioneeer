@@ -42,6 +42,7 @@ public class ItemUIManager : MonoBehaviour
     [SerializeField] private AnimationCurve animationCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
 
     private InputControl input;
+    private ItemDatabase itemDatabase;
     private Vector2 previousSlotPosition;
     private Vector2 currentSlotPosition;
     private Vector2 nextSlotPosition;
@@ -52,6 +53,7 @@ public class ItemUIManager : MonoBehaviour
     private void Awake()
     {
         input = FindObjectOfType<InputControl>();
+        itemDatabase = FindObjectOfType<ItemDatabase>();
     }
 
     private void OnEnable()
@@ -59,6 +61,12 @@ public class ItemUIManager : MonoBehaviour
         input.actionInput.Player.ItemScroll.performed += OnScroll;
         input.actionInput.Player.ItemNext.performed += OnItemNext;
         input.actionInput.Player.ItemPrevious.performed += OnItemPrevious;
+        input.actionInput.Player.UseItem.performed += OnUseItem;
+
+        if (InventoryManager.Instance != null)
+        {
+            InventoryManager.Instance.OnInventoryUpdated += UpdateItemListFromManager;
+        }
     }
 
     private void OnDisable()
@@ -66,6 +74,12 @@ public class ItemUIManager : MonoBehaviour
         input.actionInput.Player.ItemScroll.performed -= OnScroll;
         input.actionInput.Player.ItemNext.performed -= OnItemNext;
         input.actionInput.Player.ItemPrevious.performed -= OnItemPrevious;
+        input.actionInput.Player.UseItem.performed -= OnUseItem;
+
+        if (InventoryManager.Instance != null)
+        {
+            InventoryManager.Instance.OnInventoryUpdated -= UpdateItemListFromManager;
+        }
     }
 
     void Start()
@@ -79,15 +93,16 @@ public class ItemUIManager : MonoBehaviour
         nextSlotPosition = nextSlot.rectTransform.anchoredPosition;
 
         UpdateAllSlots();
+        UpdateItemListFromManager();
     }
 
     private void OnScroll(InputAction.CallbackContext context)
     {
         float scrollValue = context.ReadValue<Vector2>().y;
 
-        if (scrollValue > 0f) 
+        if (scrollValue > 0f)
             SelectPreviousItem();
-        else if (scrollValue < 0f) 
+        else if (scrollValue < 0f)
             SelectNextItem();
     }
 
@@ -99,6 +114,18 @@ public class ItemUIManager : MonoBehaviour
     private void OnItemPrevious(InputAction.CallbackContext context)
     {
         SelectPreviousItem();
+    }
+
+    private void OnUseItem(InputAction.CallbackContext context)
+    {
+        if (isAnimating || playerItems.Count == 0) return;
+
+        PlayerItem currentItem = playerItems[currentItemIndex];
+
+        if (currentItem.quantity > 0)
+        {
+            InventoryManager.Instance.UseItem(currentItem.itemInfo.itemID);
+        }
     }
 
     private void SelectNextItem()
@@ -113,8 +140,41 @@ public class ItemUIManager : MonoBehaviour
         StartCoroutine(AnimateCarousel(1));
     }
 
+    private void UpdateItemListFromManager()
+    {
+        if (InventoryManager.Instance == null || itemDatabase == null) return;
+
+        playerItems.Clear();
+
+        List<ItemInfo> allConsumables = itemDatabase.GetAllConsumableInfos();
+
+        foreach (ItemInfo info in allConsumables)
+        {
+            int quantityInPouch = InventoryManager.Instance.GetPouchItemCount(info.itemID);
+
+            playerItems.Add(new PlayerItem { itemInfo = info, quantity = quantityInPouch });
+        }
+
+        // 정렬 (선택 사항: 원한다면 특정 순서대로 정렬)
+        // playerItems = playerItems.OrderBy(item => item.itemInfo.itemID).ToList();
+        if (currentItemIndex >= playerItems.Count)
+        {
+            currentItemIndex = playerItems.Count > 0 ? playerItems.Count - 1 : 0;
+        }
+
+        UpdateAllSlots();
+    }
+
     private void UpdateAllSlots()
     {
+        bool hasItems = playerItems.Count > 0;
+
+        currentSlot.slot.SetActive(hasItems);
+        previousSlot.slot.SetActive(hasItems && playerItems.Count > 2);
+        nextSlot.slot.SetActive(hasItems && playerItems.Count > 1);
+        currentItemName.gameObject.SetActive(hasItems);
+        currentItemQuantity.gameObject.SetActive(hasItems);
+
         if (playerItems.Count == 0) return;
 
         int prevIndex = (currentItemIndex - 1 + playerItems.Count) % playerItems.Count;
@@ -136,6 +196,8 @@ public class ItemUIManager : MonoBehaviour
             slot.rectTransform.localScale = scale;
             slot.canvasGroup.alpha = alpha;
             slot.itemIcon.sprite = data.itemInfo.itemIcon;
+
+            bool isUsable = data.quantity > 0;
         }
     }
 

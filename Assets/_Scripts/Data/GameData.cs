@@ -33,7 +33,11 @@ public class GameData
     public long gold;
 
     public CharacterData characterInfo;
-    public List<PlayerItemData> inventory;
+
+    public List<PlayerItemData> pouchItems;
+    public List<PlayerItemData> stashItems;
+
+    public PlayerEquipmentData currentEquippedWeapon;
     public List<PlayerEquipmentData> equipmentStash;
 
     public Vector3 playerPosition;
@@ -44,7 +48,11 @@ public class GameData
         playTime = 0;
         gold = 0;
         characterInfo = new CharacterData { characterName = "새 캐릭터", level = 1 };
-        inventory = new List<PlayerItemData>();
+
+        pouchItems = new List<PlayerItemData>();
+        stashItems = new List<PlayerItemData>();
+
+        currentEquippedWeapon = null;
         equipmentStash = new List<PlayerEquipmentData>();
 
         playerPosition = Vector3.zero;

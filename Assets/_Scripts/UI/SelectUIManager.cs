@@ -229,6 +229,9 @@ public class SelectUIManager : MonoBehaviour
         DataManager.Instance.startType = GameStartType.NewGame;
         DataManager.Instance.gameData = newData;
         DataManager.Instance.currentSlotIndex = selectedSlotForCreation;
+
+        InventoryManager.Instance.SetupInitialEquipment();
+
         DataManager.Instance.SaveGame();
 
         StartCoroutine(StartGame(selectedSlotForCreation));

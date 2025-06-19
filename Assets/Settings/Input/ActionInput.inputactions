@@ -132,9 +132,18 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Charge",
+                    "name": "ChargeOrGuard",
                     "type": "Button",
                     "id": "07df3410-92dd-4505-bf59-797936c5afaa",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "UseItem",
+                    "type": "Button",
+                    "id": "4c85e327-62b5-493a-9d58-e1e4aa30b483",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -479,7 +488,18 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Charge",
+                    "action": "ChargeOrGuard",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2e383fdf-9eb5-47d0-95d0-b10a828329b1",
+                    "path": "<Mouse>/backButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ChargeOrGuard",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -490,7 +510,29 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Charge",
+                    "action": "ChargeOrGuard",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d67d31a0-e4f9-4319-9c56-d3ba7a24985f",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "UseItem",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3ba8c309-627e-4017-a7ef-665c26298171",
+                    "path": "<Gamepad>/dpad/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "UseItem",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
