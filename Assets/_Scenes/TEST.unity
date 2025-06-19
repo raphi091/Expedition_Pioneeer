@@ -895,7 +895,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2432767187154471055
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1778,12 +1778,14 @@ MonoBehaviour:
   characterController: {fileID: 0}
   animator: {fileID: 0}
   maincamera: {fileID: 0}
-  modelSpawnpoint: {fileID: 5083778345078550662}
+  model: {fileID: 0}
   moveControl: {fileID: 0}
   attackControl: {fileID: 0}
-  handSlot: {fileID: 0}
+  handSlotR: {fileID: 0}
+  handSlotL: {fileID: 0}
+  armSlotL: {fileID: 0}
   backSlot: {fileID: 0}
-  waistSlot: {fileID: 0}
+  hipSlot: {fileID: 0}
 --- !u!1 &7491767035528906892
 GameObject:
   m_ObjectHideFlags: 0
@@ -1890,8 +1892,6 @@ MonoBehaviour:
   animationSpeed: 10
   handWeaponSlot: {fileID: 0}
   EquipWeaponSlot: {fileID: 0}
-  isCrouched: 0
-  isDodging: 0
   overallLookAtWeight: 0.55
   bodyLookAtWeight: 0.15
   headLookAtWeight: 0.8
@@ -1927,6 +1927,15 @@ MonoBehaviour:
   enemyLayerMask:
     serializedVersion: 2
     m_Bits: 384
+  basicComboMaxCount: 4
+  basicComboResetTime: 1.2
+  strongComboMaxCount: 2
+  strongComboResetTime: 1.5
+  chargeLevel2Time: 1.5
+  chargeDamageMultiplierLvl2: 2
+  chargeStaminaCostLvl1: 10
+  chargeStaminaCostLvl2: 20
+  chargeStaminaDrainPerSecond: 2
 --- !u!114 &8476585768602865121
 MonoBehaviour:
   m_ObjectHideFlags: 3

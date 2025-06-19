@@ -22,8 +22,6 @@ MonoBehaviour:
   - prefab: {fileID: 3581782830687891158, guid: 50873aabaec66c14f93786d9f2cec3fc, type: 3}
     equipPoint: 4
   sheathedParts:
-  - prefab: {fileID: 8769707392653430450, guid: 06657fa715a49d24cb4fe6108c4d7ca0, type: 3}
-    equipPoint: 0
   - prefab: {fileID: 8769707392653430450, guid: 91dbd62fed10c0e47a45e70f8260f83e, type: 3}
     equipPoint: 0
   animatorOverride: {fileID: 22100000, guid: ac42d51e0b6baf5428c5b0ccbcb503f7, type: 2}

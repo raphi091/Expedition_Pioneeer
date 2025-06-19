@@ -50,6 +50,9 @@ public class PlayerControl : MonoBehaviour
     public Transform backSlot;
     public Transform hipSlot;
 
+    [Header("Animation")]
+    public float attackmove = 100f;
+
     private List<GameObject> activeWeaponInstances = new List<GameObject>();
 
     private RuntimeAnimatorController baseAnimatorController;
@@ -220,18 +223,14 @@ public class PlayerControl : MonoBehaviour
     //-----이동 및 공격
     private void OnMove(InputAction.CallbackContext context)
     {
-        if (attackControl.IsAttacking || attackControl.IsCharging)
-        {
-            moveControl?.Move(Vector2.zero);
-            return;
-        }
+        if (attackControl.IsAttacking || attackControl.IsCharging || attackControl.IsGuarding) return;
 
         moveControl?.Move(context.ReadValue<Vector2>());
     }
 
     private void OnRun(InputAction.CallbackContext context)
     {
-        if (attackControl.IsAttacking || attackControl.IsCharging) return;
+        if (attackControl.IsAttacking || attackControl.IsCharging || attackControl.IsGuarding) return;
 
         moveControl?.Run(context.ReadValueAsButton());
     }
@@ -250,7 +249,7 @@ public class PlayerControl : MonoBehaviour
 
     private void OnCrouch(InputAction.CallbackContext context)
     {
-        if (attackControl.IsAttacking || attackControl.IsCharging || moveControl.IsDodging) return;
+        if (attackControl.IsAttacking || attackControl.IsCharging || attackControl.IsGuarding || moveControl.IsDodging) return;
 
         if (IsWeaponEquipped)
             UnequipWeapon();
@@ -260,7 +259,7 @@ public class PlayerControl : MonoBehaviour
 
     private void OnAttack(InputAction.CallbackContext context)
     {
-        if (attackControl.IsAttacking || attackControl.IsCharging || moveControl.IsDodging || moveControl.IsCrouched) return;
+        if (attackControl.IsAttacking || attackControl.IsCharging || attackControl.IsGuarding || moveControl.IsDodging || moveControl.IsCrouched) return;
 
         if (IsWeaponEquipped)
             attackControl.RequestPrimaryAttack();
@@ -270,7 +269,7 @@ public class PlayerControl : MonoBehaviour
 
     private void OnSecondaryAttack(InputAction.CallbackContext context)
     {
-        if (attackControl.IsAttacking || attackControl.IsCharging || moveControl.IsDodging || moveControl.IsCrouched) return;
+        if (attackControl.IsAttacking || attackControl.IsCharging || attackControl.IsGuarding || moveControl.IsDodging || moveControl.IsCrouched) return;
 
         if (IsWeaponEquipped)
             attackControl.RequestSecondaryAttack();

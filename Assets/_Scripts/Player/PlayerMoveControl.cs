@@ -29,6 +29,7 @@ public class PlayerMoveControl : MonoBehaviour
 
     private Vector2 moveInputRaw;
     private Vector3 velocity;
+    private bool isMovementLocked = false;
     private bool isCrouched = false;
     private bool isDodging = false;
     private bool isRunning = false;
@@ -113,6 +114,7 @@ public class PlayerMoveControl : MonoBehaviour
         if (isDodging) return;
         moveInputRaw = input;
     }
+
     public void Run(bool isPressed)
     {
         if (isDodging) return;
@@ -139,6 +141,7 @@ public class PlayerMoveControl : MonoBehaviour
     void Update()
     {
         UpdateAnimator();
+        UpdateGravity();
 
         if (isLockedOn)
             MaintainLockOn();
@@ -156,8 +159,9 @@ public class PlayerMoveControl : MonoBehaviour
         }
 
         MovementAndRotate();
-        UpdateGravity();
-        cc.Move(velocity * Time.fixedDeltaTime);
+        
+        if (!pc.attackControl.IsAttacking)
+            cc.Move(velocity * Time.fixedDeltaTime);
     }
 
     public void CursorLockState()
@@ -223,6 +227,13 @@ public class PlayerMoveControl : MonoBehaviour
 
     private void MovementAndRotate()
     {
+        if (pc.attackControl.IsAttacking || pc.attackControl.IsCharging || pc.attackControl.IsGuarding || isMovementLocked)
+        {
+            velocity.x = 0f;
+            velocity.z = 0f;
+            return;
+        }
+
         if (isDodging) return;
 
         float movespeed = 0f;
@@ -441,5 +452,28 @@ public class PlayerMoveControl : MonoBehaviour
             Vector3 lookAtTargetPosition = maincamera.position + maincamera.forward * lookAtTargetDistance;
             animator.SetLookAtPosition(lookAtTargetPosition);
         }
+    }
+
+    private void OnAnimatorMove()
+    {
+        if (animator == null || cc == null) return;
+
+        if (pc.attackControl.IsAttacking)
+        {
+            Vector3 move = animator.deltaPosition * pc.attackmove;
+            move.y = velocity.y * Time.deltaTime;
+
+            cc.Move(move);
+        }
+    }
+
+    public void AnimationEvent_LockMovement()
+    {
+        isMovementLocked = true;
+    }
+
+    public void AnimationEvent_UnlockMovement()
+    {
+        isMovementLocked = false;
     }
 }

@@ -83,32 +83,37 @@ public class PlayerAttackControl : MonoBehaviour
 
     public void RequestPrimaryAttack()
     {
-        if (basicComboCounter == 0 && isAttacking) return;
-        if (isGuarding || isCharging) return;
+        if (isGuarding || isCharging || isAttacking) return;
 
-        if (Time.time - lastBasicAttackTime > basicComboResetTime) basicComboCounter = 1;
-        else basicComboCounter++;
+        if (Time.time - lastBasicAttackTime > basicComboResetTime) 
+            basicComboCounter = 1;
+        else 
+            basicComboCounter++;
 
-        if (basicComboCounter > basicComboMaxCount) basicComboCounter = 1;
+        if (basicComboCounter > basicComboMaxCount) 
+            basicComboCounter = 1;
 
         lastBasicAttackTime = Time.time;
         lastAttackDamageMultiplier = 1f;
+
         animator.SetInteger(AnimatorHashSet.ATTACK_COMBO, basicComboCounter);
         animator.SetTrigger(AnimatorHashSet.ATTACK);
     }
 
     public void RequestSecondaryAttack()
     {
-        if (strongComboCounter == 0 && isAttacking) return;
-        if (isGuarding || isCharging) return;
+        if (isGuarding || isCharging || isAttacking) return;
 
-        if (Time.time - lastStrongAttackTime > strongComboResetTime) strongComboCounter = 1;
-        else strongComboCounter++;
+        if (Time.time - lastStrongAttackTime > strongComboResetTime) 
+            strongComboCounter = 1;
+        else 
+            strongComboCounter++;
 
         if (strongComboCounter > strongComboMaxCount) strongComboCounter = 1;
 
         lastStrongAttackTime = Time.time;
         lastAttackDamageMultiplier = 1.5f; 
+
         animator.SetInteger(AnimatorHashSet.SECONDARYATTACK_COMBO, strongComboCounter);
         animator.SetTrigger(AnimatorHashSet.SECONDARYATTACK);
     }

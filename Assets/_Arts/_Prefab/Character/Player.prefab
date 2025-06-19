@@ -146,7 +146,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 6c82f48dc83045f4da2d90813365011d, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
@@ -216,6 +216,7 @@ MonoBehaviour:
   armSlotL: {fileID: 0}
   backSlot: {fileID: 0}
   hipSlot: {fileID: 0}
+  attackmove: 75
 --- !u!114 &3817575714091011040
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -273,3 +274,6 @@ MonoBehaviour:
   strongComboResetTime: 1.5
   chargeLevel2Time: 1.5
   chargeDamageMultiplierLvl2: 2
+  chargeStaminaCostLvl1: 10
+  chargeStaminaCostLvl2: 20
+  chargeStaminaDrainPerSecond: 2

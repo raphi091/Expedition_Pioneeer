@@ -63298,14 +63298,14 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.7
+  - time: 0.71666664
     functionName: AnimationEvent_PerformHitCheck()
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 1.4
+  - time: 0.81666666
     functionName: AnimationEvent_AttackEnded()
     data: 
     objectReferenceParameter: {fileID: 0}
