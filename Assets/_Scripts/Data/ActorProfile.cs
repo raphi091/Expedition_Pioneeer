@@ -7,7 +7,8 @@ public enum ActorType
 { 
     NONE = 0, 
     PLAYER, 
-    ENEMY, 
+    ENEMY,
+    BOSS,
     NPC 
 }
 
