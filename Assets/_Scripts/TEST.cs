@@ -15,10 +15,18 @@ public class TEST : MonoBehaviour
             Debug.LogWarning("1");
     }
 
-    private IEnumerator Start()
+    private void Update()
     {
-        yield return new WaitForSeconds(3f);
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+            pc.SetWeapon(id.allWeapons[0]);
 
-        pc.SetWeapon(id.allWeapons[4]);
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+            pc.SetWeapon(id.allWeapons[4]);
+
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+            pc.SetWeapon(id.allWeapons[8]);
+
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+            pc.SetWeapon(id.allWeapons[12]);
     }
 }

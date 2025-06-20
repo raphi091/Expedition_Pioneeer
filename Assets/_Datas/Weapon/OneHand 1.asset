@@ -17,17 +17,18 @@ MonoBehaviour:
   weaponType: 1
   itemIcon: {fileID: 21300000, guid: a454bf54bd189d44fb1ce8ce921441f3, type: 3}
   equippedParts:
-  - prefab: {fileID: 0}
+  - prefab: {fileID: 3581782830687891158, guid: 1eab74e0090270a4ea2d78ad998f1ddb, type: 3}
     equipPoint: 3
-  - prefab: {fileID: 0}
+  - prefab: {fileID: 3581782830687891158, guid: 08a4d30924b14de44a2f0747358a62d9, type: 3}
     equipPoint: 2
   sheathedParts:
-  - prefab: {fileID: 0}
-    equipPoint: 0
-  - prefab: {fileID: 0}
+  - prefab: {fileID: 3581782830687891158, guid: a311a48d4ff40be4f9af92dde47b15a1, type: 3}
+    equipPoint: 1
+  - prefab: {fileID: 3581782830687891158, guid: 08a4d30924b14de44a2f0747358a62d9, type: 3}
     equipPoint: 2
   animatorOverride: {fileID: 22100000, guid: 3315233b629d7994c99b05e408dd435a, type: 2}
   Damage: 0
+  Critical: 0
   Sharpness: 0
   AttackRange: 0
   AttackSpeed: 0

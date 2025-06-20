@@ -294,6 +294,8 @@ public class PlayerControl : MonoBehaviour
     //-----무기 관련
     public void SetWeapon(WeaponInfo newWeapon)
     {
+        if (IsWeaponEquipped) return;
+
         this.Weapon = newWeapon;
 
         IsWeaponEquipped = false;

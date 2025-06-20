@@ -34186,21 +34186,21 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0
-    functionName: AnimationEvent_AttackStarted()
+    functionName: AnimationEvent_AttackStarted
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 0.28333333
-    functionName: AnimationEvent_PerformHitCheck()
+    functionName: AnimationEvent_PerformHitCheck
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 0.51666665
-    functionName: AnimationEvent_AttackEnded()
+    functionName: AnimationEvent_AttackEnded
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
