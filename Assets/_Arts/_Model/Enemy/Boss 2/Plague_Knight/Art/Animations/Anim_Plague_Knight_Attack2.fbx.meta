@@ -15,26 +15,11 @@ ModelImporter:
     resampleCurves: 1
     optimizeGameObjects: 0
     removeConstantScaleCurves: 0
-    motionNodeName: <Root Transform>
+    motionNodeName: 
     rigImportErrors: 
-    rigImportWarnings: "Copied Avatar Rig Configuration mis-match. Bone length in
-      copied configuration does not match position in animation file:\n\t'clavicle_l'
-      : position error = 57.994522 mm\n\t'upperarm_l' : position error = 57.994530
-      mm\n\t'clavicle_r' : position error = 57.705616 mm\n\t'upperarm_r' : position
-      error = 57.723885 mm\nCopied Avatar Rig Configuration mis-match. Inbetween
-      bone rotation in copied configuration does not match rotation in animation
-      file:\n\t'spine_02' : rotation error = 5.496460 deg\n\t'spine_04' : rotation
-      error = 2.883591 deg\n\t'middle_metacarpal_l' : rotation error = 2.131451 deg\n\t'ring_metacarpal_l'
-      : rotation error = 9.830073 deg\n\t'pinky_metacarpal_l' : rotation error =
-      17.706345 deg\n\t'pinky_metacarpal_r' : rotation error = 17.626081 deg\n\t'ring_metacarpal_r'
-      : rotation error = 9.775774 deg\n\t'middle_metacarpal_r' : rotation error =
-      2.218608 deg\n"
+    rigImportWarnings: 
     animationImportErrors: 
-    animationImportWarnings: "\nClip 'Take 001' has import animation warnings that
-      might lower retargeting quality:\nNote: Activate translation DOF on avatar
-      to improve retargeting quality.\n\t'spine_02' is inbetween humanoid transforms
-      and has rotation animation that will be discarded.\n\t'spine_04' is inbetween
-      humanoid transforms and has rotation animation that will be discarded.\n"
+    animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
@@ -61,8 +46,8 @@ ModelImporter:
       hasAdditiveReferencePose: 0
       loopTime: 0
       loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
       loopBlendPositionXZ: 0
       keepOriginalOrientation: 0
       keepOriginalPositionY: 1

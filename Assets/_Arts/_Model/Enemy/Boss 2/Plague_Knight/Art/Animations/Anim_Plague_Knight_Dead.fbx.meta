@@ -15,14 +15,9 @@ ModelImporter:
     resampleCurves: 1
     optimizeGameObjects: 0
     removeConstantScaleCurves: 0
-    motionNodeName: <Root Transform>
+    motionNodeName: 
     rigImportErrors: 
-    rigImportWarnings: "Copied Avatar Rig Configuration mis-match. Inbetween bone
-      rotation in copied configuration does not match rotation in animation file:\n\t'pinky_metacarpal_r'
-      : rotation error = 17.626083 deg\n\t'ring_metacarpal_r' : rotation error =
-      9.775771 deg\n\t'middle_metacarpal_r' : rotation error = 2.218608 deg\n\t'middle_metacarpal_l'
-      : rotation error = 2.131451 deg\n\t'ring_metacarpal_l' : rotation error = 9.830076
-      deg\n\t'pinky_metacarpal_l' : rotation error = 17.706352 deg\n"
+    rigImportWarnings: 
     animationImportErrors: 
     animationImportWarnings: 
     animationRetargetingWarnings: 
@@ -51,9 +46,9 @@ ModelImporter:
       hasAdditiveReferencePose: 0
       loopTime: 0
       loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 1
       keepOriginalOrientation: 0
       keepOriginalPositionY: 1
       keepOriginalPositionXZ: 0

@@ -22,10 +22,6 @@ public class PlayerMoveControl : MonoBehaviour
     [Header("Weapon Settings")]
     public Transform handWeaponSlot;
     public Transform EquipWeaponSlot;
-    private GameObject currentHandWeaponInstance;
-    private GameObject currentSheathWeaponInstance;
-    private bool isWeaponEquipped = false;
-
 
     private Vector2 moveInputRaw;
     private Vector3 velocity;

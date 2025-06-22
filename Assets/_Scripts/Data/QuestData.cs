@@ -10,6 +10,7 @@ public class QuestData : ScriptableObject
     [TextArea] public string description;
 
     [Header("목표")]
+    public BossData targetBossProfile;
     public GameObject targetBossPrefab;
 
     [Header("시간 제한")]

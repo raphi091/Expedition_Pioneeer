@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class BossEcologyManager : MonoBehaviour
 {
@@ -20,17 +21,27 @@ public class BossEcologyManager : MonoBehaviour
     [Tooltip("보스가 교체되기까지 걸리는 시간 (분 단위)")]
     public float rotationTimeInMinutes = 15f;
 
-    private List<GameObject> activeBossInstances = new List<GameObject>();
     private GameObject questBossInstance;
     private Coroutine bossRotationCoroutine;
     private bool isQuestMode = false;
 
+    private Dictionary<GameObject, GameObject> activeBosses = new Dictionary<GameObject, GameObject>();
+
 
     private void Start()
+    {
+        InitializeFieldEcology();
+    }
+
+    private void InitializeFieldEcology()
     {
         if (!isQuestMode)
         {
             SpawnInitialBosses();
+
+            if (bossRotationCoroutine != null)
+                StopCoroutine(bossRotationCoroutine);
+
             bossRotationCoroutine = StartCoroutine(BossRotationCoroutine());
         }
     }
@@ -48,8 +59,19 @@ public class BossEcologyManager : MonoBehaviour
             GameObject bossPrefab = spawnPool[i];
             Transform spawnPoint = availableSpawnPoints[i];
 
-            GameObject spawnedBoss = Instantiate(bossPrefab, spawnPoint.position, spawnPoint.rotation);
-            activeBossInstances.Add(spawnedBoss);
+            Vector3 spawnPosition = spawnPoint.position;
+
+            if (NavMesh.SamplePosition(spawnPosition, out NavMeshHit hit, 5.0f, NavMesh.AllAreas))
+            {
+                spawnPosition = hit.position;
+            }
+            else
+            {
+                continue;
+            }
+
+            GameObject spawnedBoss = Instantiate(bossPrefab, spawnPosition, spawnPoint.rotation);
+            activeBosses.Add(spawnedBoss, bossPrefab);
         }
     }
 
@@ -60,26 +82,26 @@ public class BossEcologyManager : MonoBehaviour
             float waitTimeInSeconds = rotationTimeInMinutes * 60;
             yield return new WaitForSeconds(waitTimeInSeconds);
 
-            if (activeBossInstances.Count == 0 || allBossPrefabs.Length <= activeBossInstances.Count)
+            if (activeBosses.Count == 0 || allBossPrefabs.Length <= activeBosses.Count)
             {
                 continue;
             }
 
-            int bossToRemoveIndex = Random.Range(0, activeBossInstances.Count);
-            GameObject bossToRemove = activeBossInstances[bossToRemoveIndex];
+            List<GameObject> bossInstances = activeBosses.Keys.ToList();
+            GameObject bossToRemove = bossInstances[Random.Range(0, bossInstances.Count)];
             Vector3 oldBossPosition = bossToRemove.transform.position;
 
             // 보스가 필드를 떠나는 애니메이션 작업
-            activeBossInstances.RemoveAt(bossToRemoveIndex);
+            activeBosses.Remove(bossToRemove);
             Destroy(bossToRemove, 5f);
 
-            List<GameObject> availableNewBosses = allBossPrefabs.Where(p => !activeBossInstances.Any(b => b.name.StartsWith(p.name))).ToList();
+            List<GameObject> availableNewBosses = allBossPrefabs.Except(activeBosses.Values).ToList();
             if (availableNewBosses.Count > 0)
             {
                 GameObject newBossPrefab = availableNewBosses[Random.Range(0, availableNewBosses.Count)];
 
                 GameObject spawnedBoss = Instantiate(newBossPrefab, oldBossPosition, Quaternion.identity);
-                activeBossInstances.Add(spawnedBoss);
+                activeBosses.Add(spawnedBoss, newBossPrefab);
             }
         }
     }
@@ -94,14 +116,14 @@ public class BossEcologyManager : MonoBehaviour
             StopCoroutine(bossRotationCoroutine);
         }
 
-        foreach (var boss in activeBossInstances)
+        foreach (var boss in activeBosses.Keys)
         {
             Destroy(boss);
         }
 
-        activeBossInstances.Clear();
+        activeBosses.Clear();
 
-        Transform spawnPoint = spawnPoints[0]; // 퀘스트용 스폰 위치를 따로 지정하는 것이 좋음
+        Transform spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
         questBossInstance = Instantiate(bossPrefab, spawnPoint.position, spawnPoint.rotation);
 
         if (duration > 0)
@@ -134,6 +156,6 @@ public class BossEcologyManager : MonoBehaviour
 
         isQuestMode = false;
 
-        Start();
+        InitializeFieldEcology();
     }
 }

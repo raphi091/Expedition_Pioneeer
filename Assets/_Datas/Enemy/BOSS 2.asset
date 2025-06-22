@@ -9,29 +9,55 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b67faf71e9370a489df158459b32e9c, type: 3}
-  m_Name: BOSS 2
+  m_Script: {fileID: 11500000, guid: 46dd8939edc7bfd49862e67ae5db3cad, type: 3}
+  m_Name: Boss 2
   m_EditorClassIdentifier: 
-  _T0: 0
-  _h0: 0
-  actorType: 3
-  alias: BOSS2
-  model: {fileID: 1363052984951368101, guid: 300cb74597157ca4bb59f33de0dac577, type: 3}
-  avatar: {fileID: 9000000, guid: 3322f128edc13ab4ca0a005bf08f590d, type: 3}
-  _h2: 0
-  health: 4000
-  healthRegenRate: 0.4
-  healthRegenDelay: 10
-  recoverableDamageRatio: 0.4
-  stamina: 200
-  staminaRegenRate: 7
-  runStaminaCost: 4
-  dodgeStaminaCost: 10
-  walkspeed: 2
-  runspeed: 5
-  crouchwalkspeed: 1
-  rotatespeed: 10
-  dodgedistance: 3
-  dodgeduration: 0.4
-  damage: 10
-  sightrange: 0
+  bossID: 2
+  bossName: "\uC0C8\uB85C\uC6B4 \uBCF4\uC2A4"
+  bossIcon: {fileID: 0}
+  bossPrefab: {fileID: 11240123882449939, guid: 47d7f22699cf92b4287d91676dbcf15d, type: 3}
+  maxHealth: 1000
+  staggerThreshold: 30
+  walkSpeed: 2
+  runSpeed: 5
+  patrolRadius: 20
+  detectionRadius: 25
+  sprintDistance: 10
+  engagementDistance: 5
+  maxChaseDistance: 40
+  attacks:
+  - animationName: Attack1
+    animationClip: {fileID: 1827226128182048838, guid: e9551edf829abbf48af51fdfadf3e034, type: 3}
+    damage: 17.5
+    moveDistance: 3.35409
+    minRange: 2
+    maxRange: 4
+    cooldown: 4.5
+  - animationName: Attack2
+    animationClip: {fileID: 1827226128182048838, guid: a356f75c8eea81d48aba4df7406ae5f6, type: 3}
+    damage: 27.5
+    moveDistance: 5.030854
+    minRange: 3
+    maxRange: 6
+    cooldown: 7
+  - animationName: Attack3
+    animationClip: {fileID: 1827226128182048838, guid: 37be785333c57944c8f5c2bd747c7b21, type: 3}
+    damage: 11
+    moveDistance: 2.560556
+    minRange: 0
+    maxRange: 3
+    cooldown: 2.5
+  - animationName: Attack4
+    animationClip: {fileID: 1827226128182048838, guid: d3255a58d063c3145a2a5c7fa0ad5bde, type: 3}
+    damage: 11
+    moveDistance: 2.490166
+    minRange: 0
+    maxRange: 3
+    cooldown: 2.5
+  - animationName: Attack5
+    animationClip: {fileID: 1827226128182048838, guid: c2dff584b7c3f314dae4c27d91f78603, type: 3}
+    damage: 45
+    moveDistance: 15.17912
+    minRange: 12
+    maxRange: 16
+    cooldown: 12
