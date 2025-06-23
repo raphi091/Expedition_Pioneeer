@@ -12,6 +12,7 @@ public class BossData : ScriptableObject
     [Preview] public Sprite bossIcon;
     [Preview] public GameObject bossPrefab;
     [Tooltip("최대 체력")] public float maxHealth = 10000f;
+    [Tooltip("페이즈 변경하는데 걸리는 시간")] public float phase2Duration = 1.5f;
 
     [Header("Movement")]
     [Tooltip("걷기 속도")] public float walkSpeed = 2f;

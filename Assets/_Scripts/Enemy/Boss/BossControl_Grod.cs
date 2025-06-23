@@ -90,9 +90,6 @@ public class BossControl_Grod : MonoBehaviour
         }
 
         animator.SetFloat("MoveSpeed", agent.velocity.magnitude);
-
-        if (currentPhase == 2)
-            EnterState(State.BattleCry);
     }
 
     private void OnAnimatorMove()

@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class BossControl_KorAndGar : MonoBehaviour
 {
-    public enum State { Setup, Idle, Praying, BattleCry, Chasing, Preparing, Attacking, Broken, Dead }
+    public enum State { Setup, Idle, Chasing, Pause, Attacking, Phase2, Broken, Dead }
     [Header("AI 상태")]
     [SerializeField] private State currentState;
 
@@ -14,11 +14,12 @@ public class BossControl_KorAndGar : MonoBehaviour
 
     public float rotationSpeed = 10f;
 
-    public AnimationClip prayClip;
-    public AnimationClip roarClip;
-    public AnimationClip lookAroundClip;
-    public AnimationClip ReadytoAttackClip;
-    public AnimationClip breakClip;
+    public AnimationClip[] idleClip;
+
+    [Header("공격 부위 참조")]
+    public WeaponDamage Weapon;
+    public WeaponDamage Hand;
+    public WeaponDamage Foot;
 
     private NavMeshAgent agent;
     private CharacterController controller;
@@ -72,8 +73,7 @@ public class BossControl_KorAndGar : MonoBehaviour
         agent.updateRotation = false;
 
         stats.OnDeath += () => EnterState(State.Dead);
-        stats.OnDamaged += HandleDamage;
-        stats.OnPhaseTransition += () => EnterState(State.BattleCry);
+        stats.OnPhaseTransition += () => EnterState(State.Phase2);
         stats.OnStanceBroken += (id) => EnterState(State.Broken);
 
         EnterState(State.Setup);
@@ -90,9 +90,6 @@ public class BossControl_KorAndGar : MonoBehaviour
         }
 
         animator.SetFloat("MoveSpeed", agent.velocity.magnitude);
-
-        if (currentPhase == 2)
-            EnterState(State.BattleCry);
     }
 
     private void OnAnimatorMove()
@@ -147,21 +144,18 @@ public class BossControl_KorAndGar : MonoBehaviour
             case State.Idle:
                 currentStateCoroutine = StartCoroutine(Idle_co());
                 break;
-            case State.Praying:
-                currentStateCoroutine = StartCoroutine(Pray_co());
-                break;
-            case State.BattleCry:
-                currentStateCoroutine = StartCoroutine(StartBattle_co());
-                break;
             case State.Chasing:
                 currentStateCoroutine = StartCoroutine(Chasing_co());
-                break;
-            case State.Preparing:
-                currentStateCoroutine = StartCoroutine(Preparing_co());
                 break;
             case State.Attacking:
                 currentStateCoroutine = StartCoroutine(Attack_co());
                 break; ;
+            case State.Pause:
+                currentStateCoroutine = StartCoroutine(Pause_co());
+                break;
+            case State.Phase2:
+                currentStateCoroutine = StartCoroutine(Phase2_co());
+                break;
             case State.Broken:
                 currentStateCoroutine = StartCoroutine(Break_co());
                 break;
@@ -173,7 +167,7 @@ public class BossControl_KorAndGar : MonoBehaviour
 
     private IEnumerator Setup_co()
     {
-        yield return new WaitForSeconds(prayClip.length);
+        yield return new WaitForSeconds(idleClip[1].length);
 
         EnterState(State.Idle);
     }
@@ -189,7 +183,7 @@ public class BossControl_KorAndGar : MonoBehaviour
         {
             if (IsPlayerInSight() && !hasDiscoveredPlayer)
             {
-                EnterState(State.BattleCry);
+                EnterState(State.Chasing);
                 yield break;
             }
 
@@ -226,133 +220,74 @@ public class BossControl_KorAndGar : MonoBehaviour
                         agent.isStopped = false;
                         isWandering = true;
                     }
-                    else if (randAction < 9)
-                    {
-                        animator.SetTrigger("LookAround");
-
-                        yield return new WaitForSeconds(lookAroundClip.length);
-
-                        lastStateChangeTime = Time.time;
-                    }
                     else
                     {
-                        EnterState(State.Praying);
+                        int idle = Random.Range(0, idleClip.Length);
+                        animator.SetInteger("IdleID", idle + 1);
+                        animator.SetTrigger("Idle");
+
+                        yield return new WaitForSeconds(idleClip[idle].length);
+
+                        lastStateChangeTime = Time.time;
                     }
                 }
             }
 
             yield return null;
         }
-    }
-
-    private IEnumerator Pray_co()
-    {
-        animator.SetTrigger("Pray");
-
-        yield return new WaitForSeconds(prayClip.length);
-
-        EnterState(State.Idle);
-    }
-
-    private IEnumerator StartBattle_co()
-    {
-        transform.LookAt(player.position);
-        animator.SetTrigger("ReadytoBattle");
-        hasDiscoveredPlayer = true;
-        SoundManager.Instance.PlayBGM(BGMTrackName.Boss2);
-
-        yield return new WaitForSeconds(roarClip.length);
-
-        EnterState(State.Chasing);
     }
 
     private IEnumerator Chasing_co()
     {
+        agent.isStopped = false;
+        agent.speed = stats.data.runSpeed;
+
         while (true)
         {
             float distanceFromHome = Vector3.Distance(transform.position, startPosition);
-
             if (distanceFromHome > stats.data.maxChaseDistance)
             {
                 EnterState(State.Idle);
-                SoundManager.Instance.PlayBGM(BGMTrackName.Exploration);
                 yield break;
             }
 
-            if (Time.time < lastAttackTime + stats.data.cooldown)
+            float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+            List<int> availableAttackIndices = new List<int>();
+
+            for (int i = 0; i < stats.data.attacks.Count; i++)
             {
-                agent.speed = stats.data.walkSpeed;
-                agent.isStopped = false;
-                agent.SetDestination(player.position);
+                AttackData pattern = stats.data.attacks[i];
+                if (distanceToPlayer >= pattern.minRange &&
+                    distanceToPlayer <= pattern.maxRange &&
+                    currentPhase >= pattern.requiredPhase)
+                {
+                    availableAttackIndices.Add(i);
+                }
+            }
+
+            if (availableAttackIndices.Count > 0)
+            {
+                scheduledAttackIndex = availableAttackIndices[Random.Range(0, availableAttackIndices.Count)];
+
+                EnterState(State.Attacking);
+                yield break;
             }
             else
             {
-                List<int> availableAttackIndices = new List<int>();
-                for (int i = 0; i < stats.data.attacks.Count; i++)
-                {
-                    if (currentPhase >= stats.data.attacks[i].requiredPhase)
-                    {
-                        availableAttackIndices.Add(i);
-                    }
-                }
-                if (availableAttackIndices.Count == 0)
-                {
-                    agent.SetDestination(player.position);
-                    yield return null;
-                    continue;
-                }
-
-                int chosenAttackIndex = availableAttackIndices[Random.Range(0, availableAttackIndices.Count)];
-                AttackData desiredAttack = stats.data.attacks[chosenAttackIndex];
-
-                float distanceToPlayer = Vector3.Distance(transform.position, player.position);
-
-                if (distanceToPlayer >= desiredAttack.minRange && distanceToPlayer <= desiredAttack.maxRange)
-                {
-                    scheduledAttackIndex = chosenAttackIndex;
-                    EnterState(State.Preparing);
-                    yield break;
-                }
-                else if (distanceToPlayer < desiredAttack.minRange)
-                {
-                    agent.speed = stats.data.runSpeed;
-                    agent.isStopped = false;
-                    Vector3 retreatPosition = transform.position + (transform.position - player.position).normalized * (desiredAttack.minRange - distanceToPlayer);
-                    agent.SetDestination(retreatPosition);
-                }
-                else 
-                {
-                    agent.speed = stats.data.runSpeed;
-                    agent.isStopped = false;
-                    agent.SetDestination(player.position);
-                }
+                agent.SetDestination(player.position);
             }
 
             yield return null;
         }
     }
 
-    private IEnumerator Preparing_co()
+    private IEnumerator Pause_co()
     {
-        agent.isStopped = true;
-        transform.LookAt(player.position);
-        animator.SetTrigger("ReadytoAttack");
+        agent.isStopped = true; 
 
-        float prepareTime = (currentPhase == 1) ? stats.data.attackPrepareTime : stats.data.attackPrepareTime / 1.5f;
-        float timer = 0f;
+        yield return new WaitForSeconds(stats.data.cooldown);
 
-        while (timer < prepareTime)
-        {
-            if (stats.CheckAndBreakStance())
-            {
-                EnterState(State.Broken);
-                yield break;
-            }
-            timer += Time.deltaTime;
-            yield return null;
-        }
-
-        EnterState(State.Attacking);
+        EnterState(State.Chasing);
     }
 
     private IEnumerator Attack_co()
@@ -370,11 +305,21 @@ public class BossControl_KorAndGar : MonoBehaviour
         lastAttackTime = Time.time;
     }
 
+    private IEnumerator Phase2_co()
+    {
+        animator.SetBool("SetPhase2", true);
+        animator.SetTrigger("Phase2");
+
+        yield return new WaitForSeconds(stats.data.phase2Duration);
+
+        animator.SetBool("SetPhase2", false);
+        animator.SetTrigger("Phase2");
+        EnterState(State.Chasing);
+    }
+
     private IEnumerator Break_co()
     {
-        animator.SetTrigger("Break");
-
-        yield return new WaitForSeconds(breakClip.length + stats.data.stanceDuration);
+        yield return new WaitForSeconds(stats.data.stanceDuration);
 
         EnterState(State.Chasing);
     }
@@ -399,40 +344,49 @@ public class BossControl_KorAndGar : MonoBehaviour
         }
     }
 
-    private void HandleDamage()
-    {
-        if (currentState == State.Praying)
-        {
-            EnterState(State.BattleCry);
-        }
-    }
-
     private bool IsPlayerInSight()
     {
         return Vector3.Distance(transform.position, player.position) < stats.data.sightRange;
     }
 
-    public void AnimationEvent_EnableWeapon()
+    public void AnimationEvent_EnableDamageZone(string part)
     {
-        weaponDamage.GetComponent<Collider>().enabled = true;
+        if (scheduledAttackIndex == -1) return;
+
+        WeaponDamage currentWeapon = null;
+
+        switch (part)
+        {
+            case "Weapon":
+                currentWeapon = Weapon;
+                break;
+            case "Hand":
+                currentWeapon = Hand;
+                break;
+            case "Foot":
+                currentWeapon = Foot;
+                break;
+        }
+
+        if (currentWeapon != null)
+        {
+            currentWeapon.GetComponent<Collider>().enabled = true;
+        }
     }
 
-    public void AnimationEvent_DisableWeapon()
+    public void AnimationEvent_DisableAllDamageZones()
     {
-        weaponDamage.GetComponent<Collider>().enabled = false;
+        Weapon.GetComponent<Collider>().enabled = false;
+        Hand.GetComponent<Collider>().enabled = false;
+        Foot.GetComponent<Collider>().enabled = false;
     }
 
     public void AnimationEvent_AttackFinished()
     {
         lastAttackTime = Time.time;
-        AnimationEvent_ReturnToChase();
-    }
-
-    public void AnimationEvent_ReturnToChase()
-    {
         if (currentState != State.Dead)
         {
-            EnterState(State.Chasing);
+            EnterState(State.Pause);
         }
     }
 }
