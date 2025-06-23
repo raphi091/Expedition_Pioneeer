@@ -12037,6 +12037,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: KorAndGar
       objectReference: {fileID: 0}
+    - target: {fileID: 2500177560890586851, guid: 9a0e4b6dea88a934e942d99022ec19de, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4413599051109704246, guid: 9a0e4b6dea88a934e942d99022ec19de, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -15296,7 +15300,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3214580876012491899, guid: 3bb442fadb84c0748a679dd3f61ce708, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 8.53
       objectReference: {fileID: 0}
     - target: {fileID: 3214580876012491899, guid: 3bb442fadb84c0748a679dd3f61ce708, type: 3}
       propertyPath: m_LocalPosition.y
@@ -16900,8 +16904,8 @@ SceneRoots:
   - {fileID: 1621295219}
   - {fileID: 737416545}
   - {fileID: 8225934868353790190}
+  - {fileID: 6729505957029952358}
   - {fileID: 5885907717914203077}
   - {fileID: 809924666}
   - {fileID: 2093126352}
-  - {fileID: 6729505957029952358}
   - {fileID: 6943185099780356477}

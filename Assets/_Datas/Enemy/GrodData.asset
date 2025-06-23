@@ -17,13 +17,15 @@ MonoBehaviour:
   bossIcon: {fileID: 0}
   bossPrefab: {fileID: 5309778056765010632, guid: 3bb442fadb84c0748a679dd3f61ce708, type: 3}
   maxHealth: 12000
+  phase2Duration: 1.5
   walkSpeed: 2
   runSpeed: 5
   wanderRadius: 50
   maxWanderDistance: 500
   engagementRange: 20
   sightRange: 30
-  maxChaseDistance: 40
+  loseSightRange: 35
+  maxChaseDistance: 70
   maxStance: 500
   stanceDuration: 5
   attacks:

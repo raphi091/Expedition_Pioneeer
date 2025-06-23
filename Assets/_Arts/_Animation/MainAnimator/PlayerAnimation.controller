@@ -1073,6 +1073,9 @@ AnimatorStateTransition:
   m_PrefabAsset: {fileID: 0}
   m_Name: 
   m_Conditions:
+  - m_ConditionMode: 1
+    m_ConditionEvent: ATTACK
+    m_EventTreshold: 0
   - m_ConditionMode: 6
     m_ConditionEvent: ATTACK_COMBO
     m_EventTreshold: 4

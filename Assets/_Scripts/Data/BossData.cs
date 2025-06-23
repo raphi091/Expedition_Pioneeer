@@ -23,7 +23,8 @@ public class BossData : ScriptableObject
     [Tooltip("최대 순찰 반경")] public float maxWanderDistance = 500f;
     [Tooltip("전투 반경")] public float engagementRange = 20f;
     [Tooltip("시야 반경")] public float sightRange = 30f;
-    [Tooltip("최대 추격 반경")] public float maxChaseDistance = 40f;
+    [Tooltip("추격 포기 범위")] public float loseSightRange = 35f;
+    [Tooltip("최대 추격 반경")] public float maxChaseDistance = 70f;
 
     [Header("Stance")]
     [Tooltip("경직 스텍")] public float maxStance = 150f;

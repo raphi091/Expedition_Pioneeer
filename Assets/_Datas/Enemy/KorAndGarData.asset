@@ -15,7 +15,7 @@ MonoBehaviour:
   bossID: 1
   bossName: "\uCF54\uB974 & \uAC00\uB974"
   bossIcon: {fileID: 0}
-  bossPrefab: {fileID: 11240123882449939, guid: 47d7f22699cf92b4287d91676dbcf15d, type: 3}
+  bossPrefab: {fileID: 2500177560890586851, guid: 9a0e4b6dea88a934e942d99022ec19de, type: 3}
   maxHealth: 18000
   phase2Duration: 2
   walkSpeed: 1.7
@@ -24,7 +24,8 @@ MonoBehaviour:
   maxWanderDistance: 600
   engagementRange: 15
   sightRange: 35
-  maxChaseDistance: 50
+  loseSightRange: 40
+  maxChaseDistance: 80
   maxStance: 600
   stanceDuration: 6
   attacks:

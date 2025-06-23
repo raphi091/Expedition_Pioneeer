@@ -68,6 +68,8 @@ public class BossControl_Grod : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
 
+        startPosition = transform.position;
+
         agent.updatePosition = false;
         agent.updateRotation = false;
 
@@ -181,12 +183,22 @@ public class BossControl_Grod : MonoBehaviour
         agent.ResetPath();
         isWandering = false;
         animator.SetFloat("MoveSpeed", 0);
+        SoundManager.Instance.PlayBGM(BGMTrackName.Exploration);
 
         while (true)
         {
-            if (IsPlayerInSight() && !hasDiscoveredPlayer)
+            yield return null;
+
+            if (IsPlayerInSight())
             {
-                EnterState(State.BattleCry);
+                if (!hasDiscoveredPlayer)
+                {
+                    EnterState(State.BattleCry);
+                }
+                else
+                {
+                    EnterState(State.Chasing);
+                }
                 yield break;
             }
 
@@ -267,12 +279,21 @@ public class BossControl_Grod : MonoBehaviour
     {
         while (true)
         {
-            float distanceFromHome = Vector3.Distance(transform.position, startPosition);
+            yield return null;
 
+            float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+            if (distanceToPlayer > stats.data.loseSightRange)
+            {
+                hasDiscoveredPlayer = false;
+                EnterState(State.Idle);
+                yield break;
+            }
+
+            float distanceFromHome = Vector3.Distance(transform.position, startPosition);
             if (distanceFromHome > stats.data.maxChaseDistance)
             {
+                hasDiscoveredPlayer = false;
                 EnterState(State.Idle);
-                SoundManager.Instance.PlayBGM(BGMTrackName.Exploration);
                 yield break;
             }
 
@@ -301,8 +322,6 @@ public class BossControl_Grod : MonoBehaviour
 
                 int chosenAttackIndex = availableAttackIndices[Random.Range(0, availableAttackIndices.Count)];
                 AttackData desiredAttack = stats.data.attacks[chosenAttackIndex];
-
-                float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
                 if (distanceToPlayer >= desiredAttack.minRange && distanceToPlayer <= desiredAttack.maxRange)
                 {
@@ -393,6 +412,7 @@ public class BossControl_Grod : MonoBehaviour
         if (currentState != State.Dead)
         {
             EnterState(State.Idle);
+            SoundManager.Instance.PlayBGM(BGMTrackName.Exploration);
         }
     }
 

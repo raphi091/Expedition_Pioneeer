@@ -69,6 +69,8 @@ public class BossControl_KorAndGar : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
 
+        startPosition = transform.position;
+
         agent.updatePosition = false;
         agent.updateRotation = false;
 
@@ -148,6 +150,15 @@ public class BossControl_KorAndGar : MonoBehaviour
                 currentStateCoroutine = StartCoroutine(Chasing_co());
                 break;
             case State.Attacking:
+                if (player != null)
+                {
+                    Vector3 directionToPlayer = player.position - transform.position;
+                    directionToPlayer.y = 0;
+                    if (directionToPlayer != Vector3.zero)
+                    {
+                        transform.rotation = Quaternion.LookRotation(directionToPlayer);
+                    }
+                }
                 currentStateCoroutine = StartCoroutine(Attack_co());
                 break; ;
             case State.Pause:
@@ -178,12 +189,22 @@ public class BossControl_KorAndGar : MonoBehaviour
         agent.ResetPath();
         isWandering = false;
         animator.SetFloat("MoveSpeed", 0);
+        SoundManager.Instance.PlayBGM(BGMTrackName.Exploration);
 
         while (true)
         {
-            if (IsPlayerInSight() && !hasDiscoveredPlayer)
+            yield return null;
+
+            if (IsPlayerInSight())
             {
-                EnterState(State.Chasing);
+                if (!hasDiscoveredPlayer)
+                {
+                    EnterState(State.Chasing);
+                }
+                else
+                {
+                    EnterState(State.Chasing);
+                }
                 yield break;
             }
 
@@ -241,17 +262,28 @@ public class BossControl_KorAndGar : MonoBehaviour
     {
         agent.isStopped = false;
         agent.speed = stats.data.runSpeed;
+        SoundManager.Instance.PlayBGM(BGMTrackName.Boss1);
 
         while (true)
         {
-            float distanceFromHome = Vector3.Distance(transform.position, startPosition);
-            if (distanceFromHome > stats.data.maxChaseDistance)
+            yield return null;
+
+            float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+            if (distanceToPlayer > stats.data.loseSightRange)
             {
+                hasDiscoveredPlayer = false;
                 EnterState(State.Idle);
                 yield break;
             }
 
-            float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+            float distanceFromHome = Vector3.Distance(transform.position, startPosition);
+            if (distanceFromHome > stats.data.maxChaseDistance)
+            {
+                hasDiscoveredPlayer = false;
+                EnterState(State.Idle);
+                yield break;
+            }
+
             List<int> availableAttackIndices = new List<int>();
 
             for (int i = 0; i < stats.data.attacks.Count; i++)
@@ -341,6 +373,7 @@ public class BossControl_KorAndGar : MonoBehaviour
         if (currentState != State.Dead)
         {
             EnterState(State.Idle);
+            SoundManager.Instance.PlayBGM(BGMTrackName.Exploration);
         }
     }
 
