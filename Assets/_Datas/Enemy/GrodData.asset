@@ -10,21 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 46dd8939edc7bfd49862e67ae5db3cad, type: 3}
-  m_Name: Boss 2
+  m_Name: GrodData
   m_EditorClassIdentifier: 
   bossID: 2
-  bossName: "\uC0C8\uB85C\uC6B4 \uBCF4\uC2A4"
+  bossName: "\uADF8\uB85C\uB4DC"
   bossIcon: {fileID: 0}
-  bossPrefab: {fileID: 11240123882449939, guid: 47d7f22699cf92b4287d91676dbcf15d, type: 3}
-  maxHealth: 1000
-  staggerThreshold: 30
+  bossPrefab: {fileID: 5309778056765010632, guid: 3bb442fadb84c0748a679dd3f61ce708, type: 3}
+  maxHealth: 12000
   walkSpeed: 2
   runSpeed: 5
-  patrolRadius: 20
-  detectionRadius: 25
-  sprintDistance: 10
-  engagementDistance: 5
+  wanderRadius: 50
+  maxWanderDistance: 500
+  engagementRange: 20
+  sightRange: 30
   maxChaseDistance: 40
+  maxStance: 500
+  stanceDuration: 5
   attacks:
   - animationName: Attack1
     animationClip: {fileID: 1827226128182048838, guid: e9551edf829abbf48af51fdfadf3e034, type: 3}
@@ -32,32 +33,34 @@ MonoBehaviour:
     moveDistance: 3.35409
     minRange: 2
     maxRange: 4
-    cooldown: 4.5
+    requiredPhase: 1
   - animationName: Attack2
     animationClip: {fileID: 1827226128182048838, guid: a356f75c8eea81d48aba4df7406ae5f6, type: 3}
     damage: 27.5
     moveDistance: 5.030854
     minRange: 3
     maxRange: 6
-    cooldown: 7
+    requiredPhase: 2
   - animationName: Attack3
     animationClip: {fileID: 1827226128182048838, guid: 37be785333c57944c8f5c2bd747c7b21, type: 3}
     damage: 11
     moveDistance: 2.560556
     minRange: 0
     maxRange: 3
-    cooldown: 2.5
+    requiredPhase: 1
   - animationName: Attack4
     animationClip: {fileID: 1827226128182048838, guid: d3255a58d063c3145a2a5c7fa0ad5bde, type: 3}
     damage: 11
     moveDistance: 2.490166
     minRange: 0
     maxRange: 3
-    cooldown: 2.5
+    requiredPhase: 1
   - animationName: Attack5
     animationClip: {fileID: 1827226128182048838, guid: c2dff584b7c3f314dae4c27d91f78603, type: 3}
     damage: 45
     moveDistance: 15.17912
     minRange: 12
     maxRange: 16
-    cooldown: 12
+    requiredPhase: 2
+  cooldown: 3
+  attackPrepareTime: 1.5

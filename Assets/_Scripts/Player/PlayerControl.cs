@@ -22,10 +22,11 @@ public struct PlayerState
     }
 }
 
-public class PlayerControl : MonoBehaviour
+public class PlayerControl : MonoBehaviour, IDamage
 {
     public event Action<float, float, float> OnHealthChanged;
     public event Action<float, float> OnStaminaChanged;
+    public static event Action OnPlayerDied;
 
     public ActorProfile Profile { get; private set; }
     public WeaponInfo Weapon { get; private set; }
@@ -298,6 +299,7 @@ public class PlayerControl : MonoBehaviour
 
         this.Weapon = newWeapon;
 
+        attackControl.attackRadius = Weapon.AttackRange;
         IsWeaponEquipped = false;
         UpdateWeaponVisuals();
     }
@@ -390,7 +392,7 @@ public class PlayerControl : MonoBehaviour
     }
 
     //-----체력 및 스테미너
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage)
     {
         if (currentHealth <= 0) return;
 
@@ -408,6 +410,7 @@ public class PlayerControl : MonoBehaviour
         if (currentHealth <= 0) 
         {
             animator.SetTrigger(AnimatorHashSet.DEATH);
+            OnPlayerDied?.Invoke();
         }
     }
 

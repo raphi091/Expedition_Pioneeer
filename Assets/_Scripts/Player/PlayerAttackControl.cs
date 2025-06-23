@@ -188,13 +188,16 @@ public class PlayerAttackControl : MonoBehaviour
     {
         if (playerControl == null) return;
 
-        int finalDamage = Mathf.RoundToInt(playerControl.State.damage * lastAttackDamageMultiplier);
+        int finalDamage = Mathf.RoundToInt((playerControl.State.damage + playerControl.Weapon.Damage) * lastAttackDamageMultiplier);
 
         Collider[] hitEnemies = Physics.OverlapSphere(attackPoint.position, attackRadius, enemyLayerMask);
         foreach (Collider enemy in hitEnemies)
         {
-            Debug.Log($"Hit: {enemy.name}, Damage: {finalDamage} (Multiplier: {lastAttackDamageMultiplier})");
-            // enemy.GetComponent<EnemyHealth>()?.TakeDamage(finalDamage);
+            IDamage damageable = enemy.GetComponent<IDamage>();
+            if (damageable != null)
+            {
+                damageable.TakeDamage(finalDamage);
+            }
         }
 
         lastAttackDamageMultiplier = 1f;

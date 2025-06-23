@@ -18,18 +18,20 @@ public class BossData : ScriptableObject
     [Tooltip("달리기 속도")] public float runSpeed = 6f;
 
     [Header("AI")]
-    [Tooltip("순찰 반경")] public float patrolRadius = 500f;
-    [Tooltip("전투 서클")] public float detectionRadius = 30f;
-    [Tooltip("추격 시작 거리")] public float sprintDistance = 20f;
-    [Tooltip("추격 종료 거리")] public float engagementDistance = 5f;
-    [Tooltip("최대 추격 거리")] public float maxChaseDistance = 40f;
+    [Tooltip("순찰 반경")] public float wanderRadius = 50f;
+    [Tooltip("최대 순찰 반경")] public float maxWanderDistance = 500f;
+    [Tooltip("전투 반경")] public float engagementRange = 20f;
+    [Tooltip("시야 반경")] public float sightRange = 30f;
+    [Tooltip("최대 추격 반경")] public float maxChaseDistance = 40f;
 
-    [Header("Stun/Cancel")]
-    [Tooltip("경직 스텍")] public float cancelAttackDamageThreshold = 150f;
-    [Tooltip("경직 상태 지속 시간")] public float stunDuration = 5f;
+    [Header("Stance")]
+    [Tooltip("경직 스텍")] public float maxStance = 150f;
+    [Tooltip("경직 상태 지속 시간")] public float stanceDuration = 5f;
 
     [Header("AttackData")]
     [Tooltip("공격 패턴")] public List<AttackData> attacks;
+    [Tooltip("공격 후 딜레이")] public float cooldown;
+    [Tooltip("공격 준비 대기시간")] public float attackPrepareTime;
 }
 
 [System.Serializable]
@@ -43,5 +45,6 @@ public class AttackData
     [Tooltip("공격 모션 거리")] public float moveDistance;
     [Tooltip("공격 최소 사거리")] public float minRange;
     [Tooltip("공격 최대 사거리")] public float maxRange;
-    [Tooltip("공격 후 딜레이")] public float cooldown;
+
+    [Tooltip("사용 조건")] public int requiredPhase = 1;
 }

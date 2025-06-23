@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46dd8939edc7bfd49862e67ae5db3cad, type: 3}
+  m_Name: KorAndGarData
+  m_EditorClassIdentifier: 
+  bossID: 1
+  bossName: "\uCF54\uB974 & \uAC00\uB974"
+  bossIcon: {fileID: 0}
+  bossPrefab: {fileID: 11240123882449939, guid: 47d7f22699cf92b4287d91676dbcf15d, type: 3}
+  maxHealth: 18000
+  walkSpeed: 1.7
+  runSpeed: 5.3
+  wanderRadius: 70
+  maxWanderDistance: 600
+  engagementRange: 15
+  sightRange: 35
+  maxStance: 600
+  stanceDuration: 6
+  attacks:
+  - animationName: Attack1
+    animationClip: {fileID: 1827226128182048838, guid: 976e8447d285dc24fa70d95fa3fb2d7a, type: 3}
+    damage: 75
+    moveDistance: 3.35409
+    minRange: 2
+    maxRange: 4
+    requiredPhase: 2
+  - animationName: Attack2
+    animationClip: {fileID: 1827226128182048838, guid: de6c5bc9638e67147af2aab78f4d7eeb, type: 3}
+    damage: 17.5
+    moveDistance: 5.030854
+    minRange: 3
+    maxRange: 6
+    requiredPhase: 1
+  - animationName: Attack3
+    animationClip: {fileID: 1827226128182048838, guid: 62ff5bead2f29964bbe574a4a4091acd, type: 3}
+    damage: 55
+    moveDistance: 2.560556
+    minRange: 0
+    maxRange: 3
+    requiredPhase: 1
+  - animationName: Attack4
+    animationClip: {fileID: 1827226128182048838, guid: d13c4e9462e1e6c45999a977ba22a946, type: 3}
+    damage: 24.5
+    moveDistance: 2.490166
+    minRange: 0
+    maxRange: 3
+    requiredPhase: 2
+  - animationName: Attack5
+    animationClip: {fileID: 1827226128182048838, guid: 10b7b0e73846a0a47b685cc35669b8c7, type: 3}
+    damage: 12.5
+    moveDistance: 15.17912
+    minRange: 12
+    maxRange: 16
+    requiredPhase: 1
+  cooldown: 4
+  attackPrepareTime: 1.5
