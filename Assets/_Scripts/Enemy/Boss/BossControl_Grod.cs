@@ -183,7 +183,6 @@ public class BossControl_Grod : MonoBehaviour
         agent.ResetPath();
         isWandering = false;
         animator.SetFloat("MoveSpeed", 0);
-        SoundManager.Instance.PlayBGM(BGMTrackName.Exploration);
 
         while (true)
         {
@@ -191,14 +190,9 @@ public class BossControl_Grod : MonoBehaviour
 
             if (IsPlayerInSight())
             {
-                if (!hasDiscoveredPlayer)
-                {
-                    EnterState(State.BattleCry);
-                }
-                else
-                {
-                    EnterState(State.Chasing);
-                }
+                SoundManager.Instance.PlayBGM(BGMTrackName.Boss2);
+                State nextState = hasDiscoveredPlayer ? State.Chasing : State.BattleCry;
+                EnterState(nextState);
                 yield break;
             }
 
@@ -265,10 +259,10 @@ public class BossControl_Grod : MonoBehaviour
 
     private IEnumerator StartBattle_co()
     {
+        hasDiscoveredPlayer = true;
+
         transform.LookAt(player.position);
         animator.SetTrigger("ReadytoBattle");
-        hasDiscoveredPlayer = true;
-        SoundManager.Instance.PlayBGM(BGMTrackName.Boss2);
 
         yield return new WaitForSeconds(roarClip.length);
 
@@ -277,14 +271,18 @@ public class BossControl_Grod : MonoBehaviour
 
     private IEnumerator Chasing_co()
     {
+        agent.isStopped = false;
+        agent.speed = stats.data.runSpeed;
+
+        float repathTimer = 0f;
+        float repathInterval = 0.2f;
+
         while (true)
         {
-            yield return null;
-
             float distanceToPlayer = Vector3.Distance(transform.position, player.position);
             if (distanceToPlayer > stats.data.loseSightRange)
             {
-                hasDiscoveredPlayer = false;
+                SoundManager.Instance.PlayBGM(BGMTrackName.Exploration);
                 EnterState(State.Idle);
                 yield break;
             }
@@ -292,9 +290,16 @@ public class BossControl_Grod : MonoBehaviour
             float distanceFromHome = Vector3.Distance(transform.position, startPosition);
             if (distanceFromHome > stats.data.maxChaseDistance)
             {
-                hasDiscoveredPlayer = false;
+                SoundManager.Instance.PlayBGM(BGMTrackName.Exploration);
                 EnterState(State.Idle);
                 yield break;
+            }
+
+            repathTimer -= Time.deltaTime;
+            if (repathTimer <= 0f)
+            {
+                repathTimer = repathInterval;
+                agent.SetDestination(player.position);
             }
 
             if (Time.time < lastAttackTime + stats.data.cooldown)
@@ -411,8 +416,9 @@ public class BossControl_Grod : MonoBehaviour
     {
         if (currentState != State.Dead)
         {
-            EnterState(State.Idle);
             SoundManager.Instance.PlayBGM(BGMTrackName.Exploration);
+            hasDiscoveredPlayer = false;
+            EnterState(State.Idle);
         }
     }
 

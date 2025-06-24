@@ -131,8 +131,8 @@ public class LobbyUIManager : MonoBehaviour
 
     private IEnumerator Startbtn(float duration)
     {
-        FadeIn(duration);
         SoundManager.Instance.PlaySFX(ButtonClips[0]);
+        FadeIn(duration);
 
         yield return new WaitForSeconds(duration);
 

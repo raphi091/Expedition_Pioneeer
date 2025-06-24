@@ -131,8 +131,8 @@ public class SelectUIManager : MonoBehaviour
 
     public IEnumerator ReturnLobby()
     {
-        FadeIn(startfade);
         SoundManager.Instance.PlaySFX(ButtonClip);
+        FadeIn(startfade);
 
         yield return new WaitForSeconds(startfade);
 
@@ -141,6 +141,7 @@ public class SelectUIManager : MonoBehaviour
 
     public void OnSlotSelected(int slotIndex)
     {
+        SoundManager.Instance.PlaySFX(ButtonClip);
         GameData data = DataManager.Instance.GetDataForSlot(slotIndex);
 
         if (data != null)
@@ -187,6 +188,7 @@ public class SelectUIManager : MonoBehaviour
 
     public void OnCharacterClassSelected(int classIndex)
     {
+        SoundManager.Instance.PlaySFX(ButtonClip);
         this.chosenClass = (CharacterType)classIndex;
 
         OpenPanel(nameInputPanel, false);
@@ -194,6 +196,7 @@ public class SelectUIManager : MonoBehaviour
 
     public void OnConfirmCreation()
     {
+        SoundManager.Instance.PlaySFX(ButtonClip);
         string characterName = nameInputField.text;
 
         if (string.IsNullOrWhiteSpace(characterName))
@@ -239,6 +242,7 @@ public class SelectUIManager : MonoBehaviour
 
     public void OnStartGame()
     {
+        SoundManager.Instance.PlaySFX(ButtonClip);
         DataManager.Instance.startType = GameStartType.LoadGame;
         StartCoroutine(StartGame(confirmedSlotIndex));
     }
@@ -246,7 +250,6 @@ public class SelectUIManager : MonoBehaviour
     private IEnumerator StartGame(int slotIndex)
     {
         FadeIn(startfade);
-        SoundManager.Instance.PlaySFX(ButtonClip);
 
         yield return new WaitForSeconds(startfade);
 
@@ -262,6 +265,7 @@ public class SelectUIManager : MonoBehaviour
 
     public void OnDeleteData()
     {
+        SoundManager.Instance.PlaySFX(ButtonClip);
         OpenPanel(slotDeletePanel, false);
     }
 
@@ -275,6 +279,7 @@ public class SelectUIManager : MonoBehaviour
 
     public void OnRenameCharacter()
     {
+        SoundManager.Instance.PlaySFX(ButtonClip);
         OpenPanel(slotRenamePanel, false);
     }
 
@@ -311,8 +316,6 @@ public class SelectUIManager : MonoBehaviour
         }
         else
         {
-            SoundManager.Instance.PlaySFX(ButtonClip);
-
             panelToHide.SetActive(false);
             panelToOpen.SetActive(true);
         }

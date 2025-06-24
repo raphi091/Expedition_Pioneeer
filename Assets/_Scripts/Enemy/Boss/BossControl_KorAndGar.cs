@@ -189,7 +189,6 @@ public class BossControl_KorAndGar : MonoBehaviour
         agent.ResetPath();
         isWandering = false;
         animator.SetFloat("MoveSpeed", 0);
-        SoundManager.Instance.PlayBGM(BGMTrackName.Exploration);
 
         while (true)
         {
@@ -197,14 +196,8 @@ public class BossControl_KorAndGar : MonoBehaviour
 
             if (IsPlayerInSight())
             {
-                if (!hasDiscoveredPlayer)
-                {
-                    EnterState(State.Chasing);
-                }
-                else
-                {
-                    EnterState(State.Chasing);
-                }
+                SoundManager.Instance.PlayBGM(BGMTrackName.Boss1);
+                EnterState(State.Chasing);
                 yield break;
             }
 
@@ -262,24 +255,18 @@ public class BossControl_KorAndGar : MonoBehaviour
     {
         agent.isStopped = false;
         agent.speed = stats.data.runSpeed;
-        SoundManager.Instance.PlayBGM(BGMTrackName.Boss1);
+        hasDiscoveredPlayer = true;
+
+        float repathTimer = 0f;
+        float repathInterval = 0.2f;
 
         while (true)
         {
-            yield return null;
-
             float distanceToPlayer = Vector3.Distance(transform.position, player.position);
-            if (distanceToPlayer > stats.data.loseSightRange)
+            if (distanceToPlayer > stats.data.loseSightRange ||
+                Vector3.Distance(transform.position, startPosition) > stats.data.maxChaseDistance)
             {
-                hasDiscoveredPlayer = false;
-                EnterState(State.Idle);
-                yield break;
-            }
-
-            float distanceFromHome = Vector3.Distance(transform.position, startPosition);
-            if (distanceFromHome > stats.data.maxChaseDistance)
-            {
-                hasDiscoveredPlayer = false;
+                SoundManager.Instance.PlayBGM(BGMTrackName.Exploration);
                 EnterState(State.Idle);
                 yield break;
             }
@@ -306,6 +293,13 @@ public class BossControl_KorAndGar : MonoBehaviour
             }
             else
             {
+                agent.SetDestination(player.position);
+            }
+
+            repathTimer -= Time.deltaTime;
+            if (repathTimer <= 0f)
+            {
+                repathTimer = repathInterval;
                 agent.SetDestination(player.position);
             }
 
@@ -372,8 +366,9 @@ public class BossControl_KorAndGar : MonoBehaviour
     {
         if (currentState != State.Dead)
         {
-            EnterState(State.Idle);
             SoundManager.Instance.PlayBGM(BGMTrackName.Exploration);
+            hasDiscoveredPlayer = false;
+            EnterState(State.Idle);
         }
     }
 

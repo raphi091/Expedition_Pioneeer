@@ -23,9 +23,9 @@ MonoBehaviour:
   wanderRadius: 50
   maxWanderDistance: 500
   engagementRange: 20
-  sightRange: 30
-  loseSightRange: 35
-  maxChaseDistance: 70
+  sightRange: 50
+  loseSightRange: 60
+  maxChaseDistance: 100
   maxStance: 500
   stanceDuration: 5
   attacks:
