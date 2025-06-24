@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour
     {
         input.Lobby.Cancel.performed += OnCancelPressed;
         input.Player.Menu.performed += OnPausePressed;
+        PlayerControl.OnPlayerDied += HandlePlayerDeath;
 
         EnableUIControls();
     }
@@ -37,6 +38,7 @@ public class GameManager : MonoBehaviour
     {
         input.Lobby.Cancel.performed -= OnCancelPressed;
         input.Player.Menu.performed -= OnPausePressed;
+        PlayerControl.OnPlayerDied -= HandlePlayerDeath;
     }
 
     public void EnableGameplayControls()
@@ -68,5 +70,10 @@ public class GameManager : MonoBehaviour
     private void OnPausePressed(InputAction.CallbackContext context)
     {
         FindObjectOfType<InGameUIManager>()?.OnEsc();
+    }
+
+    private void HandlePlayerDeath()
+    {
+        
     }
 }

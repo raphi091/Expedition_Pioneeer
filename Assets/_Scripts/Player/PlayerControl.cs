@@ -57,8 +57,6 @@ public class PlayerControl : MonoBehaviour, IDamage
     private List<GameObject> activeWeaponInstances = new List<GameObject>();
 
     private RuntimeAnimatorController baseAnimatorController;
-    private GameObject currentHandWeaponInstance;
-    private GameObject currentSheathWeaponInstance;
 
     private float currentHealth;
     private float recoverableHealth;
@@ -410,6 +408,8 @@ public class PlayerControl : MonoBehaviour, IDamage
         if (currentHealth <= 0) 
         {
             animator.SetTrigger(AnimatorHashSet.DEATH);
+            characterController.enabled = false;
+            this.enabled = false;
             OnPlayerDied?.Invoke();
         }
     }

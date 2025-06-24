@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 
 public class PlayerUIManager : MonoBehaviour
 {
     [Header("UI Elements")]
+    public TextMeshProUGUI ID;
     public Image healthBar;
     public Image healthBarRecoverable;
     public Image staminaBar;
@@ -19,6 +21,8 @@ public class PlayerUIManager : MonoBehaviour
 
     void Start()
     {
+        ID.text = DataManager.Instance.gameData.characterInfo.characterName;
+
         pc = FindObjectOfType<PlayerControl>();
         if (pc != null)
         {

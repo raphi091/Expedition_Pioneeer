@@ -44,6 +44,16 @@ public class InGameUIManager : MonoBehaviour
         fade.gameObject.SetActive(true);
     }
 
+    private void OnEnable()
+    {
+        PlayerControl.OnPlayerDied += HandlePlayerDeath;
+    }
+
+    private void OnDisable()
+    {
+        PlayerControl.OnPlayerDied -= HandlePlayerDeath;
+    }
+
     private IEnumerator Start()
     {
         FadeOut(startfade);
@@ -180,6 +190,11 @@ public class InGameUIManager : MonoBehaviour
     public void OndontSaveQuitYesBtn()
     {
         Application.Quit();
+    }
+
+    private void HandlePlayerDeath()
+    {
+
     }
 
     //-----연출

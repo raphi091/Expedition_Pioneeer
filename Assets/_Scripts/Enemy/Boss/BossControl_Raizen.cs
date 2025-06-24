@@ -18,10 +18,18 @@ public class BossControl_Raizen : MonoBehaviour
     public WeaponDamage WeaponL;
     public WeaponDamage WeaponR;
 
-    [Header("VFX 프리팹")]
+    [Header("VFX")]
     public GameObject chainLightningPrefab;
     public GameObject flameProjectilePrefab;
     public GameObject groundAoEPrefab;
+
+    [Header("속성 표시용 Renderer")]
+    [SerializeField] private List<SkinnedMeshRenderer> renderers;
+    [SerializeField] private string targetMaterialName = "M_Raijin_Drums";
+    [SerializeField] private Color lightningColor = new Color(1f, 0.2f, 0.2f);
+    [SerializeField] private Color fireColor = new Color(0.2f, 0.5f, 1f);
+    [SerializeField] private float emissionIntensity = 2.5f;
+    private Coroutine emissionCoroutine;
 
     private NavMeshAgent agent;
     private CharacterController controller;
@@ -69,6 +77,8 @@ public class BossControl_Raizen : MonoBehaviour
 
     private void Start()
     {
+        renderers = new List<SkinnedMeshRenderer>(GetComponentsInChildren<SkinnedMeshRenderer>());
+
         player = GameObject.FindGameObjectWithTag("Player").transform;
 
         startPosition = transform.position;
@@ -297,6 +307,20 @@ public class BossControl_Raizen : MonoBehaviour
         agent.isStopped = true;
         transform.LookAt(player.position);
 
+        AttackData attack = stats.data.attacks[scheduledAttackIndex];
+
+        if (attack != null)
+        {
+            if (attack.animationName == "Attack1" || attack.animationName == "Attack2" || attack.animationName == "Attack5")
+            {
+                StartEmissionFade(lightningColor, 1f);
+            }
+            else if (attack.animationName == "Attack3" || attack.animationName == "Attack4" || attack.animationName == "Attack6")
+            {
+                StartEmissionFade(fireColor, 1f);
+            }
+        }
+
         yield return null;
 
         EnterState(State.Attacking);
@@ -349,6 +373,131 @@ public class BossControl_Raizen : MonoBehaviour
         return Vector3.Distance(transform.position, player.position) < stats.data.sightRange;
     }
 
+    private void StartEmissionFade(Color color, float duration = 1f)
+    {
+        if (emissionCoroutine != null)
+            StopCoroutine(emissionCoroutine);
+
+        emissionCoroutine = StartCoroutine(EmissionFadeIn(color, duration));
+    }
+
+    private void StartEmissionFadeOut(float duration = 0.7f)
+    {
+        if (emissionCoroutine != null)
+            StopCoroutine(emissionCoroutine);
+
+        emissionCoroutine = StartCoroutine(EmissionFadeOut(duration));
+    }
+
+    private IEnumerator EmissionFadeIn(Color targetColor, float duration)
+    {
+        float time = 0f;
+
+        foreach (var renderer in renderers)
+        {
+            Material[] materials = renderer.materials;
+
+            for (int i = 0; i < materials.Length; i++)
+            {
+                if (materials[i].name.Contains(targetMaterialName))
+                {
+                    materials[i].EnableKeyword("_EMISSION");
+                }
+            }
+        }
+
+        while (time < duration)
+        {
+            float t = time / duration;
+            Color currentColor = targetColor * (t * emissionIntensity);
+
+            foreach (var renderer in renderers)
+            {
+                Material[] materials = renderer.materials;
+
+                for (int i = 0; i < materials.Length; i++)
+                {
+                    if (materials[i].name.Contains(targetMaterialName))
+                    {
+                        materials[i].SetColor("_EmissionColor", currentColor);
+                    }
+                }
+            }
+
+            time += Time.deltaTime;
+            yield return null;
+        }
+
+        foreach (var renderer in renderers)
+        {
+            Material[] materials = renderer.materials;
+
+            for (int i = 0; i < materials.Length; i++)
+            {
+                if (materials[i].name.Contains(targetMaterialName))
+                {
+                    materials[i].SetColor("_EmissionColor", targetColor * emissionIntensity);
+                }
+            }
+        }
+    }
+
+    private IEnumerator EmissionFadeOut(float duration)
+    {
+        float time = 0f;
+
+        Color currentEmission = Color.black;
+
+        foreach (var renderer in renderers)
+        {
+            Material[] materials = renderer.materials;
+
+            for (int i = 0; i < materials.Length; i++)
+            {
+                if (materials[i].name.Contains(targetMaterialName))
+                {
+                    currentEmission = materials[i].GetColor("_EmissionColor");
+                    break;
+                }
+            }
+        }
+
+        while (time < duration)
+        {
+            float t = time / duration;
+            Color newColor = Color.Lerp(currentEmission, Color.black, t);
+
+            foreach (var renderer in renderers)
+            {
+                Material[] materials = renderer.materials;
+
+                for (int i = 0; i < materials.Length; i++)
+                {
+                    if (materials[i].name.Contains(targetMaterialName))
+                    {
+                        materials[i].SetColor("_EmissionColor", newColor);
+                    }
+                }
+            }
+
+            time += Time.deltaTime;
+            yield return null;
+        }
+
+        foreach (var renderer in renderers)
+        {
+            Material[] materials = renderer.materials;
+
+            for (int i = 0; i < materials.Length; i++)
+            {
+                if (materials[i].name.Contains(targetMaterialName))
+                {
+                    materials[i].SetColor("_EmissionColor", Color.black);
+                }
+            }
+        }
+    }
+
     public void AnimationEvent_EnableDamageZone(string part)
     {
         if (scheduledAttackIndex == -1) return;
@@ -380,6 +529,8 @@ public class BossControl_Raizen : MonoBehaviour
     public void AnimationEvent_AttackFinished()
     {
         lastAttackTime = Time.time;
+        StartEmissionFadeOut(0.5f);
+
         if (currentState != State.Dead)
         {
             EnterState(State.Chasing);
