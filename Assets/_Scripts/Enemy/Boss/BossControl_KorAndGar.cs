@@ -262,11 +262,14 @@ public class BossControl_KorAndGar : MonoBehaviour
 
         while (true)
         {
+            yield return null;
+
             float distanceToPlayer = Vector3.Distance(transform.position, player.position);
             if (distanceToPlayer > stats.data.loseSightRange ||
                 Vector3.Distance(transform.position, startPosition) > stats.data.maxChaseDistance)
             {
                 SoundManager.Instance.PlayBGM(BGMTrackName.Exploration);
+                hasDiscoveredPlayer = false;
                 EnterState(State.Idle);
                 yield break;
             }

@@ -279,18 +279,14 @@ public class BossControl_Grod : MonoBehaviour
 
         while (true)
         {
-            float distanceToPlayer = Vector3.Distance(transform.position, player.position);
-            if (distanceToPlayer > stats.data.loseSightRange)
-            {
-                SoundManager.Instance.PlayBGM(BGMTrackName.Exploration);
-                EnterState(State.Idle);
-                yield break;
-            }
+            yield return null;
 
-            float distanceFromHome = Vector3.Distance(transform.position, startPosition);
-            if (distanceFromHome > stats.data.maxChaseDistance)
+            float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+            if (distanceToPlayer > stats.data.loseSightRange ||
+                Vector3.Distance(transform.position, startPosition) > stats.data.maxChaseDistance)
             {
                 SoundManager.Instance.PlayBGM(BGMTrackName.Exploration);
+                hasDiscoveredPlayer = false;
                 EnterState(State.Idle);
                 yield break;
             }

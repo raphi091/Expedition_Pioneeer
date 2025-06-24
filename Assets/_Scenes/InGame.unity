@@ -42375,7 +42375,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 812117910358185676, guid: 204d91d5fed9c4e40b6b7da6933ee823, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.05122796
+      value: 0.05122799
       objectReference: {fileID: 0}
     - target: {fileID: 812117910358185676, guid: 204d91d5fed9c4e40b6b7da6933ee823, type: 3}
       propertyPath: m_LocalRotation.y
@@ -94823,7 +94823,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b865df17d1f21ef459d4a2c6e7fd77bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ID: {fileID: 0}
+  ID: {fileID: 402019001}
   healthBar: {fileID: 1487184708}
   healthBarRecoverable: {fileID: 1786611929}
   staminaBar: {fileID: 138694728}

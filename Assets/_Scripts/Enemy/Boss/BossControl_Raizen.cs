@@ -207,7 +207,7 @@ public class BossControl_Raizen : MonoBehaviour
 
             if (IsPlayerInSight())
             {
-                // SoundManager.Instance.PlayBGM(BGMTrackName.Boss3);
+                SoundManager.Instance.PlayBGM(BGMTrackName.Boss3);
                 EnterState(State.Chasing);
                 yield break;
             }
@@ -263,11 +263,14 @@ public class BossControl_Raizen : MonoBehaviour
 
         while (true)
         {
+            yield return null;
+
             float distanceToPlayer = Vector3.Distance(transform.position, player.position);
             if (distanceToPlayer > stats.data.loseSightRange ||
                 Vector3.Distance(transform.position, startPosition) > stats.data.maxChaseDistance)
             {
-                // SoundManager.Instance.PlayBGM(BGMTrackName.Exploration);
+                SoundManager.Instance.PlayBGM(BGMTrackName.Exploration);
+                hasDiscoveredPlayer = false;
                 EnterState(State.Idle);
                 yield break;
             }
@@ -372,7 +375,7 @@ public class BossControl_Raizen : MonoBehaviour
         agent.enabled = false;
         controller.enabled = false;
         animator.SetTrigger("Death");
-        // SoundManager.Instance.PlayBGM(BGMTrackName.Exploration);
+        SoundManager.Instance.PlayBGM(BGMTrackName.Exploration);
 
         yield return new WaitForSeconds(10f);
 
@@ -383,7 +386,7 @@ public class BossControl_Raizen : MonoBehaviour
     {
         if (currentState != State.Dead)
         {
-            // SoundManager.Instance.PlayBGM(BGMTrackName.Exploration);
+            SoundManager.Instance.PlayBGM(BGMTrackName.Exploration);
             hasDiscoveredPlayer = false;
             EnterState(State.Idle);
         }
@@ -638,9 +641,6 @@ public class BossControl_Raizen : MonoBehaviour
 
         while (timer < spinDuration)
         {
-            //Vector3 directionToPlayer = player.position - FlamePoint.position;
-            //FlamePoint.rotation = Quaternion.LookRotation(directionToPlayer);
-
             GameObject projectile = Instantiate(flameProjectilePrefab, FlamePoint);
             projectile.GetComponent<Rigidbody>().velocity = transform.forward * 20f;
 
