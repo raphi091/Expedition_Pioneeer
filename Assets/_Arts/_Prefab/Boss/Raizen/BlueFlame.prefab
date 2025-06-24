@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1891502687078083736}
   - component: {fileID: 4005749349244479528}
+  - component: {fileID: 4996403287575545034}
+  - component: {fileID: 347871810647558134}
   m_Layer: 0
   m_Name: BlueFlame
   m_TagString: Untagged
@@ -50,10 +52,52 @@ SphereCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.55
+  m_Radius: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &4996403287575545034
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5801115515229507122}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &347871810647558134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5801115515229507122}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f50f8a08b060b9d438312c0045142d6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 20
+  speed: 20
+  lifeTime: 5
 --- !u!1001 &6541706153955320119
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -69,6 +113,18 @@ PrefabInstance:
     - target: {fileID: 1579265719495763832, guid: 04b3684e8d538ea4a827be1aaa1c0451, type: 3}
       propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[2].m_Overridden
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4973851111849329653, guid: 04b3684e8d538ea4a827be1aaa1c0451, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4973851111849329653, guid: 04b3684e8d538ea4a827be1aaa1c0451, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4973851111849329653, guid: 04b3684e8d538ea4a827be1aaa1c0451, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 4973851111849329653, guid: 04b3684e8d538ea4a827be1aaa1c0451, type: 3}
       propertyPath: m_LocalPosition.x

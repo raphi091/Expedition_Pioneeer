@@ -14330,7 +14330,8 @@ MonoBehaviour:
   allBossPrefabs:
   - {fileID: 2500177560890586851, guid: 9a0e4b6dea88a934e942d99022ec19de, type: 3}
   - {fileID: 5309778056765010632, guid: 3bb442fadb84c0748a679dd3f61ce708, type: 3}
-  maxActiveBosses: 2
+  - {fileID: 5827334908689094025, guid: 7d847e1e047997c4c91267d3c873914b, type: 3}
+  maxActiveBosses: 3
   spawnPoints:
   - {fileID: 691470849}
   - {fileID: 1166554860}
@@ -42374,7 +42375,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 812117910358185676, guid: 204d91d5fed9c4e40b6b7da6933ee823, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.0512279
+      value: 0.05122796
       objectReference: {fileID: 0}
     - target: {fileID: 812117910358185676, guid: 204d91d5fed9c4e40b6b7da6933ee823, type: 3}
       propertyPath: m_LocalRotation.y
@@ -94822,6 +94823,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b865df17d1f21ef459d4a2c6e7fd77bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ID: {fileID: 0}
   healthBar: {fileID: 1487184708}
   healthBarRecoverable: {fileID: 1786611929}
   staminaBar: {fileID: 138694728}

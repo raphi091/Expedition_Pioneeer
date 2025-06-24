@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class BossControl_Raizen : MonoBehaviour
 {
-    public enum State { Setup, Idle, Chasing, Preparing, Attacking, Phase2, Dead }
+    public enum State { Setup, Idle, Chasing, Preparing, Attacking, ChangForm, Dead }
     [Header("AI 상태")]
     [SerializeField] private State currentState;
 
@@ -22,6 +22,7 @@ public class BossControl_Raizen : MonoBehaviour
     public GameObject chainLightningPrefab;
     public GameObject flameProjectilePrefab;
     public GameObject groundAoEPrefab;
+    public Transform FlamePoint;
 
     [Header("속성 표시용 Renderer")]
     [SerializeField] private List<SkinnedMeshRenderer> renderers;
@@ -44,6 +45,8 @@ public class BossControl_Raizen : MonoBehaviour
     private float lastAttackTime;
     private int scheduledAttackIndex = -1;
     private bool useRootMotionLogic = false;
+    private int consecutiveAttacksInSameForm = 0;
+    private bool isFlying = false;
 
     private Coroutine currentStateCoroutine;
 
@@ -87,7 +90,7 @@ public class BossControl_Raizen : MonoBehaviour
         agent.updateRotation = false;
 
         stats.OnDeath += () => EnterState(State.Dead);
-        stats.OnPhaseTransition += () => EnterState(State.Phase2);
+        stats.OnPhaseTransition += () => EnterState(State.ChangForm);
 
         EnterState(State.Setup);
     }
@@ -164,10 +167,19 @@ public class BossControl_Raizen : MonoBehaviour
                 currentStateCoroutine = StartCoroutine(Preparing_co());
                 break;
             case State.Attacking:
+                if (player != null)
+                {
+                    Vector3 directionToPlayer = player.position - transform.position;
+                    directionToPlayer.y = 0;
+                    if (directionToPlayer != Vector3.zero)
+                    {
+                        transform.rotation = Quaternion.LookRotation(directionToPlayer);
+                    }
+                }
                 currentStateCoroutine = StartCoroutine(Attack_co());
                 break; ;
-            case State.Phase2:
-                currentStateCoroutine = StartCoroutine(Phase2_co());
+            case State.ChangForm:
+                currentStateCoroutine = StartCoroutine(ChangeForm_co());
                 break;
             case State.Dead:
                 currentStateCoroutine = StartCoroutine(Death_co());
@@ -269,7 +281,10 @@ public class BossControl_Raizen : MonoBehaviour
                     distanceToPlayer <= pattern.maxRange &&
                     currentPhase >= pattern.requiredPhase)
                 {
-                    availableAttackIndices.Add(i);
+                    if (!isFlying && !pattern.isAnotherForm)
+                        availableAttackIndices.Add(i);
+                    if (isFlying && pattern.isAnotherForm)
+                        availableAttackIndices.Add(i);
                 }
             }
 
@@ -321,7 +336,7 @@ public class BossControl_Raizen : MonoBehaviour
             }
         }
 
-        yield return null;
+        yield return new WaitForSeconds(stats.data.attackPrepareTime);
 
         EnterState(State.Attacking);
     }
@@ -341,9 +356,15 @@ public class BossControl_Raizen : MonoBehaviour
         lastAttackTime = Time.time;
     }
 
-    private IEnumerator Phase2_co()
+    private IEnumerator ChangeForm_co()
     {
-        yield return null;
+        isFlying = !isFlying;
+        animator.SetBool("SetPhase2", isFlying);
+        animator.SetTrigger("Phase2");
+
+        yield return new WaitForSeconds(1f);
+
+        EnterState(State.Chasing);
     }
 
     private IEnumerator Death_co()
@@ -533,6 +554,20 @@ public class BossControl_Raizen : MonoBehaviour
 
         if (currentState != State.Dead)
         {
+            if (currentPhase >= 2)
+            {
+                consecutiveAttacksInSameForm++;
+
+                if (consecutiveAttacksInSameForm >= 2)
+                {
+                    if (Random.Range(0, 10) > 5)
+                    {
+                        consecutiveAttacksInSameForm = 0;
+                        EnterState(State.ChangForm);
+                        return;
+                    }
+                }
+            }
             EnterState(State.Chasing);
         }
     }
@@ -578,8 +613,8 @@ public class BossControl_Raizen : MonoBehaviour
 
     private IEnumerator ChainLightning_co()
     {
-        Vector3 startOffset = transform.forward * 3f;
-        float distanceBetweenStrikes = 4f;
+        Vector3 startOffset = transform.forward * 3.5f;
+        float distanceBetweenStrikes = 5f;
         float delayBetweenStrikes = 0.25f;
 
         for (int i = 0; i < 3; i++)
@@ -603,8 +638,10 @@ public class BossControl_Raizen : MonoBehaviour
 
         while (timer < spinDuration)
         {
-            Vector3 spawnPos = transform.position + transform.forward * 1.5f + Vector3.up * 1.5f;
-            GameObject projectile = Instantiate(flameProjectilePrefab, spawnPos, transform.rotation);
+            //Vector3 directionToPlayer = player.position - FlamePoint.position;
+            //FlamePoint.rotation = Quaternion.LookRotation(directionToPlayer);
+
+            GameObject projectile = Instantiate(flameProjectilePrefab, FlamePoint);
             projectile.GetComponent<Rigidbody>().velocity = transform.forward * 20f;
 
             timer += fireInterval;

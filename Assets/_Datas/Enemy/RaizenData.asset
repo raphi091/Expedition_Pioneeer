@@ -33,61 +33,67 @@ MonoBehaviour:
     animationClip: {fileID: 1827226128182048838, guid: 5fcc43a491b62d34fadb6c6d247b3c4f, type: 3}
     damage: 33
     moveDistance: 2.251158
-    minRange: 3
-    maxRange: 8
+    minRange: 1
+    maxRange: 5
     requiredPhase: 1
     objectCount: 3
     spawnRadius: 15
     spawnDelay: 0.3
+    isAnotherForm: 0
   - animationName: Attack2
     animationClip: {fileID: 1827226128182048838, guid: 26247184e040bae468639ce46d3ecd52, type: 3}
     damage: 47
     moveDistance: 7.078791
-    minRange: 10
-    maxRange: 20
+    minRange: 4
+    maxRange: 10
     requiredPhase: 1
     objectCount: 3
     spawnRadius: 15
     spawnDelay: 0.3
+    isAnotherForm: 0
   - animationName: Attack3
     animationClip: {fileID: 1827226128182048838, guid: e139b5a254b571049b3a94645ad067d6, type: 3}
     damage: 11
     moveDistance: 0
-    minRange: 0
-    maxRange: 7
+    minRange: 6
+    maxRange: 17
     requiredPhase: 1
     objectCount: 3
     spawnRadius: 15
     spawnDelay: 0.3
+    isAnotherForm: 0
   - animationName: Attack4
     animationClip: {fileID: 1827226128182048838, guid: 7e47d6081e3fd284e9c075a726d129e5, type: 3}
     damage: 0
     moveDistance: 3.393
-    minRange: 5
-    maxRange: 20
+    minRange: 0
+    maxRange: 8
     requiredPhase: 2
     objectCount: 4
     spawnRadius: 15
     spawnDelay: 0.3
+    isAnotherForm: 1
   - animationName: Attack5
     animationClip: {fileID: 1827226128182048838, guid: cbc367a98fb3932468eb76b6fe0d9ad1, type: 3}
     damage: 12.5
     moveDistance: 7
-    minRange: 0
-    maxRange: 25
+    minRange: 6
+    maxRange: 10
     requiredPhase: 2
     objectCount: 3
     spawnRadius: 15
     spawnDelay: 0.3
+    isAnotherForm: 1
   - animationName: Attack6
     animationClip: {fileID: 1827226128182048838, guid: 0aab6d3a5c75fbe488ce308de0eefc22, type: 3}
     damage: 12.5
     moveDistance: 42
-    minRange: 2
-    maxRange: 7
+    minRange: 30
+    maxRange: 44
     requiredPhase: 2
     objectCount: 3
     spawnRadius: 15
     spawnDelay: 0.3
-  cooldown: 4
+    isAnotherForm: 1
+  cooldown: 3
   attackPrepareTime: 1.5
