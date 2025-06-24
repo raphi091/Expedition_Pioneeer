@@ -68,7 +68,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: SKM_Plague_Knight_NoSim
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5866666021909216657, guid: 3322f128edc13ab4ca0a005bf08f590d, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 404236416415444690, guid: 3322f128edc13ab4ca0a005bf08f590d, type: 3}

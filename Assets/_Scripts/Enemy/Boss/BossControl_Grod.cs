@@ -47,8 +47,8 @@ public class BossControl_Grod : MonoBehaviour
 
         if (!TryGetComponent(out animator))
             Debug.LogWarning("BossControl_Grod ] Animator 없음");
-        if (!TryGetComponent(out stats))
 
+        if (!TryGetComponent(out stats))
             Debug.LogWarning("BossControl_Grod ] BossStats 없음");
 
         weaponDamage = GetComponentInChildren<WeaponDamage>();

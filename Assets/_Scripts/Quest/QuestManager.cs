@@ -22,7 +22,7 @@ public class QuestManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-        if (TryGetComponent(out ecologyManager))
+        if (!TryGetComponent(out ecologyManager))
             Debug.LogWarning("QuestManager ] BossEcologyManager 없음");
     }
 

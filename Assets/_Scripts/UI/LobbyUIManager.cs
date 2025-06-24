@@ -27,7 +27,7 @@ public class LobbyUIManager : MonoBehaviour
 
     [Header("Option")]
     [SerializeField] private GameObject screenPanel;
-    [SerializeField] private GameObject soundPanel, mousePanel, manuelPanel, resetPanel;
+    [SerializeField] private GameObject soundPanel, mousePanel, manuelPanel, resetPanel , savePanel;
     [SerializeField] private Button optionFirstBtn;
 
     [Header("Manual")]
@@ -51,6 +51,8 @@ public class LobbyUIManager : MonoBehaviour
 
     private Stack<GameObject> uiPanelStack = new Stack<GameObject>();
 
+    private SettingManager settingManager;
+
 
     private void Awake()
     {
@@ -59,11 +61,15 @@ public class LobbyUIManager : MonoBehaviour
         StartBtn.SetActive(false);
         OptionPanel.SetActive(false);
         ExitPanel.SetActive(false);
+        savePanel.SetActive(false);
 
         fade.gameObject.SetActive(true);
 
         if (!volume.profile.TryGet(out bloom))
             Debug.LogWarning("LobbyUIManager ] Volume ] Bloom 없음");
+
+        if (!TryGetComponent(out settingManager))
+            Debug.LogWarning("LobbyUIManager ] SettingManager 없음");
 
         Version.text = $"v{Application.version}";
     }
@@ -260,6 +266,23 @@ public class LobbyUIManager : MonoBehaviour
         ExitPanel.SetActive(true);
         SoundManager.Instance.PlaySFX(ButtonClips[1]);
         SetSelectedUIElement(exitFirstBtn.gameObject);
+    }
+
+    public void OnSaveSetting()
+    {
+        if (savePanel.activeSelf) return;
+
+        StartCoroutine(SaveSetting_co());
+    }
+
+    private IEnumerator SaveSetting_co()
+    {
+        settingManager.ApplyAndSaveChanges();
+        savePanel.SetActive(true);
+
+        yield return new WaitForSeconds(1.5f);
+
+        savePanel.SetActive(false);
     }
 
     public void OnExitYesButton()

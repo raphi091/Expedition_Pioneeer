@@ -41,16 +41,16 @@ public class BossControl_KorAndGar : MonoBehaviour
     private void Awake()
     {
         if (!TryGetComponent(out agent))
-            Debug.LogWarning("BossControl_Grod ] NavMeshAgent 없음");
+            Debug.LogWarning("BossControl_KorAndGar ] NavMeshAgent 없음");
 
         if (!TryGetComponent(out controller))
-            Debug.LogWarning("BossControl_Grod ] CharacterController 없음");
+            Debug.LogWarning("BossControl_KorAndGar ] CharacterController 없음");
 
         if (!TryGetComponent(out animator))
-            Debug.LogWarning("BossControl_Grod ] Animator 없음");
-        if (!TryGetComponent(out stats))
+            Debug.LogWarning("BossControl_KorAndGar ] Animator 없음");
 
-            Debug.LogWarning("BossControl_Grod ] BossStats 없음");
+        if (!TryGetComponent(out stats))
+            Debug.LogWarning("BossControl_KorAndGar ] BossStats 없음");
 
         weaponDamage = GetComponentInChildren<WeaponDamage>();
     }

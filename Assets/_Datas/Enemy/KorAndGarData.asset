@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bossID: 1
   bossName: "\uCF54\uB974 & \uAC00\uB974"
-  bossIcon: {fileID: 0}
+  bossIcon: {fileID: 21300000, guid: 7f05f9a04fb6ea44db47f87af51fdd81, type: 3}
   bossPrefab: {fileID: 2500177560890586851, guid: 9a0e4b6dea88a934e942d99022ec19de, type: 3}
   maxHealth: 18000
   phase2Duration: 2
@@ -66,3 +66,6 @@ MonoBehaviour:
     requiredPhase: 1
   cooldown: 4
   attackPrepareTime: 1.5
+  optimalRangeMin: 7
+  optimalRangeMax: 12
+  stepBackDistance: 4

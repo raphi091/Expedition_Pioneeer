@@ -49,4 +49,9 @@ public class AttackData
     [Tooltip("공격 최대 사거리")] public float maxRange;
 
     [Tooltip("사용 조건")] public int requiredPhase = 1;
+
+    [Header("장판/소환수 설정 (필요시 사용)")]
+    public int objectCount = 3;
+    public float spawnRadius = 15f;
+    public float spawnDelay = 0.3f;
 }

@@ -42262,6 +42262,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 554.44
       objectReference: {fileID: 0}
+    - target: {fileID: 2906020150404558595, guid: 204d91d5fed9c4e40b6b7da6933ee823, type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 1535
+      objectReference: {fileID: 0}
     - target: {fileID: 2921957294637032603, guid: 204d91d5fed9c4e40b6b7da6933ee823, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -65958,7 +65962,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 1048
+    m_Bits: 1560
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: d018f768c45c6c04390a2ddf63f7df66, type: 2}
   m_TargetDisplay: 0
