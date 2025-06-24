@@ -222,6 +222,7 @@ public class PlayerControl : MonoBehaviour, IDamage
     //-----이동 및 공격
     private void OnMove(InputAction.CallbackContext context)
     {
+        if (FindObjectOfType<InGameUIManager>().IsPause) return;
         if (attackControl.IsAttacking || attackControl.IsCharging || attackControl.IsGuarding) return;
 
         moveControl?.Move(context.ReadValue<Vector2>());
@@ -229,6 +230,7 @@ public class PlayerControl : MonoBehaviour, IDamage
 
     private void OnRun(InputAction.CallbackContext context)
     {
+        if (FindObjectOfType<InGameUIManager>().IsPause) return;
         if (attackControl.IsAttacking || attackControl.IsCharging || attackControl.IsGuarding) return;
 
         moveControl?.Run(context.ReadValueAsButton());
@@ -236,6 +238,7 @@ public class PlayerControl : MonoBehaviour, IDamage
 
     private void OnDodge(InputAction.CallbackContext context)
     {
+        if (FindObjectOfType<InGameUIManager>().IsPause) return;
         if (attackControl.IsAttacking || attackControl.IsCharging) return;
 
         moveControl?.Dodge();
@@ -243,11 +246,13 @@ public class PlayerControl : MonoBehaviour, IDamage
 
     private void OnLockOn(InputAction.CallbackContext context)
     {
+        if (FindObjectOfType<InGameUIManager>().IsPause) return;
         moveControl?.ToggleLockOn();
     }
 
     private void OnCrouch(InputAction.CallbackContext context)
     {
+        if (FindObjectOfType<InGameUIManager>().IsPause) return;
         if (attackControl.IsAttacking || attackControl.IsCharging || attackControl.IsGuarding || moveControl.IsDodging) return;
 
         if (IsWeaponEquipped)
@@ -258,6 +263,7 @@ public class PlayerControl : MonoBehaviour, IDamage
 
     private void OnAttack(InputAction.CallbackContext context)
     {
+        if (FindObjectOfType<InGameUIManager>().IsPause) return;
         if (attackControl.IsAttacking || attackControl.IsCharging || attackControl.IsGuarding || moveControl.IsDodging || moveControl.IsCrouched) return;
 
         if (IsWeaponEquipped)
@@ -268,6 +274,7 @@ public class PlayerControl : MonoBehaviour, IDamage
 
     private void OnSecondaryAttack(InputAction.CallbackContext context)
     {
+        if (FindObjectOfType<InGameUIManager>().IsPause) return;
         if (attackControl.IsAttacking || attackControl.IsCharging || attackControl.IsGuarding || moveControl.IsDodging || moveControl.IsCrouched) return;
 
         if (IsWeaponEquipped)
@@ -278,6 +285,7 @@ public class PlayerControl : MonoBehaviour, IDamage
 
     private void OnChargeOrGuard(InputAction.CallbackContext context)
     {
+        if (FindObjectOfType<InGameUIManager>().IsPause) return;
         if (attackControl.IsAttacking || moveControl.IsDodging || moveControl.IsCrouched || !IsWeaponEquipped) return;
 
         if (context.started)

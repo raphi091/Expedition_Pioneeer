@@ -108,16 +108,21 @@ public class ItemUIManager : MonoBehaviour
 
     private void OnItemNext(InputAction.CallbackContext context)
     {
+        if (FindObjectOfType<InGameUIManager>().IsPause) return;
+
         SelectNextItem();
     }
 
     private void OnItemPrevious(InputAction.CallbackContext context)
     {
+        if (FindObjectOfType<InGameUIManager>().IsPause) return;
+
         SelectPreviousItem();
     }
 
     private void OnUseItem(InputAction.CallbackContext context)
     {
+        if (FindObjectOfType<InGameUIManager>().IsPause) return;
         if (isAnimating || playerItems.Count == 0) return;
 
         PlayerItem currentItem = playerItems[currentItemIndex];

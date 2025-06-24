@@ -272,6 +272,7 @@ public class LobbyUIManager : MonoBehaviour
     {
         if (savePanel.activeSelf) return;
 
+        SoundManager.Instance.PlaySFX(ButtonClips[1]);
         StartCoroutine(SaveSetting_co());
     }
 

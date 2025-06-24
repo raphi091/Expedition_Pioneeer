@@ -191,8 +191,7 @@ public class BossControl_Grod : MonoBehaviour
             if (IsPlayerInSight())
             {
                 SoundManager.Instance.PlayBGM(BGMTrackName.Boss2);
-                State nextState = hasDiscoveredPlayer ? State.Chasing : State.BattleCry;
-                EnterState(nextState);
+                EnterState(State.BattleCry);
                 yield break;
             }
 

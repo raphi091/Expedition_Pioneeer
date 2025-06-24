@@ -31,7 +31,11 @@ public class InGameUIManager : MonoBehaviour
     [SerializeField] private Image fade;
     private float startfade = 1f;
 
+    private bool isPause = false;
+    public bool IsPause => isPause;
+
     private Stack<GameObject> uiPanelStack = new Stack<GameObject>();
+
 
     private void Awake()
     {
@@ -73,12 +77,16 @@ public class InGameUIManager : MonoBehaviour
             {
                 FindObjectOfType<PlayerMoveControl>().CursorLockState();
                 backPanel.SetActive(false);
+                isPause = false;
+                Time.timeScale = 1f;
             }
         }
         else
         {
             FindObjectOfType<PlayerMoveControl>().CursorLockState();
             backPanel.SetActive(true);
+            isPause = true;
+            Time.timeScale = 0f;
             OpenPanel(menuPanel);
         }
     }

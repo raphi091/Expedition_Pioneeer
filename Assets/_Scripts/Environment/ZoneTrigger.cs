@@ -17,6 +17,15 @@ public class ZoneTrigger : MonoBehaviour
         }
     }
 
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            // 스테미나 무한 로직 추가
+            //other.GetComponent<PlayerControl>();
+        }
+    }
+
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player"))
