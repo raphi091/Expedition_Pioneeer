@@ -43644,7 +43644,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 812117910358185676, guid: 204d91d5fed9c4e40b6b7da6933ee823, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.045032617
+      value: 0.0450327
       objectReference: {fileID: 0}
     - target: {fileID: 812117910358185676, guid: 204d91d5fed9c4e40b6b7da6933ee823, type: 3}
       propertyPath: m_LocalRotation.y
@@ -88210,6 +88210,9 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  previousSlotPosition: {x: 190, y: 0}
+  currentSlotPosition: {x: 0, y: 0}
+  nextSlotPosition: {x: -190, y: 0}
 --- !u!1001 &1867806848
 PrefabInstance:
   m_ObjectHideFlags: 0

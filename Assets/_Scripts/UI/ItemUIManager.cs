@@ -41,11 +41,13 @@ public class ItemUIManager : MonoBehaviour
     [SerializeField] private float sideSlotAlpha = 0.6f;
     [SerializeField] private AnimationCurve animationCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
 
+    [Header("Slot Positions")]
+    public Vector2 previousSlotPosition;
+    public Vector2 currentSlotPosition;
+    public Vector2 nextSlotPosition;
+
     private InputControl input;
     private ItemDatabase itemDatabase;
-    private Vector2 previousSlotPosition;
-    private Vector2 currentSlotPosition;
-    private Vector2 nextSlotPosition;
     private int currentItemIndex = 0;
     private bool isAnimating = false;
 
@@ -82,25 +84,12 @@ public class ItemUIManager : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine(InitializeSlots());
-    }
-
-    private IEnumerator InitializeSlots()
-    {
-        Canvas.ForceUpdateCanvases();
-
         previousSlot.rectTransform = previousSlot.slot.GetComponent<RectTransform>();
         currentSlot.rectTransform = currentSlot.slot.GetComponent<RectTransform>();
         nextSlot.rectTransform = nextSlot.slot.GetComponent<RectTransform>();
 
-        previousSlotPosition = previousSlot.rectTransform.anchoredPosition;
-        currentSlotPosition = currentSlot.rectTransform.anchoredPosition;
-        nextSlotPosition = nextSlot.rectTransform.anchoredPosition;
-
         UpdateAllSlots();
         UpdateItemListFromManager();
-
-        yield return null;
     }
 
     private void OnScroll(InputAction.CallbackContext context)
