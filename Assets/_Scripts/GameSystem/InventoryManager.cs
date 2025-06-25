@@ -101,20 +101,89 @@ public class InventoryManager : MonoBehaviour
 
     public bool UseItem(string itemID)
     {
+        ItemInfo info = itemDatabase.GetItemByID(itemID);
+        if (info == null) return false;
+
         PlayerItemData itemToUse = runtimePouch.FirstOrDefault(item => item.itemID == itemID);
         if (itemToUse != null && itemToUse.count > 0)
         {
-            // 실제 아이템 사용 효과 구현
             itemToUse.count--;
-            if (itemToUse.count <= 0) runtimePouch.Remove(itemToUse);
+
+            if (itemToUse.count <= 0) 
+                runtimePouch.Remove(itemToUse);
+
             OnInventoryUpdated?.Invoke();
+
+            if (playerControl != null)
+            {
+                playerControl.RequestUseItem(info);
+            }
+
             return true;
         }
         return false;
     }
 
-    public void MoveFromStashToPouch(string itemID, int amount) { /* ... */ }
-    public void MoveFromPouchToStash(string itemID, int amount) { /* ... */ }
+    public void MoveFromStashToPouch(string itemID, int amount)
+    {
+        ItemInfo info = itemDatabase.GetItemByID(itemID);
+        if (info == null) return;
+
+        PlayerItemData stashItem = runtimeStash.FirstOrDefault(i => i.itemID == itemID);
+        if (stashItem == null || stashItem.count < amount) return;
+
+        PlayerItemData pouchItem = runtimePouch.FirstOrDefault(i => i.itemID == itemID);
+        int spaceInPouch = info.pouchCapacity - (pouchItem?.count ?? 0);
+
+        int amountToMove = Mathf.Min(amount, spaceInPouch);
+        if (amountToMove <= 0)
+        {
+            return;
+        }
+
+        stashItem.count -= amountToMove;
+        if (stashItem.count <= 0)
+        {
+            runtimeStash.Remove(stashItem);
+        }
+
+        if (pouchItem != null)
+        {
+            pouchItem.count += amountToMove;
+        }
+        else
+        {
+            runtimePouch.Add(new PlayerItemData { itemID = itemID, count = amountToMove });
+        }
+
+        OnInventoryUpdated?.Invoke(); // UI 갱신
+    }
+
+    public void MoveFromPouchToStash(string itemID, int amount)
+    {
+        PlayerItemData pouchItem = runtimePouch.FirstOrDefault(i => i.itemID == itemID);
+        if (pouchItem == null || pouchItem.count < amount) return;
+
+        int amountToMove = amount;
+
+        pouchItem.count -= amountToMove;
+        if (pouchItem.count <= 0)
+        {
+            runtimePouch.Remove(pouchItem);
+        }
+
+        PlayerItemData stashItem = runtimeStash.FirstOrDefault(i => i.itemID == itemID);
+        if (stashItem != null)
+        {
+            stashItem.count += amountToMove;
+        }
+        else
+        {
+            runtimeStash.Add(new PlayerItemData { itemID = itemID, count = amountToMove });
+        }
+
+        OnInventoryUpdated?.Invoke();
+    }
 
     public int GetPouchItemCount(string itemID)
     {
@@ -150,7 +219,6 @@ public class InventoryManager : MonoBehaviour
     public void AddEquipment(PlayerEquipmentData newEquipment)
     {
         runtimeEquipmentStash.Add(newEquipment);
-        Debug.Log($"{newEquipment.weaponID} 장비 추가됨.");
         OnInventoryUpdated?.Invoke();
     }
 

@@ -24,7 +24,7 @@ public class PlayerItem
 public class ItemUIManager : MonoBehaviour
 {
     [Header("Item")]
-    [SerializeField] private List<PlayerItem> playerItems = new List<PlayerItem>();
+    public List<PlayerItem> playerItems = new List<PlayerItem>();
 
     [Header("UI")]
     [SerializeField] private SlotUI previousSlot;
@@ -61,7 +61,6 @@ public class ItemUIManager : MonoBehaviour
         input.actionInput.Player.ItemScroll.performed += OnScroll;
         input.actionInput.Player.ItemNext.performed += OnItemNext;
         input.actionInput.Player.ItemPrevious.performed += OnItemPrevious;
-        input.actionInput.Player.UseItem.performed += OnUseItem;
 
         if (InventoryManager.Instance != null)
         {
@@ -74,7 +73,6 @@ public class ItemUIManager : MonoBehaviour
         input.actionInput.Player.ItemScroll.performed -= OnScroll;
         input.actionInput.Player.ItemNext.performed -= OnItemNext;
         input.actionInput.Player.ItemPrevious.performed -= OnItemPrevious;
-        input.actionInput.Player.UseItem.performed -= OnUseItem;
 
         if (InventoryManager.Instance != null)
         {
@@ -120,16 +118,18 @@ public class ItemUIManager : MonoBehaviour
         SelectPreviousItem();
     }
 
-    private void OnUseItem(InputAction.CallbackContext context)
+    public void UseCurrentItem()
     {
-        if (FindObjectOfType<InGameUIManager>().IsPause) return;
         if (isAnimating || playerItems.Count == 0) return;
 
         PlayerItem currentItem = playerItems[currentItemIndex];
-
         if (currentItem.quantity > 0)
         {
             InventoryManager.Instance.UseItem(currentItem.itemInfo.itemID);
+        }
+        else
+        {
+            // StartCoroutine(ShakeSlotCoroutine(currentSlot));
         }
     }
 

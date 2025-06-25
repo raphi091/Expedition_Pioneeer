@@ -6,6 +6,7 @@ public static class AnimatorHashSet
     public static int MOVESPEED = Animator.StringToHash("MOVESPEED");
     public static int CROUCH = Animator.StringToHash("CROUCH");
     public static int DODGE = Animator.StringToHash("DODGE");
+    public static int ITEM = Animator.StringToHash("ITEM");
 
     public static int WEAPON = Animator.StringToHash("WEAPON");
 

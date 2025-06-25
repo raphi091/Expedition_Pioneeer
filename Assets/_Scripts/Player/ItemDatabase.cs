@@ -7,6 +7,8 @@ using CustomInspector;
 
 public class ItemDatabase : MonoBehaviour
 {
+    public static ItemDatabase Instance = null;
+
     [Foldout] public List<WeaponInfo> allWeapons;
     [Foldout] public List<ItemInfo> allItems;
 
@@ -15,6 +17,15 @@ public class ItemDatabase : MonoBehaviour
 
     private void Awake()
     {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+
         foreach (var weapon in allWeapons)
         {
             if (!weaponDict.ContainsKey(weapon.name))

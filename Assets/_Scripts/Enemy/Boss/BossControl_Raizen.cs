@@ -148,7 +148,7 @@ public class BossControl_Raizen : MonoBehaviour
         else
         {
             useRootMotionLogic = false;
-            if (agent.enabled) 
+            if (agent.enabled)
                 agent.isStopped = false;
         }
 
@@ -207,7 +207,7 @@ public class BossControl_Raizen : MonoBehaviour
 
             if (IsPlayerInSight())
             {
-                SoundManager.Instance.PlayBGM(BGMTrackName.Boss3);
+                // SoundManager.Instance.PlayBGM(BGMTrackName.Boss3);
                 EnterState(State.Chasing);
                 yield break;
             }
@@ -269,7 +269,7 @@ public class BossControl_Raizen : MonoBehaviour
             if (distanceToPlayer > stats.data.loseSightRange ||
                 Vector3.Distance(transform.position, startPosition) > stats.data.maxChaseDistance)
             {
-                SoundManager.Instance.PlayBGM(BGMTrackName.Exploration);
+                // SoundManager.Instance.PlayBGM(BGMTrackName.Exploration);
                 hasDiscoveredPlayer = false;
                 EnterState(State.Idle);
                 yield break;
@@ -575,14 +575,6 @@ public class BossControl_Raizen : MonoBehaviour
         }
     }
 
-    public void AnimationEvent_SpawnGroundAoE()
-    {
-        if (scheduledAttackIndex != -1)
-        {
-            StartCoroutine(SpawnAoE_co(stats.data.attacks[scheduledAttackIndex]));
-        }
-    }
-
     public void AnimationEvent_StartChainLightning()
     {
         StartCoroutine(ChainLightning_co());
@@ -593,24 +585,19 @@ public class BossControl_Raizen : MonoBehaviour
         StartCoroutine(SpinAndShoot_co());
     }
 
-    private IEnumerator SpawnAoE_co(AttackData attackData)
+    public void AnimationEvent_SpawnGroundAoE()
     {
-        int count = attackData.objectCount;
-        float radius = attackData.spawnRadius;
-        float delay = attackData.spawnDelay;
-
-        for (int i = 0; i < count; i++)
+        if (scheduledAttackIndex != -1)
         {
-            Vector2 randomCircle = Random.insideUnitCircle * radius;
-            Vector3 spawnPosition = transform.position + new Vector3(randomCircle.x, 0, randomCircle.y);
-            spawnPosition.y = 0;
+            StartCoroutine(SpawnAoE_co(stats.data.attacks[scheduledAttackIndex]));
+        }
+    }
 
-            if (NavMesh.SamplePosition(spawnPosition, out NavMeshHit hit, 5f, NavMesh.AllAreas))
-            {
-                Instantiate(groundAoEPrefab, hit.position, Quaternion.identity);
-            }
-
-            yield return new WaitForSeconds(delay);
+    public void AnimationEvent_StartRadialLightning()
+    {
+        if (scheduledAttackIndex != -1)
+        {
+            StartCoroutine(RadialLightning_co(stats.data.attacks[scheduledAttackIndex]));
         }
     }
 
@@ -646,6 +633,60 @@ public class BossControl_Raizen : MonoBehaviour
 
             timer += fireInterval;
             yield return new WaitForSeconds(fireInterval);
+        }
+    }
+
+    private IEnumerator SpawnAoE_co(AttackData attackData)
+    {
+        int count = attackData.objectCount;
+        float radius = attackData.spawnRadius;
+        float delay = attackData.spawnDelay;
+
+        for (int i = 0; i < count; i++)
+        {
+            Vector2 randomCircle = Random.insideUnitCircle * radius;
+            Vector3 spawnPosition = transform.position + new Vector3(randomCircle.x, 0, randomCircle.y);
+            spawnPosition.y = 0;
+
+            if (NavMesh.SamplePosition(spawnPosition, out NavMeshHit hit, 5f, NavMesh.AllAreas))
+            {
+                Instantiate(groundAoEPrefab, hit.position, Quaternion.identity);
+            }
+
+            yield return new WaitForSeconds(delay);
+        }
+    }
+
+    private IEnumerator RadialLightning_co(AttackData attackData)
+    {
+        Vector3 centerPoint = transform.position;
+
+        int waves = attackData.objectCount;
+        float radiusStep = attackData.spawnRadius;
+        float delayBetweenWaves = attackData.spawnDelay;
+        int baseStrikesPerWave = 6;
+
+        for (int i = 0; i < waves; i++)
+        {
+            float currentRadius = radiusStep * (i + 1);
+            int strikeCount = baseStrikesPerWave + (i * 3);
+
+            for (int j = 0; j < strikeCount; j++)
+            {
+                float angle = (360f / strikeCount) * j;
+                float radian = angle * Mathf.Deg2Rad;
+
+                Vector3 spawnOffset = new Vector3(Mathf.Cos(radian) * currentRadius, 0, Mathf.Sin(radian) * currentRadius);
+                Vector3 spawnPosition = centerPoint + spawnOffset;
+
+
+                if (NavMesh.SamplePosition(spawnPosition, out NavMeshHit hit, 5f, NavMesh.AllAreas))
+                {
+                    Instantiate(chainLightningPrefab, hit.position, Quaternion.identity);
+                }
+            }
+
+            yield return new WaitForSeconds(delayBetweenWaves);
         }
     }
 }

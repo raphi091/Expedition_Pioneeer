@@ -32,7 +32,7 @@ MonoBehaviour:
   AttackSpeed: 0
   isCraftable: 1
   craftRecipe: []
-  craftGold: 100
+  craftGold: -7
   requiredPreviousWeapon: {fileID: 0}
   upgradeRecipe: []
   upgradeGold: 0

@@ -43,6 +43,7 @@ public class PlayerControl : MonoBehaviour, IDamage
     [Header("Controller")]
     public PlayerMoveControl moveControl;
     public PlayerAttackControl attackControl;
+    public PlayerInteractionControl interactionControl;
 
     [Header("Weapon")]
     public Transform handSlotR;
@@ -53,6 +54,12 @@ public class PlayerControl : MonoBehaviour, IDamage
 
     [Header("Animation")]
     public float attackmove = 100f;
+
+    [Header("Buffs")]
+    private float attackBuffTimer = 0f;
+    private float defenseBuffTimer = 0f;
+    public float DamageMultiplier { get; private set; } = 1f;
+    public float DefenseMultiplier { get; private set; } = 1f;
 
     private List<GameObject> activeWeaponInstances = new List<GameObject>();
 
@@ -77,6 +84,10 @@ public class PlayerControl : MonoBehaviour, IDamage
     public float CurrentStamina => currentStamina;
     public float MaxStamina => maxStamina;
 
+    private Coroutine activeHealCoroutine = null;
+    private Coroutine attackBuffCoroutine = null;
+    private Coroutine defenseBuffCoroutine = null;
+
 
     private void Awake()
     {
@@ -94,6 +105,9 @@ public class PlayerControl : MonoBehaviour, IDamage
 
         if (!TryGetComponent(out attackControl))
             Debug.LogWarning("PlayerControl ] Animator 없음");
+
+        if (!TryGetComponent(out interactionControl))
+            Debug.LogWarning("PlayerControl ] PlayerInteractionController 없음");
 
         maincamera = Camera.main.transform;
     }
@@ -113,6 +127,9 @@ public class PlayerControl : MonoBehaviour, IDamage
             input.actionInput.Player.SecondaryAttack.performed += OnSecondaryAttack;
             input.actionInput.Player.ChargeOrGuard.started += OnChargeOrGuard;
             input.actionInput.Player.ChargeOrGuard.canceled += OnChargeOrGuard;
+            input.actionInput.Player.Inventory.performed += OnPouchOpenInput; // 'I' 키
+            input.actionInput.Player.UseItem.performed += OnUseItemInput;   // 'E' 키
+            input.actionInput.Player.Interaction.performed += OnInteractInput;
         }
     }
 
@@ -129,6 +146,9 @@ public class PlayerControl : MonoBehaviour, IDamage
         input.actionInput.Player.SecondaryAttack.performed -= OnSecondaryAttack;
         input.actionInput.Player.ChargeOrGuard.started -= OnChargeOrGuard;
         input.actionInput.Player.ChargeOrGuard.canceled -= OnChargeOrGuard;
+        input.actionInput.Player.Inventory.performed += OnPouchOpenInput; // 'I' 키
+        input.actionInput.Player.UseItem.performed += OnUseItemInput;   // 'E' 키
+        input.actionInput.Player.Interaction.performed += OnInteractInput;
     }
 
     private void Update()
@@ -145,6 +165,15 @@ public class PlayerControl : MonoBehaviour, IDamage
                 State.health = Mathf.FloorToInt(currentHealth);
                 OnHealthChanged?.Invoke(currentHealth, recoverableHealth, Profile.health);
             }
+        }
+
+        if (attackBuffTimer > 0)
+        {
+            attackBuffTimer -= Time.deltaTime;
+        }
+        if (defenseBuffTimer > 0)
+        {
+            defenseBuffTimer -= Time.deltaTime;
         }
 
         if (!moveControl.IsRunning && !moveControl.IsDodging && !attackControl.IsAttacking && !attackControl.IsCharging)
@@ -298,6 +327,21 @@ public class PlayerControl : MonoBehaviour, IDamage
         }
     }
 
+    private void OnPouchOpenInput(InputAction.CallbackContext context)
+    {
+        interactionControl?.TogglePouchUI();
+    }
+
+    private void OnUseItemInput(InputAction.CallbackContext context)
+    {
+        interactionControl?.RequestUseQuickSlotItem();
+    }
+
+    private void OnInteractInput(InputAction.CallbackContext context)
+    {
+        interactionControl?.RequestInteraction();
+    }
+
     //-----무기 관련
     public void SetWeapon(WeaponInfo newWeapon)
     {
@@ -442,5 +486,154 @@ public class PlayerControl : MonoBehaviour, IDamage
     {
         return runStaminaCost;
     }
+
+    public void Heal(float amount)
+    {
+        if (activeHealCoroutine != null)
+        {
+            StopCoroutine(activeHealCoroutine);
+        }
+
+        float targetHealth = Mathf.Min(currentHealth + amount, maxHealth);
+
+        recoverableHealth = targetHealth;
+
+        OnHealthChanged?.Invoke(currentHealth, recoverableHealth, maxHealth);
+
+        activeHealCoroutine = StartCoroutine(HealOverTimeCoroutine(targetHealth, 1.0f));
+    }
+
+    private IEnumerator HealOverTimeCoroutine(float targetHealth, float duration)
+    {
+        float elapsedTime = 0f;
+        float startingHealth = currentHealth;
+
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+
+            currentHealth = Mathf.Lerp(startingHealth, targetHealth, elapsedTime / duration);
+
+            OnHealthChanged?.Invoke(currentHealth, recoverableHealth, maxHealth);
+
+            yield return null;
+        }
+
+        currentHealth = targetHealth;
+        OnHealthChanged?.Invoke(currentHealth, recoverableHealth, maxHealth);
+
+        activeHealCoroutine = null;
+    }
+
+    public void RecoverStamina(float amount)
+    {
+        currentStamina += amount;
+        currentStamina = Mathf.Clamp(currentStamina, 0, maxStamina);
+        OnStaminaChanged?.Invoke(currentStamina, maxStamina);
+    }
+
+    public void RequestUseItem(ItemInfo itemInfo)
+    {
+        if (moveControl.IsRunning || moveControl.IsDodging || attackControl.IsAttacking || attackControl.IsGuarding || attackControl.IsCharging)
+        {
+            if (InventoryManager.Instance != null)
+            {
+                InventoryManager.Instance.AddItem(itemInfo.itemID, 1);
+            }
+            return;
+        }
+
+        if (animator != null)
+        {
+            animator.SetTrigger(AnimatorHashSet.ITEM);
+        }
+
+        StartCoroutine(ApplyItemEffectAfterAnimation(itemInfo));
+    }
+
+    private IEnumerator ApplyItemEffectAfterAnimation(ItemInfo itemInfo)
+    {
+        yield return new WaitForSeconds(1.0f);
+
+        OnAnimation_ApplyItemEffect(itemInfo);
+    }
+
+    public void OnAnimation_ApplyItemEffect(ItemInfo itemInfo)
+    {
+        switch (itemInfo.itemID)
+        {
+            case "1":
+                Heal(30);
+                break;
+
+            case "2":
+                Heal(70);
+                break;
+
+            case "3":
+                RecoverStamina(60);
+                break;
+
+            case "4":
+                ApplyAttackBuff(30f, 1.7f);
+                break;
+
+            case "5":
+                ApplyDefenseBuff(60f, 0.7f);
+                break;
+
+            case "6":
+                Heal(maxHealth);
+                RecoverStamina(maxStamina);
+                break;
+        }
+    }
+
+    public void ApplyAttackBuff(float duration, float multiplier)
+    {
+        if (attackBuffCoroutine != null)
+        {
+            StopCoroutine(attackBuffCoroutine);
+        }
+        attackBuffCoroutine = StartCoroutine(AttackBuffCoroutine(duration, multiplier));
+    }
+
+    public void ApplyDefenseBuff(float duration, float multiplier)
+    {
+        if (defenseBuffCoroutine != null)
+        {
+            StopCoroutine(defenseBuffCoroutine);
+        }
+        defenseBuffCoroutine = StartCoroutine(DefenseBuffCoroutine(duration, multiplier));
+    }
+
+    private IEnumerator AttackBuffCoroutine(float duration, float multiplier)
+    {
+        attackBuffTimer = duration;
+        DamageMultiplier = multiplier;
+        // TODO: 공격력 버프 UI 표시
+
+        yield return new WaitForSeconds(duration);
+
+        DamageMultiplier = 1f;
+        attackBuffTimer = 0f;
+        attackBuffCoroutine = null;
+        // TODO: 공격력 버프 UI 숨기기
+    }
+
+    private IEnumerator DefenseBuffCoroutine(float duration, float multiplier)
+    {
+        defenseBuffTimer = duration;
+        DefenseMultiplier = multiplier;
+        // TODO: 방어력 버프 UI 표시
+
+        yield return new WaitForSeconds(duration);
+
+        DefenseMultiplier = 1f;
+        defenseBuffTimer = 0f;
+        defenseBuffCoroutine = null;
+        // TODO: 방어력 버프 UI 숨기기
+    }
+
 }
 

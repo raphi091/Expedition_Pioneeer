@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 184848570103525419}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.3, z: 0.35}
+  m_LocalPosition: {x: 0, y: 1.3, z: 0.58}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -108,6 +108,7 @@ GameObject:
   - component: {fileID: 2451801442377688056}
   - component: {fileID: 3817575714091011040}
   - component: {fileID: 3260580974276175115}
+  - component: {fileID: 1941691704023700960}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -211,6 +212,7 @@ MonoBehaviour:
   model: {fileID: 147215788770613968}
   moveControl: {fileID: 0}
   attackControl: {fileID: 0}
+  interactionControl: {fileID: 0}
   handSlotR: {fileID: 0}
   handSlotL: {fileID: 0}
   armSlotL: {fileID: 0}
@@ -239,7 +241,7 @@ MonoBehaviour:
   eyesLookAtWeight: 1
   clampLookAtWeight: 0.5
   lookAtTargetDistance: 10
-  lockOnRange: 15
+  lockOnRange: 80
   lockOnAngle: 120
   enemyLayerMask:
     serializedVersion: 2
@@ -267,7 +269,7 @@ MonoBehaviour:
   attackRadius: 0.7
   enemyLayerMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 384
   basicComboMaxCount: 4
   basicComboResetTime: 1.2
   strongComboMaxCount: 2
@@ -277,3 +279,16 @@ MonoBehaviour:
   chargeStaminaCostLvl1: 10
   chargeStaminaCostLvl2: 20
   chargeStaminaDrainPerSecond: 2
+--- !u!114 &1941691704023700960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7338155294091210478}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59a2d9c455494da4db81bc6ced401116, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  quickSlotUI: {fileID: 0}

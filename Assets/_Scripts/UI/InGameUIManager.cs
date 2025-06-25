@@ -7,6 +7,8 @@ using UnityEngine.SceneManagement;
 
 public class InGameUIManager : MonoBehaviour
 {
+    public static InGameUIManager Instance = null;
+
     [Header("Menu")]
     [SerializeField] private GameObject playerinfoPanel;
     [SerializeField] private GameObject menuPanel, savePanel, titlePanel, quitPanel, backPanel;
@@ -27,6 +29,9 @@ public class InGameUIManager : MonoBehaviour
     [SerializeField] private GameObject dontsaveandquitPanel;
     [SerializeField] private Text saveQuitText;
 
+    [Header("Interaction")]
+    [SerializeField] private GameObject storagePanel;
+
     [Header("Fade In/Out")]
     [SerializeField] private Image fade;
     private float startfade = 1f;
@@ -39,11 +44,21 @@ public class InGameUIManager : MonoBehaviour
 
     private void Awake()
     {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+
         playerinfoPanel.SetActive(true);
         menuPanel.SetActive(false);
         savePanel.SetActive(false);
         quitPanel.SetActive(false);
         backPanel.SetActive(false);
+        storagePanel.SetActive(false);
 
         fade.gameObject.SetActive(true);
     }
@@ -198,6 +213,16 @@ public class InGameUIManager : MonoBehaviour
     public void OndontSaveQuitYesBtn()
     {
         Application.Quit();
+    }
+
+    public void OnOpenStorage()
+    {
+        OpenPanel(storagePanel);
+
+        FindObjectOfType<PlayerMoveControl>().CursorLockState();
+        backPanel.SetActive(true);
+        isPause = true;
+        Time.timeScale = 0f;
     }
 
     private void HandlePlayerDeath()
