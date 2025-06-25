@@ -6,6 +6,8 @@ public class InGameManager : MonoBehaviour
 {
     public static InGameManager Instance = null;
 
+    [SerializeField] string ProfileID1, ProfileID2;
+
     private Transform respawnPoint;
     private PlayerControl player;
     private InGameUIManager inGameUI;
@@ -21,9 +23,21 @@ public class InGameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
 
+    private void Start()
+    {
         player = FindObjectOfType<PlayerControl>();
-        respawnPoint = player.transform;
+
+        if (player != null)
+        {
+            respawnPoint = player.transform;
+            SetupPlayer();
+        }
+        else
+        {
+            Debug.LogError("IngameManager ] PlayerControl 없음");
+        }
 
         inGameUI = FindObjectOfType<InGameUIManager>();
 
@@ -64,5 +78,25 @@ public class InGameManager : MonoBehaviour
         yield return new WaitForSeconds(5f);
 
         inGameUI.PlayerRespawn();
+    }
+
+    private void SetupPlayer()
+    {
+        GameData data = DataManager.Instance.gameData;
+
+        if (data.characterInfo.actorProfileID.Equals(ProfileID1))
+        {
+            ActorProfile profile = ProfileManager.Instance.GetProfile(ProfileID1);
+            player.SetupCharacter(data, profile);
+        }
+        else if (data.characterInfo.actorProfileID.Equals(ProfileID2))
+        {
+            ActorProfile profile = ProfileManager.Instance.GetProfile(ProfileID2);
+            player.SetupCharacter(data, profile);
+        }
+        else
+        {
+            Debug.LogError("actorProfileID에 맞는 캐릭터 모델 프리팹이 없음: " + data.characterInfo.actorProfileID);
+        }
     }
 }

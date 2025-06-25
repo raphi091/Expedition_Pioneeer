@@ -82,6 +82,13 @@ public class ItemUIManager : MonoBehaviour
 
     void Start()
     {
+        StartCoroutine(InitializeSlots());
+    }
+
+    private IEnumerator InitializeSlots()
+    {
+        Canvas.ForceUpdateCanvases();
+
         previousSlot.rectTransform = previousSlot.slot.GetComponent<RectTransform>();
         currentSlot.rectTransform = currentSlot.slot.GetComponent<RectTransform>();
         nextSlot.rectTransform = nextSlot.slot.GetComponent<RectTransform>();
@@ -92,6 +99,8 @@ public class ItemUIManager : MonoBehaviour
 
         UpdateAllSlots();
         UpdateItemListFromManager();
+
+        yield return null;
     }
 
     private void OnScroll(InputAction.CallbackContext context)
