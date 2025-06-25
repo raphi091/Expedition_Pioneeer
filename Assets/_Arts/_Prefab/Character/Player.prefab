@@ -103,13 +103,14 @@ GameObject:
   m_Component:
   - component: {fileID: 7994082840438354056}
   - component: {fileID: 9129979802924070756}
+  - component: {fileID: 7263403710593053652}
   - component: {fileID: 7251778527487085002}
   - component: {fileID: 8062988942970690486}
   - component: {fileID: 2451801442377688056}
   - component: {fileID: 3817575714091011040}
   - component: {fileID: 3260580974276175115}
   - component: {fileID: 1941691704023700960}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -155,6 +156,29 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!136 &7263403710593053652
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7338155294091210478}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.32
+  m_Height: 2.4
+  m_Direction: 1
+  m_Center: {x: 0, y: 1.2, z: 0}
 --- !u!143 &7251778527487085002
 CharacterController:
   m_ObjectHideFlags: 0
@@ -291,4 +315,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59a2d9c455494da4db81bc6ced401116, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  quickSlotUI: {fileID: 0}

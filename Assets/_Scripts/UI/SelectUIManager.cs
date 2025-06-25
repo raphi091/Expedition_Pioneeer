@@ -221,10 +221,9 @@ public class SelectUIManager : MonoBehaviour
             return;
         }
 
-        GameData newData = new GameData();
+        GameData newData = new GameData(characterName);
 
         newData.characterInfo.actorProfileID = selectedProfile.alias;
-        newData.characterInfo.characterName = characterName;
         newData.characterInfo.level = 1;
         newData.characterInfo.experience = 0;
         newData.gold = 0;
@@ -233,7 +232,7 @@ public class SelectUIManager : MonoBehaviour
         DataManager.Instance.gameData = newData;
         DataManager.Instance.currentSlotIndex = selectedSlotForCreation;
 
-        InventoryManager.Instance.SetupInitialEquipment();
+        // InventoryManager.Instance.SetupInitialEquipment();
 
         DataManager.Instance.SaveGame();
 

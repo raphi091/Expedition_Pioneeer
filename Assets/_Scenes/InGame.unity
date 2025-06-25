@@ -337,7 +337,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1113385854}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.396
+  m_Size: 0.34
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -14626,8 +14626,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 301376554}
-  - component: {fileID: 301376555}
+  - component: {fileID: 301376557}
   - component: {fileID: 301376556}
+  - component: {fileID: 301376555}
   m_Layer: 0
   m_Name: InGameMainManager
   m_TagString: Untagged
@@ -14687,6 +14688,18 @@ MonoBehaviour:
   - {fileID: 1166554860}
   - {fileID: 272004356}
   rotationTimeInMinutes: 30
+--- !u!114 &301376557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 301376553}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0ac78d45a3827949858c39f6b77c4e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &303744090
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -34829,6 +34842,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3374998706616612143, guid: a5586290003dabf4e9719d25233ba7c1, type: 3}
+      propertyPath: storageManager
+      value: 
+      objectReference: {fileID: 1777655346}
     - target: {fileID: 5459166480703582245, guid: a5586290003dabf4e9719d25233ba7c1, type: 3}
       propertyPath: m_LocalScale.x
       value: 2.5
@@ -43341,7 +43358,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 812117910358185676, guid: 204d91d5fed9c4e40b6b7da6933ee823, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.045032877
+      value: 0.045032598
       objectReference: {fileID: 0}
     - target: {fileID: 812117910358185676, guid: 204d91d5fed9c4e40b6b7da6933ee823, type: 3}
       propertyPath: m_LocalRotation.y
@@ -44612,6 +44629,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3374998706616612143, guid: a5586290003dabf4e9719d25233ba7c1, type: 3}
+      propertyPath: storageManager
+      value: 
+      objectReference: {fileID: 1777655346}
     - target: {fileID: 5459166480703582245, guid: a5586290003dabf4e9719d25233ba7c1, type: 3}
       propertyPath: m_LocalPosition.x
       value: -329.68
@@ -52422,7 +52443,7 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1579675001}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.604}
+  m_AnchorMin: {x: 0, y: 0.65999997}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
@@ -53940,7 +53961,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1165823856}
   - component: {fileID: 1165823855}
-  - component: {fileID: 1165823857}
   m_Layer: 0
   m_Name: DataBase
   m_TagString: Untagged
@@ -53999,18 +54019,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1165823857
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1165823854}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a3b0654be4021a4497955a5786f7921, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1166554859
 GameObject:
   m_ObjectHideFlags: 0
@@ -64613,8 +64621,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 767.5, y: 990}
+  m_AnchoredPosition: {x: 30, y: 0}
+  m_SizeDelta: {x: 650, y: 750}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1415358460
 MonoBehaviour:
@@ -67142,8 +67150,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -80, y: 0}
-  m_SizeDelta: {x: 1535, y: 990}
+  m_AnchoredPosition: {x: -130, y: 0}
+  m_SizeDelta: {x: 1400, y: 850}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!114 &1455724656
 MonoBehaviour:
@@ -76839,8 +76847,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -80, y: 0}
-  m_SizeDelta: {x: 1535, y: 990}
+  m_AnchoredPosition: {x: -130, y: 0}
+  m_SizeDelta: {x: 1400, y: 850}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!114 &1644335626
 MonoBehaviour:
@@ -83190,9 +83198,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 134edd63b86132a429309f7398c8998a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponsPanel: {fileID: 0}
+  weaponsPanel: {fileID: 1455724654}
   itemsPanel: {fileID: 1644335624}
-  weaponSlotContainer: {fileID: 1455724655}
+  weaponSlotContainer: {fileID: 659042801}
   weaponSlotPrefab: {fileID: 8398757112658452756, guid: 66254a96f0fd6ae49bc442f3f9c10d6d, type: 3}
   pouchSlotContainer: {fileID: 1187897194}
   storageSlotContainer: {fileID: 628148759}
@@ -91661,8 +91669,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 767.5, y: 990}
+  m_AnchoredPosition: {x: -30, y: 0}
+  m_SizeDelta: {x: 650, y: 750}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!114 &1977405876
 MonoBehaviour:
@@ -96207,6 +96215,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3374998706616612143, guid: a5586290003dabf4e9719d25233ba7c1, type: 3}
+      propertyPath: storageManager
+      value: 
+      objectReference: {fileID: 1777655346}
     - target: {fileID: 5459166480703582245, guid: a5586290003dabf4e9719d25233ba7c1, type: 3}
       propertyPath: m_LocalScale.x
       value: 2.5

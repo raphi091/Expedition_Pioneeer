@@ -146,9 +146,9 @@ public class PlayerControl : MonoBehaviour, IDamage
         input.actionInput.Player.SecondaryAttack.performed -= OnSecondaryAttack;
         input.actionInput.Player.ChargeOrGuard.started -= OnChargeOrGuard;
         input.actionInput.Player.ChargeOrGuard.canceled -= OnChargeOrGuard;
-        input.actionInput.Player.Inventory.performed += OnPouchOpenInput; // 'I' 키
-        input.actionInput.Player.UseItem.performed += OnUseItemInput;   // 'E' 키
-        input.actionInput.Player.Interaction.performed += OnInteractInput;
+        input.actionInput.Player.Inventory.performed -= OnPouchOpenInput;
+        input.actionInput.Player.UseItem.performed -= OnUseItemInput;
+        input.actionInput.Player.Interaction.performed -= OnInteractInput;
     }
 
     private void Update()
@@ -487,6 +487,8 @@ public class PlayerControl : MonoBehaviour, IDamage
         return runStaminaCost;
     }
 
+
+    //-----아이템 사용 관련
     public void Heal(float amount)
     {
         if (activeHealCoroutine != null)

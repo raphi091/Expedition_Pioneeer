@@ -2,16 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StorageControl : MonoBehaviour
+public class StorageControl : MonoBehaviour, IInteractable
 {
-    private StorageUIManager storageManager;
+    [Header("StorageUI")]
+    [SerializeField] private StorageUIManager storageManager;
 
     private void Start()
     {
-        if (storageManager == null)
-        {
-            storageManager = FindObjectOfType<StorageUIManager>();
-        }
     }
 
     public void Interact(PlayerControl player)

@@ -60,11 +60,6 @@ public class StorageUIManager : MonoBehaviour
     public void OpenPanel()
     {
         InGameUIManager.Instance.OnOpenStorage();
-        ShowMainMenu();
-    }
-
-    public void ShowMainMenu()
-    {
         weaponsPanel.SetActive(false);
         itemsPanel.SetActive(false);
     }

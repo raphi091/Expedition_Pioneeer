@@ -36,10 +36,7 @@ public class InventoryManager : MonoBehaviour
 
     private void Start()
     {
-        playerControl = FindObjectOfType<PlayerControl>();
         itemDatabase = FindObjectOfType<ItemDatabase>();
-
-        LoadInventoryFromDataManager();
     }
 
     public void LoadInventoryFromDataManager()
@@ -59,6 +56,11 @@ public class InventoryManager : MonoBehaviour
 
         DataManager.Instance.gameData.pouchItems = this.runtimePouch;
         DataManager.Instance.gameData.stashItems = this.runtimeStash;
+    }
+
+    public void RegisterPlayer(PlayerControl pc)
+    {
+        this.playerControl = pc;
     }
 
     // --- 아이템 관리 함수들 ---

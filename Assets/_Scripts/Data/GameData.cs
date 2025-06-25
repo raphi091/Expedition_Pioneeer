@@ -43,11 +43,15 @@ public class GameData
     public Vector3 playerPosition;
     public Quaternion playerRotation;
 
-    public GameData()
+    public GameData(string newCharacterName)
     {
         playTime = 0;
         gold = 0;
-        characterInfo = new CharacterData { characterName = "새 캐릭터", level = 1 };
+        characterInfo = new CharacterData 
+        { 
+            characterName = newCharacterName, 
+            level = 1 
+        };
 
         pouchItems = new List<PlayerItemData>
         {

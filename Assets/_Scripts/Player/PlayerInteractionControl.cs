@@ -13,10 +13,17 @@ public class PlayerInteractionControl : MonoBehaviour
 
     [Header("UI")]
     // public PouchUIManager pouchUI;
-    public ItemUIManager quickSlotUI;
+    private ItemUIManager quickSlotUI;
 
     [Header("Interaction")]
     private IInteractable currentInteractable;
+
+
+    private void Awake()
+    {
+        inventory = FindObjectOfType<InventoryManager>();
+        quickSlotUI = FindObjectOfType<ItemUIManager>();
+    }
 
     public void Initialize(PlayerControl playerControl)
     {
@@ -35,6 +42,7 @@ public class PlayerInteractionControl : MonoBehaviour
     public void RequestUseQuickSlotItem()
     {
         if (quickSlotUI == null) return;
+
         quickSlotUI.UseCurrentItem();
     }
 
