@@ -32,6 +32,10 @@ public class InGameUIManager : MonoBehaviour
     [Header("Interaction")]
     [SerializeField] private GameObject storagePanel;
 
+    [Header("Death")]
+    [SerializeField] private GameObject deathPanel;
+    [SerializeField] private GameObject respawnPanel;
+
     [Header("Fade In/Out")]
     [SerializeField] private Image fade;
     private float startfade = 1f;
@@ -59,18 +63,10 @@ public class InGameUIManager : MonoBehaviour
         quitPanel.SetActive(false);
         backPanel.SetActive(false);
         storagePanel.SetActive(false);
+        deathPanel.SetActive(false);
+        respawnPanel.SetActive(false);
 
         fade.gameObject.SetActive(true);
-    }
-
-    private void OnEnable()
-    {
-        PlayerControl.OnPlayerDied += HandlePlayerDeath;
-    }
-
-    private void OnDisable()
-    {
-        PlayerControl.OnPlayerDied -= HandlePlayerDeath;
     }
 
     private IEnumerator Start()
@@ -122,11 +118,11 @@ public class InGameUIManager : MonoBehaviour
         saveText.text = "게임 저장 중...";
         DataManager.Instance.SaveGame();
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSecondsRealtime(1f);
 
         saveText.text = "저장이 완료되었습니다.";
 
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSecondsRealtime(0.2f);
 
         OnEsc();
         OnEsc();
@@ -148,16 +144,17 @@ public class InGameUIManager : MonoBehaviour
         saveTitleText.text = "게임 저장 중...";
         DataManager.Instance.SaveGame();
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSecondsRealtime(1f);
 
         saveTitleText.text = "저장이 완료되었습니다.\n타이틀 화면으로 돌아갑니다.";
 
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSecondsRealtime(0.2f);
 
         FadeIn(startfade);
 
-        yield return new WaitForSeconds(startfade);
+        yield return new WaitForSecondsRealtime(startfade);
 
+        Time.timeScale = 1f;
         SceneManager.LoadScene("Lobby");
     }
 
@@ -196,12 +193,13 @@ public class InGameUIManager : MonoBehaviour
         saveQuitText.text = "게임 저장 중...";
         DataManager.Instance.SaveGame();
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSecondsRealtime(1f);
 
         saveQuitText.text = "저장이 완료되었습니다.";
 
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSecondsRealtime(0.2f);
 
+        Time.timeScale = 1f;
         Application.Quit();
     }
 
@@ -225,9 +223,37 @@ public class InGameUIManager : MonoBehaviour
         Time.timeScale = 0f;
     }
 
-    private void HandlePlayerDeath()
+    public void PlayerDeath()
     {
+        StartCoroutine(Death_co());
+    }
 
+    private IEnumerator Death_co()
+    {
+        deathPanel.SetActive(true);
+
+        yield return new WaitForSeconds(2f);
+
+        FadeIn(startfade);
+
+        yield return new WaitForSeconds(1f);
+
+        deathPanel.SetActive(true);
+        respawnPanel.SetActive(true);
+    }
+
+    public void PlayerRespawn()
+    {
+        StartCoroutine(PlayerRespawn_co());
+    }
+
+    private IEnumerator PlayerRespawn_co()
+    {
+        respawnPanel.SetActive(false);
+
+        yield return new WaitForSeconds(0.5f);
+
+        FadeOut(startfade);
     }
 
     //-----연출

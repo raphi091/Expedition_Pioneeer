@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: Dual 1
   m_EditorClassIdentifier: 
   weaponID: 5
-  weaponName: "\uCCA0\uC758\uC30D\uAC80"
+  weaponName: "\uC218\uBE44\uB300 \uC30D\uAC80"
   weaponType: 2
-  itemIcon: {fileID: 21300000, guid: 9c4f918dbc1d51c448475ade4ba41139, type: 3}
+  weaponIcon: {fileID: 21300000, guid: 9c4f918dbc1d51c448475ade4ba41139, type: 3}
+  weaponDescription: "\uD5CC\uD130\uB4E4\uC758 \uAE30\uBCF8 \uC30D\uAC80"
   equippedParts:
   - prefab: {fileID: 3581782830687891158, guid: 50873aabaec66c14f93786d9f2cec3fc, type: 3}
     equipPoint: 3
@@ -26,13 +27,13 @@ MonoBehaviour:
     equipPoint: 0
   animatorOverride: {fileID: 22100000, guid: ac42d51e0b6baf5428c5b0ccbcb503f7, type: 2}
   Damage: 20
-  Critical: 0
+  Critical: 2
   Sharpness: 0
-  AttackRange: 0
+  AttackRange: 0.7
   AttackSpeed: 0
   isCraftable: 1
   craftRecipe: []
-  craftGold: -7
+  craftGold: 100
   requiredPreviousWeapon: {fileID: 0}
   upgradeRecipe: []
   upgradeGold: 0

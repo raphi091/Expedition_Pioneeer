@@ -15,6 +15,7 @@ public class ItemDatabase : MonoBehaviour
     private Dictionary<string, WeaponInfo> weaponDict = new Dictionary<string, WeaponInfo>();
     private Dictionary<string, ItemInfo> itemDict = new Dictionary<string, ItemInfo>();
 
+
     private void Awake()
     {
         if (Instance == null)
@@ -29,9 +30,9 @@ public class ItemDatabase : MonoBehaviour
 
         foreach (var weapon in allWeapons)
         {
-            if (!weaponDict.ContainsKey(weapon.name))
+            if (!weaponDict.ContainsKey(weapon.weaponID))
             {
-                weaponDict.Add(weapon.name, weapon);
+                weaponDict.Add(weapon.weaponID, weapon);
             }
         }
 
@@ -46,11 +47,8 @@ public class ItemDatabase : MonoBehaviour
 
     public WeaponInfo GetWeaponByID(string weaponID)
     {
-        if (weaponDict.TryGetValue(weaponID, out WeaponInfo weapon))
-        {
-            return weapon;
-        }
-        return null;
+        weaponDict.TryGetValue(weaponID, out WeaponInfo weapon);
+        return weapon;
     }
 
     public ItemInfo GetItemByID(string itemID)

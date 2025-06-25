@@ -26,6 +26,7 @@ public class BossControl_Grod : MonoBehaviour
     private BossStats stats;
     private WeaponDamage weaponDamage;
     private Transform player;
+    private MiniMap map;
 
     private bool hasDiscoveredPlayer = false;
     private int currentPhase = 1;
@@ -79,6 +80,8 @@ public class BossControl_Grod : MonoBehaviour
         stats.OnStanceBroken += (id) => EnterState(State.Broken);
 
         EnterState(State.Setup);
+
+        map = FindObjectOfType<MiniMap>();
     }
 
     private void Update()
@@ -191,6 +194,7 @@ public class BossControl_Grod : MonoBehaviour
             if (IsPlayerInSight())
             {
                 SoundManager.Instance.PlayBGM(BGMTrackName.Boss2);
+                map.SetTargetColor();
                 EnterState(State.BattleCry);
                 yield break;
             }
@@ -285,6 +289,7 @@ public class BossControl_Grod : MonoBehaviour
                 Vector3.Distance(transform.position, startPosition) > stats.data.maxChaseDistance)
             {
                 SoundManager.Instance.PlayBGM(BGMTrackName.Exploration);
+                map.SetBaseColor();
                 hasDiscoveredPlayer = false;
                 EnterState(State.Idle);
                 yield break;
@@ -397,10 +402,11 @@ public class BossControl_Grod : MonoBehaviour
 
     private IEnumerator Death_co()
     {
+        SoundManager.Instance.PlayBGM(BGMTrackName.Exploration);
+        map.SetBaseColor();
         agent.enabled = false;
         controller.enabled = false;
         animator.SetTrigger("Death");
-        SoundManager.Instance.PlayBGM(BGMTrackName.Exploration);
 
         yield return new WaitForSeconds(10f);
 
@@ -412,6 +418,7 @@ public class BossControl_Grod : MonoBehaviour
         if (currentState != State.Dead)
         {
             SoundManager.Instance.PlayBGM(BGMTrackName.Exploration);
+            map.SetBaseColor();
             hasDiscoveredPlayer = false;
             EnterState(State.Idle);
         }

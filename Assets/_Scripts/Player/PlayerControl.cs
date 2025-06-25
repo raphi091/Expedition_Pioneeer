@@ -39,6 +39,7 @@ public class PlayerControl : MonoBehaviour, IDamage
     public Animator animator;
     public Transform maincamera;
     public Transform model;
+    private bool isDead = false;
 
     [Header("Controller")]
     public PlayerMoveControl moveControl;
@@ -252,7 +253,7 @@ public class PlayerControl : MonoBehaviour, IDamage
     private void OnMove(InputAction.CallbackContext context)
     {
         if (FindObjectOfType<InGameUIManager>().IsPause) return;
-        if (attackControl.IsAttacking || attackControl.IsCharging || attackControl.IsGuarding) return;
+        if (attackControl.IsAttacking || attackControl.IsCharging || attackControl.IsGuarding || isDead) return;
 
         moveControl?.Move(context.ReadValue<Vector2>());
     }
@@ -260,7 +261,7 @@ public class PlayerControl : MonoBehaviour, IDamage
     private void OnRun(InputAction.CallbackContext context)
     {
         if (FindObjectOfType<InGameUIManager>().IsPause) return;
-        if (attackControl.IsAttacking || attackControl.IsCharging || attackControl.IsGuarding) return;
+        if (attackControl.IsAttacking || attackControl.IsCharging || attackControl.IsGuarding || isDead) return;
 
         moveControl?.Run(context.ReadValueAsButton());
     }
@@ -268,21 +269,21 @@ public class PlayerControl : MonoBehaviour, IDamage
     private void OnDodge(InputAction.CallbackContext context)
     {
         if (FindObjectOfType<InGameUIManager>().IsPause) return;
-        if (attackControl.IsAttacking || attackControl.IsCharging) return;
+        if (attackControl.IsAttacking || attackControl.IsCharging || isDead) return;
 
         moveControl?.Dodge();
     }
 
     private void OnLockOn(InputAction.CallbackContext context)
     {
-        if (FindObjectOfType<InGameUIManager>().IsPause) return;
+        if (FindObjectOfType<InGameUIManager>().IsPause || isDead) return;
         moveControl?.ToggleLockOn();
     }
 
     private void OnCrouch(InputAction.CallbackContext context)
     {
         if (FindObjectOfType<InGameUIManager>().IsPause) return;
-        if (attackControl.IsAttacking || attackControl.IsCharging || attackControl.IsGuarding || moveControl.IsDodging) return;
+        if (attackControl.IsAttacking || attackControl.IsCharging || attackControl.IsGuarding || moveControl.IsDodging || isDead) return;
 
         if (IsWeaponEquipped)
             UnequipWeapon();
@@ -293,7 +294,7 @@ public class PlayerControl : MonoBehaviour, IDamage
     private void OnAttack(InputAction.CallbackContext context)
     {
         if (FindObjectOfType<InGameUIManager>().IsPause) return;
-        if (attackControl.IsAttacking || attackControl.IsCharging || attackControl.IsGuarding || moveControl.IsDodging || moveControl.IsCrouched) return;
+        if (attackControl.IsAttacking || attackControl.IsCharging || attackControl.IsGuarding || moveControl.IsDodging || moveControl.IsCrouched || isDead) return;
 
         if (IsWeaponEquipped)
             attackControl.RequestPrimaryAttack();
@@ -304,7 +305,7 @@ public class PlayerControl : MonoBehaviour, IDamage
     private void OnSecondaryAttack(InputAction.CallbackContext context)
     {
         if (FindObjectOfType<InGameUIManager>().IsPause) return;
-        if (attackControl.IsAttacking || attackControl.IsCharging || attackControl.IsGuarding || moveControl.IsDodging || moveControl.IsCrouched) return;
+        if (attackControl.IsAttacking || attackControl.IsCharging || attackControl.IsGuarding || moveControl.IsDodging || moveControl.IsCrouched || isDead) return;
 
         if (IsWeaponEquipped)
             attackControl.RequestSecondaryAttack();
@@ -315,7 +316,7 @@ public class PlayerControl : MonoBehaviour, IDamage
     private void OnChargeOrGuard(InputAction.CallbackContext context)
     {
         if (FindObjectOfType<InGameUIManager>().IsPause) return;
-        if (attackControl.IsAttacking || moveControl.IsDodging || moveControl.IsCrouched || !IsWeaponEquipped) return;
+        if (attackControl.IsAttacking || moveControl.IsDodging || moveControl.IsCrouched || !IsWeaponEquipped || isDead) return;
 
         if (context.started)
         {
@@ -329,16 +330,22 @@ public class PlayerControl : MonoBehaviour, IDamage
 
     private void OnPouchOpenInput(InputAction.CallbackContext context)
     {
+        if (isDead) return;
+
         interactionControl?.TogglePouchUI();
     }
 
     private void OnUseItemInput(InputAction.CallbackContext context)
     {
+        if (isDead) return;
+
         interactionControl?.RequestUseQuickSlotItem();
     }
 
     private void OnInteractInput(InputAction.CallbackContext context)
     {
+        if (isDead) return;
+
         interactionControl?.RequestInteraction();
     }
 
@@ -461,7 +468,7 @@ public class PlayerControl : MonoBehaviour, IDamage
         {
             animator.SetTrigger(AnimatorHashSet.DEATH);
             characterController.enabled = false;
-            this.enabled = false;
+            isDead = true;
             OnPlayerDied?.Invoke();
         }
     }
@@ -487,6 +494,20 @@ public class PlayerControl : MonoBehaviour, IDamage
         return runStaminaCost;
     }
 
+    public void Respawn(Vector3 position, Quaternion rotation)
+    {
+        characterController.enabled = false;
+        transform.position = position;
+        transform.rotation = rotation;
+        characterController.enabled = true;
+
+        InitializeState();
+        Heal(maxHealth);
+        RecoverStamina(maxStamina);
+        
+
+        isDead = false;
+    }
 
     //-----아이템 사용 관련
     public void Heal(float amount)
@@ -636,6 +657,5 @@ public class PlayerControl : MonoBehaviour, IDamage
         defenseBuffCoroutine = null;
         // TODO: 방어력 버프 UI 숨기기
     }
-
 }
 

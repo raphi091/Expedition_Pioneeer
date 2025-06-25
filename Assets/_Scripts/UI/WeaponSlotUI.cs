@@ -10,6 +10,7 @@ public class WeaponSlotUI : MonoBehaviour
     [Header("UI")]
     public Image weaponIcon;
     public TextMeshProUGUI weaponNameText;
+    public TextMeshProUGUI weaponInfo;
     public GameObject equippedMarker;
 
     private PlayerEquipmentData representedWeapon;
@@ -30,8 +31,9 @@ public class WeaponSlotUI : MonoBehaviour
         WeaponInfo info = ItemDatabase.Instance.GetWeaponByID(weaponData.weaponID);
         if (info != null)
         {
-            weaponIcon.sprite = info.itemIcon;
+            weaponIcon.sprite = info.weaponIcon;
             weaponNameText.text = info.weaponName;
+            weaponInfo.text = info.weaponDescription;
         }
 
         equippedMarker.SetActive(isEquipped);

@@ -4,9 +4,28 @@ using UnityEngine;
 
 public class InGameManager : MonoBehaviour
 {
+    public static InGameManager Instance = null;
+
+    private Transform respawnPoint;
+    private PlayerControl player;
+    private InGameUIManager inGameUI;
+
+
     private void Awake()
     {
-        PlayerControl player = FindObjectOfType<PlayerControl>();
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+
+        player = FindObjectOfType<PlayerControl>();
+        respawnPoint = player.transform;
+
+        inGameUI = FindObjectOfType<InGameUIManager>();
 
         if (InventoryManager.Instance != null)
         {
@@ -15,10 +34,35 @@ public class InGameManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError("IngameManager: 씬에 InventoryManager가 없습니다! InventoryManager가 DontDestroyOnLoad로 설정되어 있는지 확인하세요.");
+            Debug.LogError("IngameManager ] InventoryManager 없음");
         }
+    }
 
-        // TODO: 이 곳에 플레이어 생성, 몬스터 스폰 등
-        // 인게임 씬이 시작될 때 해야 할 다른 일들을 추가하면 됩니다.
+    private void OnEnable()
+    {
+        PlayerControl.OnPlayerDied += HandlePlayerDeath;
+    }
+
+    private void OnDisable()
+    {
+        PlayerControl.OnPlayerDied -= HandlePlayerDeath;
+    }
+
+    private void HandlePlayerDeath()
+    {
+        StartCoroutine(PlayerDeathandResapwn_co());
+    }
+
+    private IEnumerator PlayerDeathandResapwn_co()
+    {
+        inGameUI.PlayerDeath();
+
+        yield return new WaitForSeconds(2f);
+
+        player.Respawn(respawnPoint.position, respawnPoint.rotation);
+
+        yield return new WaitForSeconds(5f);
+
+        inGameUI.PlayerRespawn();
     }
 }

@@ -42,7 +42,8 @@ public class WeaponInfo : ScriptableObject
     public string weaponID;
     public string weaponName;
     public WeaponType weaponType;
-    [Preview] public Sprite itemIcon;
+    [Preview] public Sprite weaponIcon;
+    [TextArea] public string weaponDescription;
     public List<WeaponPart> equippedParts;
     public List<WeaponPart> sheathedParts;
 
