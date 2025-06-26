@@ -257,10 +257,10 @@ public class InventoryManager : MonoBehaviour
 
         foreach (var weaponInfo in itemDatabase.allWeapons)
         {
-            bool alreadyHas = runtimeEquipmentStash.Any(eq => eq.weaponID == weaponInfo.name);
+            bool alreadyHas = runtimeEquipmentStash.Any(eq => eq.weaponID == weaponInfo.weaponID);
             if (!alreadyHas)
             {
-                AddEquipment(new PlayerEquipmentData { weaponID = weaponInfo.name, enhancementLevel = 0 });
+                AddEquipment(new PlayerEquipmentData { weaponID = weaponInfo.weaponID, enhancementLevel = 0 });
             }
         }
 
@@ -271,7 +271,7 @@ public class InventoryManager : MonoBehaviour
     {
         if (itemDatabase == null) return false;
 
-        var allWeaponIDs = itemDatabase.allWeapons.Select(w => w.name);
+        var allWeaponIDs = itemDatabase.allWeapons.Select(w => w.weaponID);
         var ownedWeaponIDs = runtimeEquipmentStash.Select(e => e.weaponID);
 
         if (ownedWeaponIDs.Count() < allWeaponIDs.Count())

@@ -93,6 +93,8 @@ public class PlayerControl : MonoBehaviour, IDamage
     public float CurrentStamina => currentStamina;
     public float MaxStamina => maxStamina;
     public float CurrentDamage => currentDamage;
+    public bool IsDead => isDead;
+    public bool isVillage = false;
 
     private Coroutine activeHealCoroutine = null;
     private Coroutine attackBuffCoroutine = null;
@@ -206,6 +208,12 @@ public class PlayerControl : MonoBehaviour, IDamage
                 OnStaminaChanged?.Invoke(currentStamina, maxStamina);
             }
         }
+
+        if (isVillage)
+        {
+            Heal(maxHealth);
+            RecoverStamina(maxStamina);
+        }
     }
 
     public void SetupCharacter(GameData data, ActorProfile profile)
@@ -274,7 +282,7 @@ public class PlayerControl : MonoBehaviour, IDamage
     private void OnMove(InputAction.CallbackContext context)
     {
         if (FindObjectOfType<InGameUIManager>().IsPause) return;
-        if (attackControl.IsAttacking || attackControl.IsCharging || attackControl.IsGuarding || isDead) return;
+        if (attackControl.IsAttacking || attackControl.IsCharging || attackControl.IsGuarding || interactionControl.IsInteracting || isDead) return;
 
         moveControl?.Move(context.ReadValue<Vector2>());
     }
@@ -282,7 +290,7 @@ public class PlayerControl : MonoBehaviour, IDamage
     private void OnRun(InputAction.CallbackContext context)
     {
         if (FindObjectOfType<InGameUIManager>().IsPause) return;
-        if (attackControl.IsAttacking || attackControl.IsCharging || attackControl.IsGuarding || isDead) return;
+        if (attackControl.IsAttacking || attackControl.IsCharging || attackControl.IsGuarding || interactionControl.IsUserItem || interactionControl.IsInteracting || isDead) return;
 
         moveControl?.Run(context.ReadValueAsButton());
     }
@@ -290,21 +298,21 @@ public class PlayerControl : MonoBehaviour, IDamage
     private void OnDodge(InputAction.CallbackContext context)
     {
         if (FindObjectOfType<InGameUIManager>().IsPause) return;
-        if (attackControl.IsAttacking || attackControl.IsCharging || isDead) return;
+        if (attackControl.IsAttacking || attackControl.IsCharging || interactionControl.IsUserItem || interactionControl.IsInteracting || isDead) return;
 
         moveControl?.Dodge();
     }
 
     private void OnLockOn(InputAction.CallbackContext context)
     {
-        if (FindObjectOfType<InGameUIManager>().IsPause || isDead) return;
+        if (FindObjectOfType<InGameUIManager>().IsPause || isVillage || isDead) return;
         moveControl?.ToggleLockOn();
     }
 
     private void OnCrouch(InputAction.CallbackContext context)
     {
         if (FindObjectOfType<InGameUIManager>().IsPause) return;
-        if (attackControl.IsAttacking || attackControl.IsCharging || attackControl.IsGuarding || moveControl.IsDodging || isDead) return;
+        if (attackControl.IsAttacking || attackControl.IsCharging || attackControl.IsGuarding || moveControl.IsDodging || interactionControl.IsUserItem || interactionControl.IsInteracting || isVillage || isDead) return;
 
         if (IsWeaponEquipped)
             UnequipWeapon();
@@ -315,7 +323,7 @@ public class PlayerControl : MonoBehaviour, IDamage
     private void OnAttack(InputAction.CallbackContext context)
     {
         if (FindObjectOfType<InGameUIManager>().IsPause) return;
-        if (attackControl.IsAttacking || attackControl.IsCharging || attackControl.IsGuarding || moveControl.IsDodging || moveControl.IsCrouched || isDead) return;
+        if (attackControl.IsAttacking || attackControl.IsCharging || attackControl.IsGuarding || moveControl.IsDodging || moveControl.IsCrouched || interactionControl.IsUserItem || interactionControl.IsInteracting || isVillage || isDead) return;
 
         if (IsWeaponEquipped)
             attackControl.RequestPrimaryAttack();
@@ -326,7 +334,7 @@ public class PlayerControl : MonoBehaviour, IDamage
     private void OnSecondaryAttack(InputAction.CallbackContext context)
     {
         if (FindObjectOfType<InGameUIManager>().IsPause) return;
-        if (attackControl.IsAttacking || attackControl.IsCharging || attackControl.IsGuarding || moveControl.IsDodging || moveControl.IsCrouched || isDead) return;
+        if (attackControl.IsAttacking || attackControl.IsCharging || attackControl.IsGuarding || moveControl.IsDodging || moveControl.IsCrouched || interactionControl.IsUserItem || interactionControl.IsInteracting || isVillage || isDead) return;
 
         if (IsWeaponEquipped)
             attackControl.RequestSecondaryAttack();
@@ -337,7 +345,7 @@ public class PlayerControl : MonoBehaviour, IDamage
     private void OnChargeOrGuard(InputAction.CallbackContext context)
     {
         if (FindObjectOfType<InGameUIManager>().IsPause) return;
-        if (attackControl.IsAttacking || moveControl.IsDodging || moveControl.IsCrouched || !IsWeaponEquipped || isDead) return;
+        if (!IsWeaponEquipped || isDead) return;
 
         if (context.started)
         {
@@ -351,21 +359,21 @@ public class PlayerControl : MonoBehaviour, IDamage
 
     private void OnPouchOpenInput(InputAction.CallbackContext context)
     {
-        if (isDead) return;
+        if (moveControl.IsDodging || moveControl.IsRunning || IsWeaponEquipped || interactionControl.IsInteracting || isDead) return;
 
         interactionControl?.TogglePouchUI();
     }
 
     private void OnUseItemInput(InputAction.CallbackContext context)
     {
-        if (isDead) return;
+        if (moveControl.IsDodging || moveControl.IsRunning || IsWeaponEquipped || interactionControl.IsInteracting || isVillage || isDead) return;
 
         interactionControl?.RequestUseQuickSlotItem();
     }
 
     private void OnInteractInput(InputAction.CallbackContext context)
     {
-        if (isDead) return;
+        if (moveControl.IsDodging || moveControl.IsRunning || IsWeaponEquipped || isDead) return;
 
         interactionControl?.RequestInteraction();
     }
@@ -528,15 +536,13 @@ public class PlayerControl : MonoBehaviour, IDamage
 
     private IEnumerator RespawnCoroutine(Vector3 position, Quaternion rotation)
     {
-        if (moveControl != null) 
-            moveControl.enabled = false;
+        isDead = true;
 
-        if (characterController != null) 
-            characterController.enabled = false;
+        characterController.enabled = false;
 
-        if (cinemachineBrain != null) 
-            cinemachineBrain.enabled = false;
+        yield return null;
 
+        UnequipWeapon();
         transform.position = position;
         transform.rotation = rotation;
 
@@ -545,14 +551,10 @@ public class PlayerControl : MonoBehaviour, IDamage
         if (characterController != null) 
             characterController.enabled = true;
 
-        if (characterController != null) 
-            characterController.enabled = true;
-
-        if (cinemachineBrain != null) 
-            cinemachineBrain.enabled = true;
-
         InitializeState();
         isDead = false;
+
+        moveControl.ResetMovement();
 
         if (animator != null)
             animator.SetTrigger(AnimatorHashSet.RESPAWN);

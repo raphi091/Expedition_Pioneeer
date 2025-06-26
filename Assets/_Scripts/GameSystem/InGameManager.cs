@@ -6,9 +6,9 @@ public class InGameManager : MonoBehaviour
 {
     public static InGameManager Instance = null;
 
-    [SerializeField] string ProfileID1, ProfileID2;
+    [SerializeField] private string ProfileID1, ProfileID2;
+    [SerializeField] private Transform respawnPoint;
 
-    private Transform respawnPoint;
     private PlayerControl player;
     private InGameUIManager inGameUI;
 
@@ -31,7 +31,6 @@ public class InGameManager : MonoBehaviour
 
         if (player != null)
         {
-            respawnPoint = player.transform;
             SetupPlayer();
         }
         else
@@ -71,11 +70,11 @@ public class InGameManager : MonoBehaviour
     {
         inGameUI.PlayerDeath();
 
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(3f);
 
         player.StartRespawn(respawnPoint.position, respawnPoint.rotation);
 
-        yield return new WaitForSeconds(7f);
+        yield return null;
 
         inGameUI.PlayerRespawn();
     }

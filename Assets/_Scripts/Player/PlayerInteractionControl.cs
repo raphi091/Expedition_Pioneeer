@@ -30,6 +30,9 @@ public class PlayerInteractionControl : MonoBehaviour
     private bool isInteracting = false;
     private bool isUseItem = false;
 
+    public bool IsUserItem => isUseItem;
+    public bool IsInteracting => isInteracting;
+
 
     private void Awake()
     {
@@ -82,7 +85,7 @@ public class PlayerInteractionControl : MonoBehaviour
 
     public void RequestUseQuickSlotItem()
     {
-        if (quickSlotUI == null || isUseItem) return;
+        if (quickSlotUI == null) return;
 
         isUseItem = true;
         quickSlotUI.UseCurrentItem();

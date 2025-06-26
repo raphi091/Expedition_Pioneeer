@@ -454,13 +454,14 @@ public class BossControl_Grod : MonoBehaviour
     public void AnimationEvent_AttackFinished()
     {
         lastAttackTime = Time.time;
-        AnimationEvent_ReturnToChase();
+        agent.Warp(transform.position);
     }
 
     public void AnimationEvent_ReturnToChase()
     {
         if (currentState != State.Dead)
         {
+            agent.Warp(transform.position);
             EnterState(State.Chasing);
         }
     }

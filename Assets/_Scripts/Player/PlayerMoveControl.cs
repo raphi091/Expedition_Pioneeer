@@ -145,6 +145,8 @@ public class PlayerMoveControl : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (pc.IsDead) return;
+
         if (wantsToDodge)
         {
             if (!isDodging)
@@ -223,7 +225,7 @@ public class PlayerMoveControl : MonoBehaviour
 
     private void MovementAndRotate()
     {
-        if (pc.attackControl.IsAttacking || pc.attackControl.IsCharging || pc.attackControl.IsGuarding || isMovementLocked)
+        if (pc.attackControl.IsAttacking || pc.attackControl.IsCharging || pc.attackControl.IsGuarding || isMovementLocked || pc.IsDead)
         {
             velocity.x = 0f;
             velocity.z = 0f;
@@ -432,6 +434,17 @@ public class PlayerMoveControl : MonoBehaviour
         {
             EndLockOn();
             return;
+        }
+    }
+
+    public void ResetMovement()
+    {
+        moveInputRaw = Vector2.zero;
+        isRunning = false;
+
+        if (pc != null && pc.animator != null)
+        {
+            animator.SetFloat(AnimatorHashSet.MOVESPEED, 0f);
         }
     }
 

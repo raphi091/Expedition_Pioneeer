@@ -277,6 +277,13 @@ public class BossControl_KorAndGar : MonoBehaviour
                 yield break;
             }
 
+            repathTimer -= Time.deltaTime;
+            if (repathTimer <= 0f)
+            {
+                repathTimer = repathInterval;
+                agent.SetDestination(player.position);
+            }
+
             float distanceToPlayer = Vector3.Distance(transform.position, player.position);
             List<int> availableAttackIndices = new List<int>();
 
@@ -300,13 +307,6 @@ public class BossControl_KorAndGar : MonoBehaviour
             }
             else
             {
-                agent.SetDestination(player.position);
-            }
-
-            repathTimer -= Time.deltaTime;
-            if (repathTimer <= 0f)
-            {
-                repathTimer = repathInterval;
                 agent.SetDestination(player.position);
             }
 
@@ -428,6 +428,7 @@ public class BossControl_KorAndGar : MonoBehaviour
         lastAttackTime = Time.time;
         if (currentState != State.Dead)
         {
+            agent.Warp(transform.position);
             EnterState(State.Pause);
         }
     }

@@ -14,6 +14,9 @@ public class ZoneTrigger : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             SoundManager.Instance.PlayBGM(ZoneName);
+
+            PlayerControl pc = other.GetComponent<PlayerControl>();
+            pc.isVillage = true;
         }
     }
 
@@ -22,6 +25,7 @@ public class ZoneTrigger : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             PlayerControl pc = other.GetComponent<PlayerControl>();
+            pc.isVillage = true;
         }
     }
 
@@ -30,6 +34,9 @@ public class ZoneTrigger : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             SoundManager.Instance.PlayBGM(ExitZoneName);
+
+            PlayerControl pc = other.GetComponent<PlayerControl>();
+            pc.isVillage = false;
         }
     }
 }
