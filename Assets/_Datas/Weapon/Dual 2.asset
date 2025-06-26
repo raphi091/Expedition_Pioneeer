@@ -16,14 +16,14 @@ MonoBehaviour:
   weaponName: "\uCF54\uB974\uC758 \uC30D\uAC80"
   weaponType: 2
   weaponIcon: {fileID: 21300000, guid: 4ffbd839e6e8bd441a4cf68b359fef10, type: 3}
-  weaponDescription: 
+  weaponDescription: "\uCF54\uB974\uC758 \uCF54\uC5B4\uAC00 \uAE43\uB4E0 \uC30D\uAC80"
   equippedParts:
-  - prefab: {fileID: 0}
+  - prefab: {fileID: 3581782830687891158, guid: fe9e51543942e294cb4d3972df401bca, type: 3}
     equipPoint: 3
-  - prefab: {fileID: 0}
+  - prefab: {fileID: 3581782830687891158, guid: fe9e51543942e294cb4d3972df401bca, type: 3}
     equipPoint: 4
   sheathedParts:
-  - prefab: {fileID: 0}
+  - prefab: {fileID: 8769707392653430450, guid: b79e15f57f312a3488b8d46b2b098450, type: 3}
     equipPoint: 0
   animatorOverride: {fileID: 22100000, guid: ac42d51e0b6baf5428c5b0ccbcb503f7, type: 2}
   Damage: 400
