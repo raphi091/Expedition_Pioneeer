@@ -482,13 +482,17 @@ public class PlayerControl : MonoBehaviour, IDamage
     {
         if (currentHealth <= 0) return;
 
-        float permanentDamage = damage * (1.0f - Profile.recoverableDamageRatio);
+        if (attackControl.IsGuarding)
+        {
+            damage = damage * 0.2f;
+        }
 
         if (isDefenseBuff)
         {
-            damage = damage * DamageMultiplier;
-            permanentDamage = damage * (1.0f - Profile.recoverableDamageRatio);
+            damage = damage * DefenseMultiplier;
         }
+
+        float permanentDamage = damage * (1.0f - Profile.recoverableDamageRatio);
 
         currentHealth -= damage;
         recoverableHealth -= permanentDamage;
