@@ -71,11 +71,11 @@ public class InGameManager : MonoBehaviour
     {
         inGameUI.PlayerDeath();
 
-        yield return new WaitForSeconds(2f);
-
-        player.Respawn(respawnPoint.position, respawnPoint.rotation);
-
         yield return new WaitForSeconds(5f);
+
+        player.StartRespawn(respawnPoint.position, respawnPoint.rotation);
+
+        yield return new WaitForSeconds(7f);
 
         inGameUI.PlayerRespawn();
     }

@@ -22,4 +22,5 @@ public static class AnimatorHashSet
     public static int CHARGED_ATTACK = Animator.StringToHash("CHARGE_ATTACK");
 
     public static int DEATH = Animator.StringToHash("DEATH");
+    public static int RESPAWN = Animator.StringToHash("RESPAWN");
 }

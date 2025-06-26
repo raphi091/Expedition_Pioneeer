@@ -21,8 +21,7 @@ public class ZoneTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            // 스테미나 무한 로직 추가
-            //other.GetComponent<PlayerControl>();
+            PlayerControl pc = other.GetComponent<PlayerControl>();
         }
     }
 

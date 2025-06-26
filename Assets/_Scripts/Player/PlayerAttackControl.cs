@@ -188,7 +188,7 @@ public class PlayerAttackControl : MonoBehaviour
     {
         if (playerControl == null) return;
 
-        int baseDamage = Mathf.RoundToInt((playerControl.State.damage + playerControl.Weapon.Damage) * lastAttackDamageMultiplier);
+        int baseDamage = Mathf.RoundToInt((playerControl.CurrentDamage + playerControl.Weapon.Damage) * lastAttackDamageMultiplier);
 
         bool isCritical = false;
         float finalDamage = baseDamage;
@@ -197,11 +197,9 @@ public class PlayerAttackControl : MonoBehaviour
         {
             isCritical = true;
 
-            // 치명타 배율도 '무기'에서 가져와 곱해줍니다.
             finalDamage *= playerControl.Weapon.criticalDamageMultiplier;
         }
 
-        // 3. 최종 데미지를 정수로 변환합니다.
         int finalDamageInt = Mathf.RoundToInt(finalDamage);
 
         Collider[] hitEnemies = Physics.OverlapSphere(attackPoint.position, attackRadius, enemyLayerMask);

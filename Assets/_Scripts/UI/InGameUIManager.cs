@@ -257,7 +257,7 @@ public class InGameUIManager : MonoBehaviour
 
         yield return new WaitForSeconds(1f);
 
-        deathPanel.SetActive(true);
+        deathPanel.SetActive(false);
         respawnPanel.SetActive(true);
     }
 

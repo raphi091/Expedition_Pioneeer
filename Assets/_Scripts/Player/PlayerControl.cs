@@ -2,8 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using CustomInspector;
+using Cinemachine;
 
 
 public struct PlayerState
@@ -61,10 +63,15 @@ public class PlayerControl : MonoBehaviour, IDamage
     private float defenseBuffTimer = 0f;
     public float DamageMultiplier { get; private set; } = 1f;
     public float DefenseMultiplier { get; private set; } = 1f;
+    [SerializeField] private Image attackBuff;
+    [SerializeField] private Image defenseBuff;
+    private bool isDefenseBuff = false;
 
     private List<GameObject> activeWeaponInstances = new List<GameObject>();
 
     private RuntimeAnimatorController baseAnimatorController;
+
+    private CinemachineBrain cinemachineBrain;
 
     private float currentHealth;
     private float recoverableHealth;
@@ -72,6 +79,7 @@ public class PlayerControl : MonoBehaviour, IDamage
     private float healthRegenRate;
     private float healthRegenDelay;
     private float timeSinceLastDamage;
+    private float currentDamage;
 
     private float currentStamina;
     private float maxStamina;
@@ -84,6 +92,7 @@ public class PlayerControl : MonoBehaviour, IDamage
     public float MaxHealth => maxHealth;
     public float CurrentStamina => currentStamina;
     public float MaxStamina => maxStamina;
+    public float CurrentDamage => currentDamage;
 
     private Coroutine activeHealCoroutine = null;
     private Coroutine attackBuffCoroutine = null;
@@ -111,6 +120,9 @@ public class PlayerControl : MonoBehaviour, IDamage
             Debug.LogWarning("PlayerControl ] PlayerInteractionController 없음");
 
         maincamera = Camera.main.transform;
+
+        attackBuff.gameObject.SetActive(false);
+        defenseBuff.gameObject.SetActive(false);
     }
 
     private void OnEnable()
@@ -150,6 +162,14 @@ public class PlayerControl : MonoBehaviour, IDamage
         input.actionInput.Player.Inventory.performed -= OnPouchOpenInput;
         input.actionInput.Player.UseItem.performed -= OnUseItemInput;
         input.actionInput.Player.Interaction.performed -= OnInteractInput;
+    }
+
+    private void Start()
+    {
+        if (Camera.main != null)
+        {
+            cinemachineBrain = Camera.main.GetComponent<CinemachineBrain>();
+        }
     }
 
     private void Update()
@@ -224,6 +244,7 @@ public class PlayerControl : MonoBehaviour, IDamage
             recoverableHealth = maxHealth;
             healthRegenRate = Profile.healthRegenRate;
             healthRegenDelay = Profile.healthRegenDelay;
+            currentDamage = Profile.damage;
 
             State.Set(Profile);
             maxStamina = Profile.stamina;
@@ -455,6 +476,12 @@ public class PlayerControl : MonoBehaviour, IDamage
 
         float permanentDamage = damage * (1.0f - Profile.recoverableDamageRatio);
 
+        if (isDefenseBuff)
+        {
+            damage = damage * DamageMultiplier;
+            permanentDamage = damage * (1.0f - Profile.recoverableDamageRatio);
+        }
+
         currentHealth -= damage;
         recoverableHealth -= permanentDamage;
 
@@ -466,9 +493,9 @@ public class PlayerControl : MonoBehaviour, IDamage
 
         if (currentHealth <= 0) 
         {
+            isDead = true;
             animator.SetTrigger(AnimatorHashSet.DEATH);
             characterController.enabled = false;
-            isDead = true;
             OnPlayerDied?.Invoke();
         }
     }
@@ -494,19 +521,41 @@ public class PlayerControl : MonoBehaviour, IDamage
         return runStaminaCost;
     }
 
-    public void Respawn(Vector3 position, Quaternion rotation)
+    public void StartRespawn(Vector3 position, Quaternion rotation)
     {
-        characterController.enabled = false;
+        StartCoroutine(RespawnCoroutine(position, rotation));
+    }
+
+    private IEnumerator RespawnCoroutine(Vector3 position, Quaternion rotation)
+    {
+        if (moveControl != null) 
+            moveControl.enabled = false;
+
+        if (characterController != null) 
+            characterController.enabled = false;
+
+        if (cinemachineBrain != null) 
+            cinemachineBrain.enabled = false;
+
         transform.position = position;
         transform.rotation = rotation;
-        characterController.enabled = true;
+
+        yield return null;
+
+        if (characterController != null) 
+            characterController.enabled = true;
+
+        if (characterController != null) 
+            characterController.enabled = true;
+
+        if (cinemachineBrain != null) 
+            cinemachineBrain.enabled = true;
 
         InitializeState();
-        Heal(maxHealth);
-        RecoverStamina(maxStamina);
-        
-
         isDead = false;
+
+        if (animator != null)
+            animator.SetTrigger(AnimatorHashSet.RESPAWN);
     }
 
     //-----아이템 사용 관련
@@ -633,29 +682,32 @@ public class PlayerControl : MonoBehaviour, IDamage
     private IEnumerator AttackBuffCoroutine(float duration, float multiplier)
     {
         attackBuffTimer = duration;
-        DamageMultiplier = multiplier;
-        // TODO: 공격력 버프 UI 표시
+        float basedamage = currentDamage;
+        currentDamage *= multiplier; 
+        attackBuff.gameObject.SetActive(true);
 
         yield return new WaitForSeconds(duration);
 
-        DamageMultiplier = 1f;
+        currentDamage = basedamage;
         attackBuffTimer = 0f;
         attackBuffCoroutine = null;
-        // TODO: 공격력 버프 UI 숨기기
+        attackBuff.gameObject.SetActive(false);
     }
 
     private IEnumerator DefenseBuffCoroutine(float duration, float multiplier)
     {
+        isDefenseBuff = true;
         defenseBuffTimer = duration;
         DefenseMultiplier = multiplier;
-        // TODO: 방어력 버프 UI 표시
+        defenseBuff.gameObject.SetActive(true);
 
         yield return new WaitForSeconds(duration);
 
+        isDefenseBuff = false;
         DefenseMultiplier = 1f;
         defenseBuffTimer = 0f;
         defenseBuffCoroutine = null;
-        // TODO: 방어력 버프 UI 숨기기
+        defenseBuff.gameObject.SetActive(false);
     }
 }
 
