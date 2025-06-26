@@ -15,14 +15,6 @@ public class QuantityPopupUI : MonoBehaviour
     private StorageSlotUI sourceSlot;
     private bool dropToPouch;
 
-
-    private void Start()
-    {
-        okButton.onClick.AddListener(OnConfirm);
-        cancelButton.onClick.AddListener(Close);
-        gameObject.SetActive(false);
-    }
-
     public void Show(StorageSlotUI fromSlot, bool toPouch)
     {
         this.sourceSlot = fromSlot;
@@ -34,7 +26,7 @@ public class QuantityPopupUI : MonoBehaviour
         gameObject.SetActive(true);
     }
 
-    private void OnConfirm()
+    public void OnConfirm()
     {
         if (int.TryParse(quantityInput.text, out int amount) && amount > 0)
         {
@@ -50,7 +42,7 @@ public class QuantityPopupUI : MonoBehaviour
         Close();
     }
 
-    private void Close()
+    public void Close()
     {
         gameObject.SetActive(false);
     }

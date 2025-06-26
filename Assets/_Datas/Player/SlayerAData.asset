@@ -33,4 +33,5 @@ MonoBehaviour:
   rotatespeed: 10
   dodgedistance: 3
   dodgeduration: 0.4
+  damage: 100
   sightrange: 0

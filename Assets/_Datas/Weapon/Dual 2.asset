@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: Dual 2
   m_EditorClassIdentifier: 
   weaponID: 6
-  weaponName: 
+  weaponName: "\uCF54\uB974\uC758 \uC30D\uAC80"
   weaponType: 2
-  itemIcon: {fileID: 21300000, guid: 4ffbd839e6e8bd441a4cf68b359fef10, type: 3}
+  weaponIcon: {fileID: 21300000, guid: 4ffbd839e6e8bd441a4cf68b359fef10, type: 3}
+  weaponDescription: 
   equippedParts:
   - prefab: {fileID: 0}
     equipPoint: 3
@@ -24,12 +25,12 @@ MonoBehaviour:
   sheathedParts:
   - prefab: {fileID: 0}
     equipPoint: 0
-  - prefab: {fileID: 0}
-    equipPoint: 0
   animatorOverride: {fileID: 22100000, guid: ac42d51e0b6baf5428c5b0ccbcb503f7, type: 2}
-  Damage: 0
+  Damage: 400
+  criticalChance: 0.3
+  criticalDamageMultiplier: 1.4
   Sharpness: 0
-  AttackRange: 0
+  AttackRange: 0.7
   AttackSpeed: 0
   isCraftable: 1
   craftRecipe: []

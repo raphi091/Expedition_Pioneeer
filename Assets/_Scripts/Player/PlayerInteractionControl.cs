@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 
 [RequireComponent(typeof(Animator))]
 public class PlayerInteractionControl : MonoBehaviour
 {
+    public static PlayerInteractionControl Instance = null;
+
     [Header("Setting")]
     private PlayerControl pc;
     private Animator animator;
@@ -15,14 +18,52 @@ public class PlayerInteractionControl : MonoBehaviour
     // public PouchUIManager pouchUI;
     private ItemUIManager quickSlotUI;
 
+    [Header("Interaction UI")]
+    public GameObject worldSpacePromptPrefab;
+    private GameObject promptInstance;
+    private TextMeshProUGUI promptText;
+
     [Header("Interaction")]
     private IInteractable currentInteractable;
+    private Transform mainCameraTransform;
+
+    private bool isInteracting = false;
+    private bool isUseItem = false;
 
 
     private void Awake()
     {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+
         inventory = FindObjectOfType<InventoryManager>();
         quickSlotUI = FindObjectOfType<ItemUIManager>();
+    }
+
+    private void Start()
+    {
+        mainCameraTransform = Camera.main.transform;
+
+        if (worldSpacePromptPrefab != null)
+        {
+            promptInstance = Instantiate(worldSpacePromptPrefab);
+            promptText = promptInstance.GetComponentInChildren<TextMeshProUGUI>();
+            promptInstance.SetActive(false);
+        }
+    }
+
+    private void LateUpdate()
+    {
+        if (promptInstance != null && promptInstance.activeSelf)
+        {
+            promptInstance.transform.rotation = mainCameraTransform.rotation;
+        }
     }
 
     public void Initialize(PlayerControl playerControl)
@@ -41,28 +82,21 @@ public class PlayerInteractionControl : MonoBehaviour
 
     public void RequestUseQuickSlotItem()
     {
-        if (quickSlotUI == null) return;
+        if (quickSlotUI == null || isUseItem) return;
 
+        isUseItem = true;
         quickSlotUI.UseCurrentItem();
-    }
-
-    public void RequestInteraction()
-    {
-        if (currentInteractable != null)
-        {
-            currentInteractable.Interact(pc);
-        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
+        if (isInteracting) return;
+
         if (other.TryGetComponent(out IInteractable interactable))
         {
             currentInteractable = interactable;
-
-            string promptText = currentInteractable.GetInteractText();
-            // TODO: "F키 눌러 [대화하기]" 같은 상호작용 UI 표시
-            // ex: interactionPromptUI.Show(interactable.GetInteractText());
+            currentInteractable.Highlight();
+            ShowInteractionPrompt();
         }
     }
 
@@ -70,9 +104,53 @@ public class PlayerInteractionControl : MonoBehaviour
     {
         if (other.TryGetComponent(out IInteractable interactable) && interactable == currentInteractable)
         {
+            currentInteractable.Unhighlight();
             currentInteractable = null;
-            // TODO: 상호작용 UI 숨기기
-            // ex: interactionPromptUI.Hide();
+            HideInteractionPrompt();
         }
+    }
+
+    public void RequestInteraction()
+    {
+        if (currentInteractable != null && !isInteracting)
+        {
+            currentInteractable.Interact(pc);
+
+            HideInteractionPrompt();
+            isInteracting = true;
+        }
+    }
+
+    public void EndInteraction()
+    {
+        isInteracting = false;
+
+        if (currentInteractable != null)
+        {
+            ShowInteractionPrompt();
+        }
+    }
+
+    private void ShowInteractionPrompt()
+    {
+        if (promptInstance != null)
+        {
+            promptText.text = currentInteractable.GetInteractionPrompt();
+            promptInstance.transform.position = currentInteractable.GetPromptPosition();
+            promptInstance.SetActive(true);
+        }
+    }
+
+    private void HideInteractionPrompt()
+    {
+        if (promptInstance != null)
+        {
+            promptInstance.SetActive(false);
+        }
+    }
+
+    public void Animation_UesItem()
+    {
+        isUseItem = false;
     }
 }

@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: Spear 4
   m_EditorClassIdentifier: 
   weaponID: 13
-  weaponName: 
+  weaponName: "\uB77C\uC774\uC820\uC758 \uC2A4\uD53C\uC5B4"
   weaponType: 4
-  itemIcon: {fileID: 21300000, guid: a0d708db48811aa42bc1b54a3c804616, type: 3}
+  weaponIcon: {fileID: 21300000, guid: e5cbbd14087c3714d93fa2edf8d0d920, type: 3}
+  weaponDescription: 
   equippedParts:
   - prefab: {fileID: 0}
     equipPoint: 3
@@ -23,9 +24,11 @@ MonoBehaviour:
   - prefab: {fileID: 0}
     equipPoint: 0
   animatorOverride: {fileID: 22100000, guid: 5089fed43dc62304db685d924d1769f2, type: 2}
-  Damage: 0
+  Damage: 920
+  criticalChance: 0.5
+  criticalDamageMultiplier: 1.8
   Sharpness: 0
-  AttackRange: 0
+  AttackRange: 1.2
   AttackSpeed: 0
   isCraftable: 1
   craftRecipe: []

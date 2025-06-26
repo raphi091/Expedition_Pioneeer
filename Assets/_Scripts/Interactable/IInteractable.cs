@@ -5,5 +5,9 @@ using UnityEngine;
 public interface IInteractable
 {
     void Interact(PlayerControl player);
-    string GetInteractText();
+    void Highlight();
+    void Unhighlight();
+
+    Vector3 GetPromptPosition();
+    string GetInteractionPrompt();
 }

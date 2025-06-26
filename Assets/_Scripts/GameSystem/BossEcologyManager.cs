@@ -28,8 +28,10 @@ public class BossEcologyManager : MonoBehaviour
     private Dictionary<GameObject, GameObject> activeBosses = new Dictionary<GameObject, GameObject>();
 
 
-    private void Start()
+    private IEnumerator Start()
     {
+        yield return null;
+
         InitializeFieldEcology();
     }
 

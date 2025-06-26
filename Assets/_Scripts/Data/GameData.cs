@@ -43,10 +43,12 @@ public class GameData
     public Vector3 playerPosition;
     public Quaternion playerRotation;
 
+    public bool hasReceivedItemsFromTestNPC;
+
     public GameData(string newCharacterName)
     {
         playTime = 0;
-        gold = 0;
+        gold = 1000;
         characterInfo = new CharacterData 
         { 
             characterName = newCharacterName, 
@@ -71,5 +73,7 @@ public class GameData
 
         playerPosition = Vector3.zero;
         playerRotation = Quaternion.identity;
+
+        hasReceivedItemsFromTestNPC = false;
     }
 }

@@ -52,7 +52,8 @@ public class WeaponInfo : ScriptableObject
 
     [Header("Stats")]
     public int Damage;
-    public float Critical;
+    [Range(0f, 1f)] public float criticalChance;
+    public float criticalDamageMultiplier;
     public float Sharpness;
     public float AttackRange;
     public float AttackSpeed;

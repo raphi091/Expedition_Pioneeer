@@ -284,9 +284,7 @@ public class BossControl_Grod : MonoBehaviour
         {
             yield return null;
 
-            float distanceToPlayer = Vector3.Distance(transform.position, player.position);
-            if (distanceToPlayer > stats.data.loseSightRange ||
-                Vector3.Distance(transform.position, startPosition) > stats.data.maxChaseDistance)
+            if (IsPlayerOutOfRange())
             {
                 SoundManager.Instance.PlayBGM(BGMTrackName.Exploration);
                 map.SetBaseColor();
@@ -325,6 +323,7 @@ public class BossControl_Grod : MonoBehaviour
                     continue;
                 }
 
+                float distanceToPlayer = Vector3.Distance(transform.position, player.position);
                 int chosenAttackIndex = availableAttackIndices[Random.Range(0, availableAttackIndices.Count)];
                 AttackData desiredAttack = stats.data.attacks[chosenAttackIndex];
 
@@ -435,6 +434,11 @@ public class BossControl_Grod : MonoBehaviour
     private bool IsPlayerInSight()
     {
         return Vector3.Distance(transform.position, player.position) < stats.data.sightRange;
+    }
+
+    private bool IsPlayerOutOfRange()
+    {
+        return Vector3.Distance(transform.position, player.position) > stats.data.loseSightRange;
     }
 
     public void AnimationEvent_EnableWeapon()

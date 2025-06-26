@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: OneHand 3
   m_EditorClassIdentifier: 
   weaponID: 3
-  weaponName: 
+  weaponName: "\uADF8\uB85C\uB4DC\uC758 \uD55C\uC190\uAC80\uACFC \uBC29\uD328"
   weaponType: 1
-  itemIcon: {fileID: 21300000, guid: 6f5589733681bcd4482cd309b16d5961, type: 3}
+  weaponIcon: {fileID: 21300000, guid: 80640862b132de746b2037a8b14d332a, type: 3}
+  weaponDescription: 
   equippedParts:
   - prefab: {fileID: 0}
     equipPoint: 3
@@ -23,13 +24,15 @@ MonoBehaviour:
     equipPoint: 2
   sheathedParts:
   - prefab: {fileID: 0}
-    equipPoint: 0
+    equipPoint: 1
   - prefab: {fileID: 0}
     equipPoint: 2
   animatorOverride: {fileID: 22100000, guid: 3315233b629d7994c99b05e408dd435a, type: 2}
-  Damage: 0
+  Damage: 630
+  criticalChance: 0.4
+  criticalDamageMultiplier: 1.6
   Sharpness: 0
-  AttackRange: 0
+  AttackRange: 0.9
   AttackSpeed: 0
   isCraftable: 1
   craftRecipe: []

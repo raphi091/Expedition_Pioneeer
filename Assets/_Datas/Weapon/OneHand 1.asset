@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: OneHand 1
   m_EditorClassIdentifier: 
   weaponID: 1
-  weaponName: "\uC218\uBE44\uB300 \uD55C\uC190\uAC80\uACFC \uBC29"
+  weaponName: "\uC218\uBE44\uB300 \uD55C\uC190\uAC80\uACFC \uBC29\uD328"
   weaponType: 1
   weaponIcon: {fileID: 21300000, guid: a454bf54bd189d44fb1ce8ce921441f3, type: 3}
   weaponDescription: "\uD5CC\uD130\uB4E4\uC758 \uAE30\uBCF8 \uD55C\uC190\uAC80\uACFC
@@ -29,8 +29,9 @@ MonoBehaviour:
   - prefab: {fileID: 3581782830687891158, guid: 08a4d30924b14de44a2f0747358a62d9, type: 3}
     equipPoint: 2
   animatorOverride: {fileID: 22100000, guid: 3315233b629d7994c99b05e408dd435a, type: 2}
-  Damage: 21
-  Critical: 0
+  Damage: 210
+  criticalChance: 0.2
+  criticalDamageMultiplier: 1.2
   Sharpness: 0
   AttackRange: 0.9
   AttackSpeed: 0

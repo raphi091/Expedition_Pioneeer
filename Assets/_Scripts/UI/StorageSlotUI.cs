@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 using TMPro;
 
 
-public class StorageSlotUI : MonoBehaviour
+public class StorageSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     [Header("UI")]
     public Image itemIcon;

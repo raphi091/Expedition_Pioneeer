@@ -268,9 +268,7 @@ public class BossControl_KorAndGar : MonoBehaviour
         {
             yield return null;
 
-            float distanceToPlayer = Vector3.Distance(transform.position, player.position);
-            if (distanceToPlayer > stats.data.loseSightRange ||
-                Vector3.Distance(transform.position, startPosition) > stats.data.maxChaseDistance)
+            if (IsPlayerOutOfRange())
             {
                 SoundManager.Instance.PlayBGM(BGMTrackName.Exploration);
                 map.SetBaseColor();
@@ -279,6 +277,7 @@ public class BossControl_KorAndGar : MonoBehaviour
                 yield break;
             }
 
+            float distanceToPlayer = Vector3.Distance(transform.position, player.position);
             List<int> availableAttackIndices = new List<int>();
 
             for (int i = 0; i < stats.data.attacks.Count; i++)
@@ -385,6 +384,11 @@ public class BossControl_KorAndGar : MonoBehaviour
     private bool IsPlayerInSight()
     {
         return Vector3.Distance(transform.position, player.position) < stats.data.sightRange;
+    }
+
+    private bool IsPlayerOutOfRange()
+    {
+        return Vector3.Distance(transform.position, player.position) > stats.data.loseSightRange;
     }
 
     public void AnimationEvent_EnableDamageZone(string part)

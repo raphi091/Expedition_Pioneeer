@@ -26,8 +26,9 @@ MonoBehaviour:
   - prefab: {fileID: 8769707392653430450, guid: 99fe8796fa75b544d8381d9f05c17449, type: 3}
     equipPoint: 1
   animatorOverride: {fileID: 22100000, guid: fab67e5a06e57b74e8da44925155eb59, type: 2}
-  Damage: 22
-  Critical: 0
+  Damage: 220
+  criticalChance: 0.2
+  criticalDamageMultiplier: 1.2
   Sharpness: 0
   AttackRange: 0.9
   AttackSpeed: 0

@@ -18,6 +18,7 @@ public class DataManager : MonoBehaviour
     public GameData gameData = null;
     public int currentSlotIndex = -1;
     public GameStartType startType;
+    private float sessionStartTime;
 
     [Header("Settiong")]
     public GameSetting setting;
@@ -47,10 +48,12 @@ public class DataManager : MonoBehaviour
     //-----게임 관련
     public void SaveGame()
     {
-        if (currentSlotIndex < 0)
-        {
-            return;
-        }
+        if (currentSlotIndex < 0 || gameData == null) return;
+
+        float sessionDuration = Time.realtimeSinceStartup - sessionStartTime;
+        gameData.playTime += sessionDuration;
+        sessionStartTime = Time.realtimeSinceStartup;
+
         string json = JsonUtility.ToJson(gameData, true);
         File.WriteAllText(GetPath(currentSlotIndex), json);
     }
@@ -63,6 +66,9 @@ public class DataManager : MonoBehaviour
             string json = File.ReadAllText(path);
             gameData = JsonUtility.FromJson<GameData>(json);
             currentSlotIndex = slotIndex;
+
+            RecordSessionStartTime();
+
             return true;
         }
         else
@@ -131,6 +137,11 @@ public class DataManager : MonoBehaviour
             Debug.LogError($"슬롯 {slotIndex}에 이름 변경을 할 데이터 파일이 없습니다.");
             return false;
         }
+    }
+
+    public void RecordSessionStartTime()
+    {
+        sessionStartTime = Time.realtimeSinceStartup;
     }
 
     public void UpdateEquippedWeapon(PlayerEquipmentData equippedWeapon)

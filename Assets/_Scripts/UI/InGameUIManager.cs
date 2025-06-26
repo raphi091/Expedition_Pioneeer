@@ -88,18 +88,33 @@ public class InGameUIManager : MonoBehaviour
             {
                 FindObjectOfType<PlayerMoveControl>().CursorLockState();
                 backPanel.SetActive(false);
-                isPause = false;
-                Time.timeScale = 1f;
+                PauseOFF();
+
+                if (!storagePanel.activeSelf)
+                {
+                    PlayerInteractionControl.Instance.EndInteraction();
+                }
             }
         }
         else
         {
             FindObjectOfType<PlayerMoveControl>().CursorLockState();
             backPanel.SetActive(true);
-            isPause = true;
-            Time.timeScale = 0f;
+            PauseON();
             OpenPanel(menuPanel);
         }
+    }
+
+    public void PauseON()
+    {
+        isPause = true;
+        Time.timeScale = 0f;
+    }
+
+    public void PauseOFF()
+    {
+        isPause = false;
+        Time.timeScale = 1f;
     }
 
     public void OnSaveBtn()
@@ -116,6 +131,7 @@ public class InGameUIManager : MonoBehaviour
     {
         OpenPanel(savingPanel);
         saveText.text = "게임 저장 중...";
+        InventoryManager.Instance.SaveInventoryToDataManager();
         DataManager.Instance.SaveGame();
 
         yield return new WaitForSecondsRealtime(1f);
@@ -142,6 +158,7 @@ public class InGameUIManager : MonoBehaviour
     {
         OpenPanel(saveandtitlePanel);
         saveTitleText.text = "게임 저장 중...";
+        InventoryManager.Instance.SaveInventoryToDataManager();
         DataManager.Instance.SaveGame();
 
         yield return new WaitForSecondsRealtime(1f);
@@ -172,8 +189,9 @@ public class InGameUIManager : MonoBehaviour
     {
         FadeIn(startfade);
 
-        yield return new WaitForSeconds(startfade);
+        yield return new WaitForSecondsRealtime(startfade);
 
+        Time.timeScale = 1f;
         SceneManager.LoadScene("Lobby");
     }
 
@@ -191,6 +209,7 @@ public class InGameUIManager : MonoBehaviour
     {
         OpenPanel(saveandquitPanel);
         saveQuitText.text = "게임 저장 중...";
+        InventoryManager.Instance.SaveInventoryToDataManager();
         DataManager.Instance.SaveGame();
 
         yield return new WaitForSecondsRealtime(1f);
@@ -210,6 +229,7 @@ public class InGameUIManager : MonoBehaviour
 
     public void OndontSaveQuitYesBtn()
     {
+        Time.timeScale = 1f;
         Application.Quit();
     }
 
@@ -219,8 +239,7 @@ public class InGameUIManager : MonoBehaviour
 
         FindObjectOfType<PlayerMoveControl>().CursorLockState();
         backPanel.SetActive(true);
-        isPause = true;
-        Time.timeScale = 0f;
+        PauseON();
     }
 
     public void PlayerDeath()

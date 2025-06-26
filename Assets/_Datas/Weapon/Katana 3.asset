@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: Katana 3
   m_EditorClassIdentifier: 
   weaponID: 11
-  weaponName: 
+  weaponName: "\uADF8\uB85C\uB4DC\uC758 \uCE74\uD0C0\uB098"
   weaponType: 3
-  itemIcon: {fileID: 21300000, guid: 533b242b8cd67f34e9fa8dd320b81ec7, type: 3}
+  weaponIcon: {fileID: 21300000, guid: e0d19eb091a601d4bbc9b0ee721f4562, type: 3}
+  weaponDescription: 
   equippedParts:
   - prefab: {fileID: 0}
     equipPoint: 3
@@ -24,12 +25,12 @@ MonoBehaviour:
   sheathedParts:
   - prefab: {fileID: 0}
     equipPoint: 1
-  - prefab: {fileID: 0}
-    equipPoint: 1
   animatorOverride: {fileID: 22100000, guid: fab67e5a06e57b74e8da44925155eb59, type: 2}
-  Damage: 0
+  Damage: 660
+  criticalChance: 0.4
+  criticalDamageMultiplier: 1.6
   Sharpness: 0
-  AttackRange: 0
+  AttackRange: 0.9
   AttackSpeed: 0
   isCraftable: 1
   craftRecipe: []

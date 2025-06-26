@@ -82,7 +82,7 @@ public class ItemUIManager : MonoBehaviour
         }
     }
 
-    void Start()
+    private void Start()
     {
         previousSlot.rectTransform = previousSlot.slot.GetComponent<RectTransform>();
         currentSlot.rectTransform = currentSlot.slot.GetComponent<RectTransform>();

@@ -56,6 +56,7 @@ public class InventoryManager : MonoBehaviour
 
         DataManager.Instance.gameData.pouchItems = this.runtimePouch;
         DataManager.Instance.gameData.stashItems = this.runtimeStash;
+        DataManager.Instance.gameData.equipmentStash = this.runtimeEquipmentStash;
     }
 
     public void RegisterPlayer(PlayerControl pc)
@@ -243,6 +244,50 @@ public class InventoryManager : MonoBehaviour
         {
             Debug.LogError($"{equipmentToEquip.weaponID}에 해당하는 WeaponInfo를 데이터베이스에서 찾을 수 없습니다.");
         }
+    }
+
+    public void AddAllTestItemsAndWeapons()
+    {
+        if (itemDatabase == null) return;
+
+        foreach (var itemInfo in itemDatabase.allItems)
+        {
+            AddItem(itemInfo.itemID, itemInfo.pouchCapacity);
+        }
+
+        foreach (var weaponInfo in itemDatabase.allWeapons)
+        {
+            bool alreadyHas = runtimeEquipmentStash.Any(eq => eq.weaponID == weaponInfo.name);
+            if (!alreadyHas)
+            {
+                AddEquipment(new PlayerEquipmentData { weaponID = weaponInfo.name, enhancementLevel = 0 });
+            }
+        }
+
+        OnInventoryUpdated?.Invoke();
+    }
+
+    public bool HasAllTestItemsAndWeapons()
+    {
+        if (itemDatabase == null) return false;
+
+        var allWeaponIDs = itemDatabase.allWeapons.Select(w => w.name);
+        var ownedWeaponIDs = runtimeEquipmentStash.Select(e => e.weaponID);
+
+        if (ownedWeaponIDs.Count() < allWeaponIDs.Count())
+        {
+            return false;
+        }
+
+        var allItemIDs = itemDatabase.allItems.Select(i => i.itemID);
+        var ownedItemIDs = runtimePouch.Concat(runtimeStash).Select(i => i.itemID);
+
+        if (ownedItemIDs.Count() < allItemIDs.Count())
+        {
+            return false;
+        }
+
+        return true;
     }
 
     public List<PlayerItemData> GetPouchItems() => runtimePouch;

@@ -234,6 +234,8 @@ public class SelectUIManager : MonoBehaviour
 
         DataManager.Instance.SaveGame();
 
+        DataManager.Instance.RecordSessionStartTime();
+
         StartCoroutine(StartGame(selectedSlotForCreation));
     }
 
