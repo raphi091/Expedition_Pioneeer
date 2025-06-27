@@ -32,11 +32,6 @@ public class ItemNPCControl : MonoBehaviour, IInteractable
 
         yield return new WaitForSecondsRealtime(dialogueDuration);
 
-        dialogueUIManager.ShowMassage("다음에 다시 방문해 주세요.", dialogueDuration);
-
-        yield return new WaitForSecondsRealtime(dialogueDuration);
-
-
         PlayerInteractionControl.Instance.EndInteraction();
     }
 

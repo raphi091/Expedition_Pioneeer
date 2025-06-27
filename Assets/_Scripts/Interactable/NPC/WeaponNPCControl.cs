@@ -32,10 +32,6 @@ public class WeaponNPCControl : MonoBehaviour, IInteractable
 
         yield return new WaitForSecondsRealtime(dialogueDuration);
 
-        dialogueUIManager.ShowMassage("나중에 다시 와.", dialogueDuration);
-
-        yield return new WaitForSecondsRealtime(dialogueDuration);
-
         PlayerInteractionControl.Instance.EndInteraction();
     }
 
